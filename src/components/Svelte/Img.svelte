@@ -6,15 +6,36 @@
   let showModal = false;
 
   const onClick = () => {
-    showModal = true;
+    showModal = !showModal;
   };
 </script>
 
-<img loading="lazy" class="ulucak-img" on:click={onClick} {src} {alt} />
+<img
+  loading="lazy"
+  class="ulucak-img"
+  on:keydown={(ev) => {
+    if (ev.key === 'Enter') {
+      onClick();
+    }
+  }}
+  on:click={onClick}
+  {src}
+  {alt}
+/>
 
 {#if showModal}
   <Modal on:close={() => (showModal = false)}>
-    <img class="modal-img" on:click={onClick} {src} alt="" />
+    <img
+      class="modal-img"
+      on:keydown={(ev) => {
+        if (ev.key === 'Enter') {
+          onClick();
+        }
+      }}
+      on:click={onClick}
+      {src}
+      {alt}
+    />
   </Modal>
 {/if}
 
