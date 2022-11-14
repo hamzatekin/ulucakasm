@@ -1,0 +1,61 @@
+<section style="background: #178066" id="gallery" class="layout_padding">
+  <div style="color: white" class="heading_container heading_center">
+    <h2>Galeri</h2>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="column">
+        <img src="images/rooms/alt-kat-bekleme-odasi.jpeg" loading="lazy" alt="Alt kat bekleme odası" />
+        <img src="images/rooms/asi-bebe-cocuk-izlemleri.jpeg" loading="lazy" alt="Aşı bebe çocuk izlemleri" />
+        <img src="images/rooms/bebek-bakim-ve-emzirme-odasi.jpeg" loading="lazy" alt="Bebek bakım ve emzirme odası" />
+      </div>
+      <div class="column">
+        <img src="images/rooms/dr-mucella-karagun-muayene-odasi.jpeg" loading="lazy" alt="Dr. Mücella Karagün muayene odası" />
+        <img src="images/rooms/dr-murat-tansel-kutluk-muayene-odasi.jpeg" loading="lazy" alt="Dr. Murat Tansel Kutluk muayene odası" />
+        <img src="images/rooms/uzm-dr-cumhur-citak-muayene-odasi.jpeg" loading="lazy" alt="Uzm. Dr. Cumhur Çıtak muayene odası" />
+      </div>
+      <div class="column">
+        <img src="images/rooms/ulucak-asm-dis-goruntu.jpeg" loading="lazy" alt="Ulucak Asm Dış Görüntü" />
+        <img src="images/rooms/ust-kat-bekleme-salonu.jpeg" loading="lazy" alt="Üst katın bekleme salonu" />
+        <img src="images/rooms/laboratuvar.jpeg" loading="lazy" alt="Laboratuvar" />
+        <img src="images/rooms/gebe-izlem-ve-aile-planlamasi-odasi.jpeg" loading="lazy" alt="Gebe izlem ve aile planlama odası" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 4px;
+  }
+
+  /* Create four equal columns that sits next to each other */
+  .column {
+    flex: 1;
+    padding: 0 4px;
+  }
+
+  .column img {
+    margin-top: 8px;
+    vertical-align: middle;
+    width: 100%;
+  }
+
+  /* Responsive layout - makes a two column-layout instead of four columns */
+  @media screen and (max-width: 800px) {
+    .column {
+      flex: 50%;
+      max-width: 50%;
+    }
+  }
+
+  /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+  @media screen and (max-width: 600px) {
+    .column {
+      flex: 100%;
+      max-width: 100%;
+    }
+  }
+</style>

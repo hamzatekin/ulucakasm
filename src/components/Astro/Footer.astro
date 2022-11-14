@@ -1,0 +1,42 @@
+---
+const currentYear = new Date().getFullYear();
+const VERSION = 'v1.1.0';
+---
+
+<footer style="background-color: #092f25" class="footer_section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-lg-6 footer_col">
+        <div class="footer_contact">
+          <h4>Bize ulaşın</h4>
+          <div class="contact_link_box">
+            <a href="">
+              <i class="fa fa-map-marker" aria-hidden="true"></i>
+              <span> Ulucak Mustafa Kemal Atatürk Mah. İzmir Cad. 9247 Sok. No:3 Kemalpaşa/İzmir</span>
+            </a>
+            <a href="">
+              <i class="fa fa-phone" aria-hidden="true"></i>
+              <span> +90 (232) 411 81 11</span>
+            </a>
+            <a href="https://www.ism.gov.tr">
+              <i class="fa fa-link" aria-hidden="true"></i>
+              <span> https://www.ism.gov.tr</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 footer_col">
+        <div class="footer_detail">
+          <h4>Adres</h4>
+          <p>Ulucak Mustafa Kemal Atatürk Mah. İzmir Cad. 9247 Sok. No:3 Kemalpaşa/İzmir</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-info">
+      <p>
+        <span id="displayYear">{currentYear}</span> Ulucak Aile Sağlığı Merkezi
+      </p>
+      <p>{VERSION}</p>
+    </div>
+  </div>
+</footer>

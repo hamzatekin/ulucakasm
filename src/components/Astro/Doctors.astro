@@ -1,0 +1,149 @@
+---
+import Img from '../Svelte/Img.svelte';
+---
+
+<section id="doctors" class="doctor_section layout_padding">
+  <div class="container">
+    <div class="heading_container heading_center">
+      <h2>Kadromuz</h2>
+      <p class="col-md-10 mx-auto px-0">Her an hizmetinize hazır kadromuz.</p>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 col-lg-6 mx-auto">
+        <div class="box">
+          <div class="img-box">
+            <img loading="lazy" src="images/doctors/tugba_colak.jpg" alt="Tuğba Çolak Fotoğraf" />
+          </div>
+          <div class="detail-box">
+            <h5 class="doctor-name">DR. TUĞBA ÇOLAK</h5>
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-6 doctor-detail-title">Birim Kodu</div>
+                <div class="col-lg-6 doctor-detail-value">3516035 No'lu Aile Hekimi</div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6 doctor-detail-title">Telefon</div>
+                <div class="col-lg-6 doctor-detail-value">+90 (232) 873 40 74</div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6 doctor-detail-title">Aile Sağlığı Elemanı</div>
+                <div class="col-lg-6 doctor-detail-value">&nbsp;</div>
+              </div>
+            </div>
+          </div>
+          <div class="schedule_image">
+            <Img client:visible src="images/schedules/tugba_colak_schedule.webp" />
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 col-lg-6 mx-auto">
+        <div class="box">
+          <div class="img-box">
+            <img loading="lazy" src="images/doctors/ahmet_seran_bulbul.jpg" alt="Ahmet Seran Bülbül Fotoğraf" />
+          </div>
+          <div class="detail-box">
+            <h5 class="doctor-name">DR. AHMET SERHAN SÜNBÜL</h5>
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-6 doctor-detail-title">Birim Kodu</div>
+                <div class="col-lg-6 doctor-detail-value">3516015 No'lu Aile Hekimi</div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6 doctor-detail-title">Telefon</div>
+                <div class="col-lg-6 doctor-detail-value">+90 (232) 873 40 74</div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6 doctor-detail-title">Aile Sağlığı Elemanı</div>
+                <div class="col-lg-6 doctor-detail-value">Ebe Şenay Erdoğdu</div>
+              </div>
+            </div>
+          </div>
+          <div class="schedule_image">
+            <Img client:visible src="images/schedules/ahmet_serhan_schedule.webp" />
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 col-lg-6 mx-auto">
+        <div class="box">
+          <div class="img-box">
+            <img loading="lazy" src="images/doctors/murat_tansel_kutluk.jpg" alt="Murat Tansel Kutluk Fotoğraf" />
+          </div>
+          <div class="detail-box">
+            <h5 class="doctor-name">DR. MURAT TANSEL KUTLUK</h5>
+            <div class="container gap-1 mt-4 px-10">
+              <div class="row">
+                <div class="col-lg-6 doctor-detail-title">Birim Kodu</div>
+                <div class="col-lg-6 doctor-detail-value">3516030 No'lu Aile Hekimi</div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6 doctor-detail-title">Telefon</div>
+                <div class="col-lg-6 doctor-detail-value">+90 (232) 873 40 81</div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6 doctor-detail-title">Aile Sağlığı Elemanı</div>
+                <div class="col-lg-6 doctor-detail-value">Ebe Hatice Marangoz</div>
+              </div>
+            </div>
+          </div>
+          <div class="schedule_image">
+            <Img client:visible src="images/schedules/murat_tansel_kutluk_schedule.webp" />
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 col-lg-6 mx-auto">
+        <div class="box">
+          <div class="img-box">
+            <img loading="lazy" src="images/doctors/cumhur_citak.jpg" alt="Cumhur Çıtak Fotoğraf" />
+          </div>
+          <div class="detail-box">
+            <h5 class="doctor-name">UZM. DR. CUMHUR ÇITAK</h5>
+            <div class="container gap-1 mt-4 px-10">
+              <div class="row">
+                <div class="col-lg-6 doctor-detail-title">Birim Kodu</div>
+                <div class="col-lg-6 doctor-detail-value">3516014 No'lu Aile Hekimi</div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6 doctor-detail-title">Telefon</div>
+                <div class="col-lg-6 doctor-detail-value">+90 (232) 873 40 81</div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6 doctor-detail-title">Aile Sağlığı Elemanı</div>
+                <div class="col-lg-6 doctor-detail-value">Nesli Çıtak</div>
+              </div>
+            </div>
+          </div>
+          <div class="schedule_image">
+            <Img client:visible src="images/schedules/cumhur_citak_schedule.webp" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .doctor-detail-title {
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+
+  .doctor-detail-value {
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .schedule_image {
+    width: 100%;
+    height: 600px;
+    display: flex;
+    padding: 2rem;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  @media screen and (max-width: 480px) {
+    .schedule_image {
+      height: 100% !important;
+    }
+  }
+</style>
