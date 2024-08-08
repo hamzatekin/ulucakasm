@@ -1,3 +1,7 @@
+---
+import { TITLE } from '../../lib/const.astro';
+---
+
 <main class="hero_area">
   <div class="hero_bg_box">
     <img src="images/hero-bg.png" alt="Doctor Silhouette" />
@@ -5,15 +9,17 @@
   <!-- header section strats -->
   <header class="header_section">
     <div class="container">
-      <nav class="navbar navbar-expand-lg custom_nav-container flex justify- items-center w-full">
-        <div class="flex ml-1">
-          <a href="https://saglik.gov.tr/" target="_blank">
-            <img class="w-full h-20 min-w-full aspect-square" src="images/health_ministry-logo.png" alt="sağlık bakanlığu logo" />
+      <nav class="navbar navbar-expand-lg custom_nav-container flex justify-center items-center w-full">
+        <div class="flex justify-start items-center">
+          <a class="h-20 min-w-[80px]" href="https://saglik.gov.tr/" target="_blank">
+            <img class="h-20 min-w-[80px] aspect-square" src="images/health_ministry-logo.png" alt="sağlık bakanlığu logo" />
           </a>
-          <div class="flex flex-col items-center justify-center p-1">
-            <a class="navbar-brand-ministry" href="https://saglik.gov.tr/" target="_blank"> <span>T.C. SAĞLIK BAKANLIĞI</span></a>
-            <div class="navbar-brand-healthcare p-0 mr-0">
-              <span> ULUCAK AİLE SAĞLIK MERKEZİ</span>
+          <div class="flex flex-col items-start justify-between ml-3">
+            <a class="navbar-brand-ministry text-base font-bold" href="https://saglik.gov.tr/" target="_blank">
+              <span>T.C. SAĞLIK BAKANLIĞI</span>
+            </a>
+            <div class="navbar-brand-healthcare text-base font-bold">
+              <span>{TITLE.toLocaleUpperCase('tr')}</span>
             </div>
           </div>
         </div>

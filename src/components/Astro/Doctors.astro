@@ -11,11 +11,13 @@ import Img from '../Svelte/Img.svelte';
     <div class="row">
       <div class="col-sm-12 col-lg-6 mx-auto">
         <div class="box">
-          <div class="img-box">
-            <img loading="lazy" decoding="async" src="images/doctors/ilkay_taze_dr.jpg" alt="İlkay Taze Fotoğraf" />
-          </div>
           <div class="detail-box">
             <h5 class="doctor-name">DR. İLKAY TAZE</h5>
+          </div>
+          <div class="img-box">
+            <img loading="lazy" decoding="async" src="images/asm/doctors/ilkay_taze.webp" alt="İlkay Taze Fotoğraf" />
+          </div>
+          <div class="detail-box">
             <div class="container">
               <div class="row">
                 <div class="col-lg-6 doctor-detail-title">Birim Kodu</div>
@@ -32,17 +34,19 @@ import Img from '../Svelte/Img.svelte';
             </div>
           </div>
           <div class="schedule_image">
-            <Img client:visible src="images/schedules/ilkay_taze_program.jpg" />
+            <Img client:visible src="images/asm/schedules/ilkay_taze_program.jpg" />
           </div>
         </div>
       </div>
       <div class="col-sm-12 col-lg-6 mx-auto">
         <div class="box">
-          <div class="img-box">
-            <img loading="lazy" decoding="async" src="images/doctors/ahmet_seran_bulbul.jpg" alt="Ahmet Seran Bülbül Fotoğraf" />
-          </div>
           <div class="detail-box">
             <h5 class="doctor-name">DR. AHMET SERHAN SÜNBÜL</h5>
+          </div>
+          <div class="img-box">
+            <img loading="lazy" decoding="async" src="images/asm/doctors/ahmet_serhan_sunbul.webp" alt="Ahmet Seran Sünbül Fotoğraf" />
+          </div>
+          <div class="detail-box">
             <div class="container">
               <div class="row">
                 <div class="col-lg-6 doctor-detail-title">Birim Kodu</div>
@@ -59,18 +63,20 @@ import Img from '../Svelte/Img.svelte';
             </div>
           </div>
           <div class="schedule_image">
-            <Img client:visible src="images/schedules/ahmet_serhan_schedule.webp" />
+            <Img client:visible src="images/asm/schedules/ahmet_serhan_schedule.webp" />
           </div>
         </div>
       </div>
       <div class="col-sm-12 col-lg-6 mx-auto">
         <div class="box">
-          <div class="img-box">
-            <img loading="lazy" decoding="async" src="images/doctors/murat_tansel_kutluk.jpg" alt="Murat Tansel Kutluk Fotoğraf" />
-          </div>
           <div class="detail-box">
             <h5 class="doctor-name">DR. MURAT TANSEL KUTLUK</h5>
-            <div class="container gap-1 mt-4 px-10">
+          </div>
+          <div class="img-box">
+            <img loading="lazy" decoding="async" src="images/asm/doctors/murat_tansel_kutluk.webp" alt="Murat Tansel Kutluk Fotoğraf" />
+          </div>
+          <div class="detail-box">
+            <div class="container gap-1 px-10">
               <div class="row">
                 <div class="col-lg-6 doctor-detail-title">Birim Kodu</div>
                 <div class="col-lg-6 doctor-detail-value">3516030 No'lu Aile Hekimi</div>
@@ -86,18 +92,20 @@ import Img from '../Svelte/Img.svelte';
             </div>
           </div>
           <div class="schedule_image">
-            <Img client:visible src="images/schedules/murat_tansel_kutluk_schedule.webp" />
+            <Img client:visible src="images/asm/schedules/murat_tansel_kutluk_schedule.webp" />
           </div>
         </div>
       </div>
       <div class="col-sm-12 col-lg-6 mx-auto">
         <div class="box">
-          <div class="img-box">
-            <img loading="lazy" decoding="async" src="images/doctors/cumhur_citak.jpg" alt="Cumhur Çıtak Fotoğraf" />
-          </div>
           <div class="detail-box">
             <h5 class="doctor-name">UZM. DR. CUMHUR ÇITAK</h5>
-            <div class="container gap-1 mt-4 px-10">
+          </div>
+          <div class="img-box">
+            <img loading="lazy" decoding="async" src="images/asm/doctors/cumhur_citak.webp" alt="Cumhur Çıtak Fotoğraf" />
+          </div>
+          <div class="detail-box">
+            <div class="container gap-1 px-10">
               <div class="row">
                 <div class="col-lg-6 doctor-detail-title">Birim Kodu</div>
                 <div class="col-lg-6 doctor-detail-value">3516014 No'lu Aile Hekimi</div>
@@ -113,7 +121,17 @@ import Img from '../Svelte/Img.svelte';
             </div>
           </div>
           <div class="schedule_image">
-            <Img client:visible src="images/schedules/cumhur_citak_schedule.webp" />
+            <Img client:visible src="images/asm/schedules/cumhur_citak_schedule.webp" />
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 col-lg-6 mx-auto">
+        <div class="box">
+          <div class="detail-box">
+            <h5 class="doctor-name">ACİL HEMŞİRELERİ</h5>
+          </div>
+          <div class="img-box">
+            <img loading="lazy" decoding="async" src="images/asm/doctors/acil_hemsireleri.webp" alt="Acil hemşireleri" />
           </div>
         </div>
       </div>
@@ -134,9 +152,8 @@ import Img from '../Svelte/Img.svelte';
 
   .schedule_image {
     width: 100%;
-    height: 600px;
     display: flex;
-    padding: 2rem;
+    padding: 1rem;
     justify-content: center;
     align-items: flex-start;
   }
@@ -144,6 +161,12 @@ import Img from '../Svelte/Img.svelte';
   @media screen and (max-width: 480px) {
     .schedule_image {
       height: 100% !important;
+    }
+  }
+
+  @media screen and (min-width: 481px) {
+    .schedule_image {
+      min-height: 450px;
     }
   }
 

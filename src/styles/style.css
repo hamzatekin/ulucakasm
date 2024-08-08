@@ -1,8 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
 @import './_variables.css';
 
 body {
-  font-family: 'Nunito', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   color: #000000;
   background-color: #fefefe;
   overflow-x: hidden;
@@ -150,16 +149,17 @@ a:focus {
 }
 
 .navbar-brand-ministry span {
-  font-size: 18px;
+  /* font-size: 1rem; */
+  /* font-weight: bold; */
   color: rgba(218, 41, 28);
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 }
 
 .navbar-brand-healthcare span {
-  font-weight: bold;
-  font-size: 16px;
+  /* font-weight: bold; */
+  /* font-size: 0.75rem; */
   color: rgba(218, 41, 28);
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 }
 
 .navbar-brand span {
@@ -418,7 +418,7 @@ a:focus {
 
 .department_section .box .detail-box h5 {
   font-weight: bold;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 }
 
 .department_section .box .detail-box a {
@@ -603,10 +603,11 @@ a:focus {
 
 .contact_section .heading_container {
   margin-bottom: 25px;
+  align-items: center;
 }
 
 .contact_section .heading_container h2 {
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 }
 
 .contact_section .form_container input {
@@ -925,7 +926,7 @@ a:focus {
   font-size: 20px;
   font-weight: 600;
   color: #000;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
 }
 
 /*# sourceMappingURL=style.css.map */

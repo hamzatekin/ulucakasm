@@ -3,9 +3,8 @@ import '../styles/bootstrap.css';
 import '../styles/font-awesome.min.css';
 import '../styles/style.css';
 import '../styles/responsive.css';
-
-const MAPS_LINK = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.MAPS_API_KEY}`;
-const TITLE = 'Ulucak Aile Sağlık Merkezi';
+import { capitalizeEachWord } from '../lib/utils.js';
+import { MAPS_LINK, TITLE } from '../lib/const.astro';
 ---
 
 <!DOCTYPE html>
@@ -20,18 +19,16 @@ const TITLE = 'Ulucak Aile Sağlık Merkezi';
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="theme-color" content="#ffffff" />
-    <script async defer src={MAPS_LINK}></script>
+    <script async is:inline defer src={MAPS_LINK}></script>
 
-    <!-- fonts style -->
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet"> -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet" />
 
-    <title>{TITLE}</title>
+    <title>{capitalizeEachWord(TITLE)}</title>
   </head>
 
-  <body class="bg-white font-sans leading-normal tracking-normal">
+  <body class="bg-white leading-normal tracking-normal">
     <slot />
   </body>
 </html>

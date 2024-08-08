@@ -14,7 +14,7 @@
 
     const marker = new google.maps.Marker({
       position: center,
-      lablel: 'Ulucak Aile Sağlığı Merkezi',
+      lablel: 'Kemalpaşa İbrahim-Hüsniye Özdurakoğlu Aile Sağlığı Merkezi',
       map: map,
     });
   });

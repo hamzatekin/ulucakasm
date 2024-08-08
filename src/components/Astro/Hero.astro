@@ -1,7 +1,7 @@
 ---
-const title = 'ULUCAK AİLE SAĞLIK MERKEZİ';
+import { TITLE } from '../../lib/const.astro';
 const description =
-  'İzmir Kemalpaşa bölgesinde bulunan “Ulucak ASM” vatandaşlarımıza daha çağdaş hizmet verebilmek için modern, kolay ulaşılabilir, açık ve kapalı otoparkı olan yeni binasında; koruyucu sağlık hizmeti, bağışıklama, ayaktan tedavi gibi temel görevleri ile çağın gereklerine uygun şekilde dizayn edilmiştir. Kurumumuzda, sahip olduğumuz etik değerleri muhafaza ederek, bizden sağlık hizmeti talep eden bireylerin beklentilerini en iyi şekilde karşılamaya, insana saygı duymayı ve bundan dolayı hastalarımıza gerekli ilgi ve özeni göstermeye gayret ediyoruz.';
+  'İzmir Kemalpaşa bölgesinde bulunan “Kemalpaşa İbrahim-Hüsniye Özdurakoğlu Aile Sağlığı Merkezi” vatandaşlarımıza daha çağdaş hizmet verebilmek için modern, kolay ulaşılabilir, yeni binasında; koruyucu sağlık hizmeti, bağışıklama, ayaktan tedavi gibi temel görevleri ile çağın gereklerine uygun şekilde dizayn edilmiştir. Kurumumuzda, sahip olduğumuz etik değerleri muhafaza ederek, bizden sağlık hizmeti talep eden bireylerin beklentilerini en iyi şekilde karşılamaya, insana saygı duymayı ve bundan dolayı hastalarımıza gerekli ilgi ve özeni göstermeye gayret ediyoruz.';
 const subtitle = 'İzmir İl Sağlık Müdürlüğü İletişim';
 const phone = 'Tel: +90 (232) 441 81 11';
 const link = 'https://www.ism.gov.tr';
@@ -10,8 +10,8 @@ const link = 'https://www.ism.gov.tr';
 <section id="homepage" class="hero-content">
   <div class="ulucak-hero container">
     <div class="col-md-7">
-      <h1 class="ulucak-hero-title">
-        {title}
+      <h1 class="text-2xl font-bold leading-8 text-white">
+        {TITLE.toLocaleUpperCase('tr')}
       </h1>
       <p class="ulucak-hero-subtitle">
         {description}
@@ -21,7 +21,7 @@ const link = 'https://www.ism.gov.tr';
         <br />
         {phone}
         <br />
-        Web: <a target="_blank" href={link}>{link}</a>
+        <a class="hover:text-red-600" target="_blank" href={link}>{link}</a>
       </p>
     </div>
   </div>
@@ -49,8 +49,8 @@ const link = 'https://www.ism.gov.tr';
   }
 
   .ulucak-hero-title {
-    font-size: 3rem;
-    font-weight: bold;
+    font-size: 2rem;
+    font-weight: bolder;
     color: #fff;
     margin-bottom: 1rem;
   }
