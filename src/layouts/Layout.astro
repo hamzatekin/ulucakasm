@@ -5,6 +5,8 @@ import '../styles/style.css';
 import '../styles/responsive.css';
 import { capitalizeEachWord } from '../lib/utils.js';
 import { MAPS_LINK, TITLE } from '../lib/const.astro';
+
+const isProd = import.meta.env.PROD;
 ---
 
 <!DOCTYPE html>
@@ -24,7 +26,11 @@ import { MAPS_LINK, TITLE } from '../lib/const.astro';
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet" />
-
+    {
+      isProd && (
+        <script defer is:inline async src="https://umami.hamzatekin.dev/script.js" data-website-id="99271bcb-9ff5-49e9-99e8-84ee910a58b4" />
+      )
+    }
     <title>{capitalizeEachWord(TITLE)}</title>
   </head>
 
