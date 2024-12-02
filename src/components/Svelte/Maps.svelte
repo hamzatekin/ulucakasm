@@ -1,10 +1,10 @@
 <script>
+  import { onMount } from 'svelte';
+
   let container;
   let map;
   let zoom = 17;
-  let center = { lat: 38.477710, lng: 27.355590 };
-
-  import { onMount } from 'svelte';
+  let center = { lat: 38.47771, lng: 27.35559 };
 
   onMount(async function initMap() {
     map = new google.maps.Map(container, {
@@ -20,7 +20,7 @@
   });
 </script>
 
-<div class="map" bind:this={container} />
+<div class="map" bind:this={container}></div>
 
 <style>
   .map {
