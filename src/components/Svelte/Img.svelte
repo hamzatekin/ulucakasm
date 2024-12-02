@@ -1,55 +1,57 @@
 <script lang="ts">
-  import Modal from '../Svelte/Modal.svelte';
+  import { portal } from 'svelte-portal';
 
   export let src = '';
   export let alt = '';
   let showModal = false;
-
-  const onClick = () => {
-    showModal = !showModal;
-  };
 </script>
 
 <img
   loading="lazy"
-  class="ulucak-img"
-  on:keydown={(ev) => {
-    if (ev.key === 'Enter') {
-      onClick();
-    }
-  }}
-  on:click={onClick}
+  class="thumbnail"
+  on:click={() => showModal = true}
+  on:keydown={(e) => e.key === 'Enter' && (showModal = true)}
   {src}
   {alt}
 />
 
 {#if showModal}
-  <Modal on:close={() => (showModal = false)}>
+  <div
+    class="modal-overlay"
+    use:portal={'body'}
+    on:click={() => showModal = false}
+    on:keydown={(e) => e.key === 'Escape' && (showModal = false)}
+  >
     <img
       class="modal-img"
-      on:keydown={(ev) => {
-        if (ev.key === 'Enter') {
-          onClick();
-        }
-      }}
-      on:click={onClick}
       {src}
       {alt}
     />
-  </Modal>
+  </div>
 {/if}
 
 <style>
-  .modal-img {
-    width: 100%;
-    height: 100%;
+  .thumbnail {
+    cursor: zoom-in;
   }
 
-  .modal-img:hover {
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
     cursor: zoom-out;
   }
 
-  .ulucak-img:hover {
-    cursor: zoom-in;
+  .modal-img {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
   }
 </style>

@@ -803,7 +803,16 @@ a:focus {
   color: #ffffff;
 }
 
+.footer_section .footer_contact .contact_link_box div {
+  margin: 5px 0;
+  color: #ffffff;
+}
+
 .footer_section .footer_contact .contact_link_box a i {
+  margin-right: 5px;
+}
+
+.footer_section .footer_contact .contact_link_box div i {
   margin-right: 5px;
 }
 
