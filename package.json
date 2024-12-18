@@ -5,7 +5,7 @@
   "description": "ulucakasm.com",
   "author": "Hamza Tekin",
   "scripts": {
-    "dev": "astro dev",
+    "dev": "astro dev --sourcemap",
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
