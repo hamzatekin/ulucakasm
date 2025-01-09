@@ -1,3 +1,7 @@
+---
+import Img from '../Svelte/Img.svelte';
+---
+
 <section id="services" class="department_section layout_padding">
   <div class="department_container">
     <div class="container">
@@ -28,16 +32,6 @@
         <div class="col-md-3">
           <div class="box">
             <div class="img-box">
-              <img src="images/s2.png" alt="" />
-            </div>
-            <div class="detail-box">
-              <h5>{'Bağışıklama'.toLocaleUpperCase('tr')}</h5>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="box">
-            <div class="img-box">
               <img src="images/s3.png" alt="" />
             </div>
             <div class="detail-box">
@@ -45,7 +39,59 @@
             </div>
           </div>
         </div>
+        <div class="col-md-3">
+          <button type="button" id="btn-takvim" class="box">
+            <div class="img-box">
+              <img src="images/s2.png" alt="" />
+            </div>
+            <div class="detail-box">
+              <h5>{'Bağışıklama'.toLocaleUpperCase('tr')}</h5>
+            </div>
+          </button>
+        </div>
+      </div>
+      <div class="schedule_image" id="asi-takvimi" style="display: none;">
+        <Img client:visible src="images/asm/asitakvimi.png" alt="Aşı Takvimi" />
       </div>
     </div>
   </div>
 </section>
+
+<style>
+  .schedule_image {
+    width: 100%;
+    display: flex;
+    padding: 2rem 1rem;
+    justify-content: center;
+    align-items: center;
+  }
+
+  button.box {
+    width: 100%;
+    border: none;
+    background: none;
+    padding: 0;
+    text-align: center;
+  }
+
+  @media screen and (max-width: 480px) {
+    .schedule_image {
+      height: 100% !important;
+    }
+  }
+
+  @media screen and (min-width: 481px) {
+    .schedule_image {
+      min-height: 450px;
+    }
+  }
+</style>
+
+<script>
+  document.getElementById('btn-takvim')?.addEventListener('click', () => {
+    const scheduleEl = document.getElementById('asi-takvimi');
+    if (scheduleEl) {
+      scheduleEl.style.display = scheduleEl.style.display === 'none' ? 'flex' : 'none';
+    }
+  });
+</script>
