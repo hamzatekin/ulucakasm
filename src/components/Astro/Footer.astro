@@ -1,54 +1,108 @@
 ---
 const currentYear = new Date().getFullYear();
-const VERSION = 'v1.4.1';
+const VERSION = 'v2.0.0';
 ---
 
-<footer id="footer" style="background-color: #092f25" class="footer_section">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6 col-lg-6 footer_col">
-        <div class="footer_contact">
-          <h4>Bize ulaşın</h4>
-          <div class="contact_link_box">
-            <div>
-              <i class="fa fa-map-marker" aria-hidden="true"></i>
-              <span> Mustafa Kemal Atatürk Mah. 9247 Sok No:3 Ulucak - Kemalpaşa / İzmir</span>
-            </div>
-            <a href="#footer">
-              <i class="fa fa-phone" aria-hidden="true"></i>
-              <span> +90 (232) 411 81 11</span>
+<footer class="bg-[#092f25] text-white py-12">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+      <!-- Contact Information -->
+      <div class="space-y-6">
+        <h4 class="text-xl font-semibold mb-4 inline-block border-b-2 border-teal-400 pb-1">Bize Ulaşın</h4>
+        <div class="space-y-4">
+          <div class="flex items-start space-x-3">
+            <i class="fa fa-map-marker mt-1 text-teal-400" aria-hidden="true"></i>
+            <span class="flex-1"> Mustafa Kemal Atatürk Mah. 9247 Sok No:3 Ulucak - Kemalpaşa / İzmir </span>
+          </div>
+          <div class="flex items-center space-x-3 group">
+            <i class="fa fa-link text-teal-400 group-hover:text-teal-300 transition-colors" aria-hidden="true"></i>
+            <a href="https://www.ism.gov.tr" target="_blank" rel="noopener noreferrer" class="hover:text-teal-300 transition-colors">
+              www.ism.gov.tr
             </a>
-            <a href="#footer">
-              <i class="fa fa-phone" aria-hidden="true"></i>
-              <span> +90 (232) 873 40 74</span>
-            </a>
-            <a href="#footer">
-              <i class="fa fa-phone" aria-hidden="true"></i>
-              <span> +90 (232) 873 40 81</span>
-            </a>
-            <a href="https://www.ism.gov.tr">
-              <i class="fa fa-link" aria-hidden="true"></i>
-              <span> https://www.ism.gov.tr</span>
-            </a>
+          </div>
+          <div class="space-y-2">
+            {
+              ['+90 (232) 411 81 11', '+90 (232) 873 40 74', '+90 (232) 873 40 81'].map((phone) => (
+                <div class="flex items-center space-x-3 group">
+                  <i class="fa fa-phone text-teal-400 group-hover:text-teal-300 transition-colors" aria-hidden="true" />
+                  <a href={`tel:${phone.replace(/[^0-9+]/g, '')}`} class="hover:text-teal-300 transition-colors">
+                    {phone}
+                  </a>
+                </div>
+              ))
+            }
           </div>
         </div>
       </div>
-      <div class="col-md-6 col-lg-6 footer_col">
-        <div class="footer_detail">
-          <h5>İlçe Sağlık Müdürlüğü</h5>
-          <p>Mustafa Kemal Atatürk Mah. 9247 Sok No:3 Ulucak - Kemalpaşa / İzmir</p>
+
+      <!-- Additional Information -->
+      <div class="space-y-8">
+        <!-- İlçe Sağlık Müdürlüğü -->
+        <div class="space-y-4">
+          <h4 class="text-xl font-semibold inline-block border-b-2 border-teal-400 pb-1">İlçe Sağlık Müdürlüğü</h4>
+          <div class="space-y-2">
+            <div class="flex items-start space-x-3">
+              <i class="fa fa-map-marker mt-1 text-teal-400" aria-hidden="true"></i>
+              <span>Soğukpınar, Atatürk Blv. No:2 35730 Kemalpaşa / İzmir</span>
+            </div>
+            <div class="flex items-center space-x-3 group">
+              <i class="fa fa-link text-teal-400 group-hover:text-teal-300 transition-colors" aria-hidden="true"></i>
+              <a
+                href="https://kemalpasasm.ism.gov.tr/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="hover:text-teal-300 transition-colors"
+              >
+                www.kemalpasasm.ism.gov.tr
+              </a>
+            </div>
+            <div class="flex items-center space-x-3 group">
+              <i class="fa fa-phone text-teal-400 group-hover:text-teal-300 transition-colors" aria-hidden="true"></i>
+              <a href="tel:+902328781102" class="hover:text-teal-300 transition-colors"> +90 (232) 878 11 02 </a>
+            </div>
+          </div>
         </div>
-        <div class="footer_detail">
-          <h5>İl Sağlık Müdürlüğü</h5>
-          <p>Sümer Mah. 451 Sok. No:2 Konak / İzmir</p>
+
+        <!-- İl Sağlık Müdürlüğü -->
+        <div class="space-y-4">
+          <h4 class="text-xl font-semibold inline-block border-b-2 border-teal-400 pb-1">İl Sağlık Müdürlüğü</h4>
+          <div class="space-y-2">
+            <div class="flex items-start space-x-3">
+              <i class="fa fa-map-marker mt-1 text-teal-400" aria-hidden="true"></i>
+              <span>Sümer Mah. 451 Sok. No:2 Konak / İzmir</span>
+            </div>
+            <div class="flex items-center space-x-3 group">
+              <i class="fa fa-link text-teal-400 group-hover:text-teal-300 transition-colors" aria-hidden="true"></i>
+              <a href="https://www.ism.gov.tr" target="_blank" rel="noopener noreferrer" class="hover:text-teal-300 transition-colors">
+                www.ism.gov.tr
+              </a>
+            </div>
+            <div class="flex items-center space-x-3 group">
+              <i class="fa fa-phone text-teal-400 group-hover:text-teal-300 transition-colors" aria-hidden="true"></i>
+              <a href="tel:+902324118111" class="hover:text-teal-300 transition-colors"> +90 (232) 411 81 11 </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="footer-info">
-      <p>
-        <span id="displayYear">{currentYear}</span> Kemalpaşa İbrahim-Hüsniye Özdürakoğlu Aile Sağlığı Merkezi
-      </p>
-      <p>{VERSION}</p>
+
+    <!-- Footer Bottom -->
+    <div class="border-t border-teal-800 pt-6 mt-8">
+      <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 text-sm text-gray-300">
+        <div>Kemalpaşa İbrahim-Hüsniye Özdürakoğlu Aile Sağlığı Merkezi</div>
+        <div class="flex items-center space-x-4">
+          <div class="text-teal-400">{VERSION}</div>
+          <span class="text-gray-500">|</span>
+          <a
+            href="https://avvossoft.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-teal-400 hover:text-teal-300 transition-colors"
+          >
+            Avvossoft <span>{currentYear}</span>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </footer>

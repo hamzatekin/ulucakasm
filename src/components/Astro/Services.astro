@@ -1,97 +1,147 @@
 ---
-import Img from '../Svelte/Img.svelte';
+import AppleIcon from './AppleIcon.astro';
 ---
 
 <section id="services" class="department_section layout_padding">
   <div class="department_container">
     <div class="container">
       <div class="heading_container heading_center">
-        <h2>HİZMETLERİMİZ</h2>
+        <h2 class="animate-fade-in">HİZMETLERİMİZ</h2>
+        <div class="w-24 h-1 bg-emerald-600 mx-auto mt-4 rounded-full"></div>
       </div>
       <div class="row">
-        <div class="col-md-3">
-          <div class="box">
-            <div class="img-box">
-              <img src="images/s4.png" alt="" />
+        <div class="col-md">
+          <div class="box h-full hover:shadow-lg transition-all duration-300 group relative flex flex-col">
+            <div class="img-box flex-shrink-0">
+              <img src="images/s4.png" alt="" class="transition-transform duration-300 group-hover:scale-110" />
             </div>
-            <div class="detail-box">
+            <div class="detail-box flex-grow flex flex-col justify-between">
               <h5>{'İlk Yardım'.toLocaleUpperCase('tr')}</h5>
             </div>
           </div>
         </div>
-        <div class="col-md-3">
-          <div class="box">
-            <div class="img-box">
-              <img src="images/s1.png" alt="" />
+        <div class="col-md">
+          <a href="/beslenme" class="block h-full">
+            <div class="box h-full hover:shadow-lg transition-all duration-300 group relative flex flex-col">
+              <div class="img-box flex-shrink-0">
+                <img src="images/s1.png" alt="" class="transition-transform duration-300 group-hover:scale-110" />
+              </div>
+              <div class="detail-box flex-grow flex flex-col justify-between">
+                <h5>{'Koruyucu Sağlık Hizmeti'.toLocaleUpperCase('tr')}</h5>
+              </div>
             </div>
-            <div class="detail-box">
-              <h5>{'Koruyucu Sağlık Hizmeti'.toLocaleUpperCase('tr')}</h5>
-            </div>
-          </div>
+          </a>
         </div>
-        <div class="col-md-3">
-          <div class="box">
-            <div class="img-box">
-              <img src="images/s3.png" alt="" />
+        <div class="col-md">
+          <a href="/beslenme" class="block h-full">
+            <div class="box h-full hover:shadow-lg transition-all duration-300 group relative flex flex-col">
+              <div class="img-box flex-shrink-0">
+                <AppleIcon class="w-16 h-16 text-white"  />
+              </div>
+              <div class="detail-box flex-grow flex flex-col justify-between">
+                <h5>{'Beslenme'.toLocaleUpperCase('tr')}</h5>
+              </div>
             </div>
-            <div class="detail-box">
+          </a>
+        </div>
+        <div class="col-md">
+          <div class="box h-full hover:shadow-lg transition-all duration-300 group relative flex flex-col">
+            <div class="img-box flex-shrink-0">
+              <img src="images/s3.png" alt="" class="transition-transform duration-300 group-hover:scale-110" />
+            </div>
+            <div class="detail-box flex-grow flex flex-col justify-between">
               <h5>{'Ayaktan Tedavi'.toLocaleUpperCase('tr')}</h5>
             </div>
           </div>
         </div>
-        <div class="col-md-3">
-          <button type="button" id="btn-takvim" class="box">
-            <div class="img-box">
-              <img src="images/s2.png" alt="" />
+        <div class="col-md">
+          <a href="/bagisiklama" class="block h-full">
+            <div class="box h-full hover:shadow-lg transition-all duration-300 group relative flex flex-col">
+              <div class="img-box flex-shrink-0">
+                <img src="images/s2.png" alt="" class="transition-transform duration-300 group-hover:scale-110" />
+              </div>
+              <div class="detail-box flex-grow flex flex-col justify-between">
+                <h5>{'Bağışıklama'.toLocaleUpperCase('tr')}</h5>
+              </div>
             </div>
-            <div class="detail-box">
-              <h5>{'Bağışıklama'.toLocaleUpperCase('tr')}</h5>
-            </div>
-          </button>
+          </a>
         </div>
-      </div>
-      <div class="schedule_image" id="asi-takvimi" style="display: none;">
-        <Img client:visible src="images/asm/asitakvimi.png" alt="Aşı Takvimi" />
       </div>
     </div>
   </div>
 </section>
 
 <style>
-  .schedule_image {
-    width: 100%;
+  .box {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    min-height: 200px;
+  }
+
+  .box:hover {
+    transform: translateY(-2px);
+  }
+
+  .img-box {
+    margin-bottom: 1rem;
     display: flex;
-    padding: 2rem 1rem;
     justify-content: center;
     align-items: center;
   }
 
-  button.box {
-    width: 100%;
-    border: none;
-    background: none;
-    padding: 0;
+  .img-box img {
+    width: 64px;
+    height: 64px;
+  }
+
+  .detail-box h5 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
     text-align: center;
+    color: #333;
   }
 
-  @media screen and (max-width: 480px) {
-    .schedule_image {
-      height: 100% !important;
+  .heading_container {
+    margin-bottom: 3rem;
+  }
+
+  .heading_container h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    color: #333;
+    margin-bottom: 0.5rem;
+  }
+
+  .department_section {
+    padding: 5rem 0;
+    background: linear-gradient(to bottom, #f8f9fa, #ffffff);
+  }
+
+  @media (max-width: 768px) {
+    .col-md-3 {
+      margin-bottom: 2rem;
+    }
+
+    .box {
+      min-height: 180px;
     }
   }
 
-  @media screen and (min-width: 481px) {
-    .schedule_image {
-      min-height: 450px;
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
     }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 1s ease-out forwards;
   }
 </style>
-
-<script>
-  document.getElementById('btn-takvim')?.addEventListener('click', () => {
-    const scheduleEl = document.getElementById('asi-takvimi');
-    if (scheduleEl) {
-      scheduleEl.style.display = scheduleEl.style.display === 'none' ? 'flex' : 'none';
-    }
-  });
-</script>

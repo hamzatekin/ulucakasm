@@ -1,0 +1,141 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Astro/Header.astro';
+import Footer from '../components/Astro/Footer.astro';
+---
+
+<Layout>
+  <Header shouldShowBg={false}>
+    <div class="w-full bg-gradient-to-br from-[#178066] via-[#1a9177] to-[#14725c] relative overflow-hidden">
+      <div class="absolute inset-0 bg-[url('/images/pattern.svg')] opacity-5"></div>
+      <main class="container mx-auto px-4 py-12 max-w-4xl text-white relative">
+        <h1 class="text-4xl font-bold text-center mb-8 animate-fade-in">Beslenme ve Obezite</h1>
+
+        <div class="w-full h-72 mb-12 rounded-xl overflow-hidden shadow-xl transform hover:scale-[1.02] transition-transform duration-500 relative">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent z-10"></div>
+          <img class="w-full h-full object-cover" src="images/asm/kids.jpeg" alt="Bagışıklama" />
+        </div>
+
+        <div class="prose prose-lg mx-auto">
+          <p class="text-2xl text-center font-semibold mb-12 text-emerald-100 animate-fade-in-up">"Minimum Hastalık Riski, Maksimum Sağlık"</p>
+
+          <div class="bg-white/10 backdrop-blur-sm p-6 rounded-xl mb-8 hover:bg-white/15 transition-colors duration-300">
+            <h2 class="text-2xl font-semibold mb-4 text-emerald-100">Maksimum Sağlık İçin;</h2>
+            <ul class="list-none pl-0 mb-6 space-y-3">
+              {[
+                'Yeterli ve Dengeli Beslenme',
+                'Düzenli Fiziksel Aktivite',
+                'Sigarasız Yaşam',
+                'Stresten Uzak Durma',
+                'Düzenli Sağlık Kontrolü şarttır.'
+              ].map((item) => (
+                <li class="flex items-center space-x-2 hover:translate-x-2 transition-transform duration-300">
+                  <span class="text-emerald-300">→</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <p class="mb-8 text-lg leading-relaxed">Optimal sağlık için yaşamın her döneminde Yeterli ve Dengeli Beslenme temel unsurdur.</p>
+
+          <h2 class="text-2xl font-semibold mb-6 text-emerald-100">Yeterli ve Dengeli Beslenme Sağlığın Temelidir.</h2>
+
+          <div class="bg-white/10 backdrop-blur-sm p-6 rounded-xl mb-8 hover:bg-white/15 transition-colors duration-300">
+            <p class="mb-6">Beslenme açlık duygusunu bastırmak, karın doyurmak ya da canının çektiği şeyleri yemek içmek değildir.</p>
+
+            <p class="mb-8">
+              Beslenme; sağlığı korumak, geliştirmek ve yaşam kalitesini yükseltmek için vücudun gereksinimi olan besin öğelerini yeterli
+              miktarlarda ve uygun zamanlarda almak için bilinçli yapılması gereken bir davranıştır.
+            </p>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-8">
+            <div class="bg-white/10 backdrop-blur-sm p-6 rounded-xl hover:bg-white/15 transition-all duration-300 hover:shadow-xl">
+              <h2 class="text-xl font-semibold mb-4 text-emerald-100">Yeterli ve Dengeli Beslenen Kişiler</h2>
+              <ul class="list-none pl-0 space-y-3">
+                {[
+                  'Sağlam ve sağlıklı bir görünüştedir.',
+                  'Hareketli ve esnek bir bedene,',
+                  'Muntazam bir cilde, canlı ve parlak saçlara ve gözlere,',
+                  'Kuvvetli, gelişimi normal kaslara,',
+                  'Çalışmaya istekli kişiliğe,',
+                  'Boy uzunluğuna uygun vücut ağırlığına,',
+                  'Normal zihinsel gelişme,',
+                  'Sık sık hasta olmayan bir yapıya sahiptir.'
+                ].map((item) => (
+                  <li class="flex items-center space-x-2 hover:translate-x-2 transition-transform duration-300">
+                    <span class="text-emerald-300">•</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="bg-white/10 backdrop-blur-sm p-6 rounded-xl hover:bg-white/15 transition-all duration-300 hover:shadow-xl">
+              <h2 class="text-xl font-semibold mb-4 text-emerald-100">Yetersiz ve Dengesiz Beslenenler ise;</h2>
+              <ul class="list-none pl-0 space-y-3">
+                {[
+                  'Hareketleri ağır ve isteksiz',
+                  'Sağlıksız genel görünüşte (aşırı zayıf veya şişman)',
+                  'Pürüzlü, kuru, sağlıksız cilt yapısına,',
+                  'Şişman veya zayıf vücut yapısına,',
+                  'Sıksık baş ağrısından şikayet eden',
+                  'İştahsız, yorgun, isteksiz bir yapıya sahiptir.'
+                ].map((item) => (
+                  <li class="flex items-center space-x-2 hover:translate-x-2 transition-transform duration-300">
+                    <span class="text-emerald-300">•</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </Header>
+  <Footer />
+</Layout>
+
+<style>
+  .prose {
+    max-width: 65ch;
+    line-height: 1.75;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 1s ease-out forwards;
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 1s ease-out forwards;
+  }
+
+  /* Add smooth scrolling to the page */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Enhance text selection */
+  ::selection {
+    background: rgba(23, 128, 102, 0.3);
+    color: white;
+  }
+</style>

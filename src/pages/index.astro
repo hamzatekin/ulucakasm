@@ -10,13 +10,57 @@ import Gallery from '../components/Astro/Gallery.astro';
 ---
 
 <Layout>
-  <Header>
-    <Hero />
-  </Header>
+  <div class="relative">
+    <Header>
+      <Hero />
+    </Header>
 
-  <Services />
-  <Doctors />
-  <Contact />
-  <Gallery />
-  <Footer />
+    <div class="space-y-16 relative">
+      <div class="absolute inset-0 bg-gradient-to-b from-transparent via-emerald-50/30 to-transparent pointer-events-none"></div>
+
+      <div class="relative">
+        <Services />
+      </div>
+
+      <div class="relative bg-gradient-to-b from-gray-50 to-white py-16">
+        <Doctors />
+      </div>
+
+      <div class="relative">
+        <Contact />
+      </div>
+
+      <div class="relative bg-gradient-to-b from-gray-50 to-white">
+        <Gallery />
+      </div>
+    </div>
+
+    <Footer />
+  </div>
 </Layout>
+
+<style>
+  .space-y-16 > * {
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+  }
+
+  .space-y-16 > *:first-child {
+    margin-top: 0;
+  }
+
+  .space-y-16 > *:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Add smooth scrolling to the page */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Enhance text selection */
+  ::selection {
+    background: rgba(23, 128, 102, 0.3);
+    color: inherit;
+  }
+</style>

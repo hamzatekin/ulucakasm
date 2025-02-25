@@ -1,59 +1,88 @@
-<section style="background: #178066" id="gallery" class="layout_padding">
-  <div class="heading_container heading_center text-white mb-4">
-    <h2>GALERİ</h2>
-  </div>
+---
+import LightboxModal from './LightboxModal.astro';
+
+const images = [
+  { src: 'images/asm/front-side.webp', alt: 'Ön görünüş' },
+  { src: 'images/asm/interior-1.webp', alt: 'ASM içi 1' },
+  { src: 'images/asm/interior-2.webp', alt: 'ASM içi 2' },
+  { src: 'images/asm/interior-3.webp', alt: 'ASM içi 3' },
+  { src: 'images/asm/interior-4.webp', alt: 'ASM içi 4' },
+  { src: 'images/asm/interior-5.webp', alt: 'ASM içi 5' },
+];
+---
+
+<section id="gallery" class="gallery_section layout_padding">
   <div class="container">
-    <div class="row">
-      <div class="column">
-        <img src="images/asm/front-side.webp" decoding="async" loading="lazy" alt="Ön görünüş" />
-        <img src="images/asm/interior-1.webp" decoding="async" loading="lazy" alt="ASM içi 1" />
-      </div>
-
-      <div class="column">
-        <img src="images/asm/interior-2.webp" decoding="async" loading="lazy" alt="ASM içi 2" />
-        <img src="images/asm/interior-3.webp" decoding="async" loading="lazy" alt="ASM içi 3" />
-      </div>
-
-      <div class="column">
-        <img src="images/asm/interior-4.webp" decoding="async" loading="lazy" alt="ASM içi 4" />
-        <img src="images/asm/interior-5.webp" decoding="async" loading="lazy" alt="ASM içi 5" />
-      </div>
+    <div class="heading_container heading_center mb-12">
+      <h2 class="animate-fade-in text-white">GALERİ</h2>
+      <div class="w-24 h-1 bg-white mx-auto mt-4 rounded-full"></div>
+    </div>
+    <div class="gallery-grid">
+      {
+        images.map((image, index) => (
+          <div class={`gallery-item group animate-fade-in`} style={`animation-delay: ${index * 0.2}s`}>
+            <div
+              class="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer"
+              onclick={`openLightbox('${image.src}', '${image.alt}')`}
+            >
+              <img
+                src={image.src}
+                alt={image.alt}
+                decoding="async"
+                loading="lazy"
+                class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div class="absolute bottom-4 left-4 text-white">
+                  <h3 class="text-lg font-semibold">{image.alt}</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))
+      }
     </div>
   </div>
+  <LightboxModal />
 </section>
 
 <style>
-  .row {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 0 4px;
+  .gallery_section {
+    background: linear-gradient(45deg, #178066, #1a9177);
+    padding: 5rem 0;
   }
 
-  /* Create four equal columns that sits next to each other */
-  .column {
-    flex: 1;
-    padding: 0 4px;
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
   }
 
-  .column img {
-    margin-top: 8px;
-    vertical-align: middle;
-    width: 100%;
+  .gallery-item img {
+    aspect-ratio: 4/3;
   }
 
-  /* Responsive layout - makes a two column-layout instead of four columns */
-  @media screen and (max-width: 800px) {
-    .column {
-      flex: 50%;
-      max-width: 50%;
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 
-  /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
-  @media screen and (max-width: 600px) {
-    .column {
-      flex: 100%;
-      max-width: 100%;
+  .animate-fade-in {
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+  }
+
+  @media (max-width: 768px) {
+    .gallery-grid {
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
     }
   }
 </style>

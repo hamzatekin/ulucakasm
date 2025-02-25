@@ -1,46 +1,171 @@
 ---
 import { TITLE } from '../../lib/const.astro';
+const { shouldShowBg = true } = Astro.props;
 ---
 
 <main class="hero_area">
-  <div class="hero_bg_box">
-    <img src="images/hero-bg.png" alt="Doctor Silhouette" />
-  </div>
+  {
+    shouldShowBg && (
+      <div class="hero_bg_box">
+        <img src="images/hero-bg.png" alt="Doctor Silhouette" />
+      </div>
+    )
+  }
   <!-- header section strats -->
-  <header class="header_section">
-    <div class="container">
-      <nav class="navbar navbar-expand-lg custom_nav-container flex justify-center items-center w-full">
-        <div class="flex justify-start items-center">
-          <a class="h-20 min-w-[80px]" href="https://saglik.gov.tr/" target="_blank">
-            <img class="h-20 min-w-[80px] aspect-square" src="images/health_ministry-logo.png" alt="sağlık bakanlığu logo" />
+  <header class="header_section sticky top-0 z-40 bg-white/95 backdrop-blur-sm shadow-md transition-all duration-300">
+    <div class="container mx-auto px-4">
+      <nav class="flex items-center justify-between h-20">
+        <!-- Logo and Ministry Name -->
+        <div class="flex items-center space-x-4">
+          <a class="flex-shrink-0" href="https://saglik.gov.tr/" target="_blank" rel="noopener noreferrer">
+            <img class="h-16 w-auto" src="images/health_ministry-logo.png" alt="Sağlık Bakanlığı Logo" />
           </a>
-          <div class="flex flex-col items-start justify-between ml-3">
-            <a class="navbar-brand-ministry text-base font-bold" href="https://saglik.gov.tr/" target="_blank">
-              <span>T.C. SAĞLIK BAKANLIĞI</span>
+          <div class="flex flex-col">
+            <a
+              class="text-teal-600 font-bold text-sm hover:text-teal-500 transition-colors"
+              href="https://saglik.gov.tr/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              T.C. SAĞLIK BAKANLIĞI
             </a>
-            <div class="navbar-brand-healthcare text-base font-bold">
-              <span>{TITLE.toLocaleUpperCase('tr')}</span>
-            </div>
+            <span class="text-gray-700 font-semibold mt-1">
+              {TITLE.toLocaleUpperCase('tr')}
+            </span>
           </div>
         </div>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Ana Sayfa <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#doctors">Kadromuz</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#gallery">Galeri</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#contact">İletişim</a>
-            </li>
-          </ul>
+
+        <!-- Mobile Menu Button -->
+        <button id="menuButton" class="lg:hidden flex items-center px-3 py-2 text-teal-600 hover:text-teal-500" aria-label="Toggle menu">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+
+        <!-- Navigation Links -->
+        <div id="navMenu" class="hidden lg:flex lg:items-center lg:space-x-8">
+          <a href="/" class="nav-link active">Ana Sayfa</a>
+          <a href="#doctors" class="nav-link">Kadromuz</a>
+          <a href="#gallery" class="nav-link">Galeri</a>
+          <a href="#contact" class="nav-link">İletişim</a>
         </div>
       </nav>
+
+      <!-- Mobile Menu -->
+      <div id="mobileMenu" class="lg:hidden hidden pb-4 mt-4">
+        <div class="flex flex-col space-y-3">
+          <a href="/" class="mobile-nav-link active">Ana Sayfa</a>
+          <a href="#doctors" class="mobile-nav-link">Kadromuz</a>
+          <a href="#gallery" class="mobile-nav-link">Galeri</a>
+          <a href="#contact" class="mobile-nav-link">İletişim</a>
+        </div>
+      </div>
     </div>
   </header>
   <slot />
 </main>
+
+<style>
+  .nav-link {
+    @apply text-gray-700 font-medium hover:text-teal-600 transition-colors duration-200 py-2;
+  }
+
+  .nav-link.active {
+    @apply text-teal-600 font-semibold;
+  }
+
+  .mobile-nav-link {
+    @apply text-gray-700 font-medium hover:text-teal-600 transition-colors duration-200 py-2 px-4 rounded-lg hover:bg-gray-50;
+  }
+
+  .mobile-nav-link.active {
+    @apply text-teal-600 font-semibold bg-gray-50;
+  }
+
+  .header_section {
+    @apply transition-transform duration-300;
+  }
+
+  .header-hidden {
+    transform: translateY(-100%);
+  }
+</style>
+
+<script>
+  // Mobile menu toggle
+  const menuButton = document.getElementById('menuButton');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const header = document.querySelector('.header_section');
+
+  let lastScroll = 0;
+
+  menuButton?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('hidden');
+  });
+
+  // Hide header on scroll down, show on scroll up
+  window.addEventListener('scroll', () => {
+    const currentScroll = window.pageYOffset;
+
+    if (currentScroll <= 0) {
+      header?.classList.remove('header-hidden');
+      return;
+    }
+
+    if (currentScroll > lastScroll && !header?.classList.contains('header-hidden')) {
+      // Scrolling down
+      header?.classList.add('header-hidden');
+    } else if (currentScroll < lastScroll && header?.classList.contains('header-hidden')) {
+      // Scrolling up
+      header?.classList.remove('header-hidden');
+    }
+
+    lastScroll = currentScroll;
+  });
+
+  // Close mobile menu when clicking outside
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    if (!target.closest('#mobileMenu') && !target.closest('#menuButton')) {
+      mobileMenu?.classList.add('hidden');
+    }
+  });
+
+  // Handle navigation links and current page highlighting
+  function updateActiveLink() {
+    const currentHash = window.location.hash;
+    const currentPath = window.location.pathname;
+    const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
+
+    navLinks.forEach((link) => {
+      const href = (link as HTMLAnchorElement).getAttribute('href');
+
+      if (href === '/') {
+        // For homepage link
+        link.classList.toggle('active', currentPath === '/');
+      } else if (href?.startsWith('#')) {
+        if (currentPath === '/') {
+          // On homepage, use hash-based navigation
+          link.classList.toggle('active', href === currentHash);
+        } else {
+          // On other pages, redirect to homepage with hash
+          (link as HTMLAnchorElement).href = '/' + href;
+        }
+      }
+    });
+  }
+
+  // Update active link on page load
+  updateActiveLink();
+
+  // Update active link when hash changes
+  window.addEventListener('hashchange', updateActiveLink);
+
+  // Handle navigation link clicks
+  const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
+  navLinks.forEach((link) => {
+    link.addEventListener('click', () => {
+      mobileMenu?.classList.add('hidden');
+    });
+  });
+</script>
