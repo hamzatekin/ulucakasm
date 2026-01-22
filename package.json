@@ -6,7 +6,7 @@
   "author": "Hamza Tekin",
   "scripts": {
     "dev": "astro dev",
-    "start": "astro dev",
+    "start": "astro preview --host",
     "build": "astro build",
     "preview": "astro preview",
     "pretty": "prettier --write ./src/**/*.{astro,js,jsx,ts,tsx,css,scss,sass,less,html,json,md}",
