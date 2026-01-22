@@ -101,13 +101,11 @@ const { shouldShowBg = true } = Astro.props;
 </style>
 
 <script>
-  let menuButton: HTMLElement | null = null;
   let mobileMenu: HTMLElement | null = null;
   let header: HTMLElement | null = null;
   let lastScroll = 0;
 
   const setHeaderRefs = () => {
-    menuButton = document.getElementById('menuButton');
     mobileMenu = document.getElementById('mobileMenu');
     header = document.querySelector('header');
   };
