@@ -1,5 +1,6 @@
 ---
 import { version } from '../../../package.json';
+import Icon from './Icon.astro';
 const currentYear = new Date().getFullYear();
 const VERSION = `v${version}`;
 ---
@@ -12,11 +13,11 @@ const VERSION = `v${version}`;
         <h4 class="text-xl font-semibold mb-4 inline-block border-b-2 border-teal-400 pb-1">Bize Ulaşın</h4>
         <div class="space-y-4">
           <div class="flex items-start space-x-3">
-            <i class="fa fa-map-marker mt-1 text-teal-400" aria-hidden="true"></i>
+            <Icon name="map-pin" class="mt-1 text-teal-400 w-4 h-4 shrink-0" />
             <span class="flex-1"> Mustafa Kemal Atatürk Mah. 9247 Sok No:3 Ulucak - Kemalpaşa / İzmir </span>
           </div>
           <div class="flex items-center space-x-3 group">
-            <i class="fa fa-link text-teal-400 group-hover:text-teal-300 transition-colors" aria-hidden="true"></i>
+            <Icon name="link" class="text-teal-400 group-hover:text-teal-300 transition-colors w-4 h-4" />
             <a href="https://www.ism.gov.tr" target="_blank" rel="noopener noreferrer" class="hover:text-teal-300 transition-colors">
               www.ism.gov.tr
             </a>
@@ -25,7 +26,7 @@ const VERSION = `v${version}`;
             {
               ['+90 (232) 411 81 11', '+90 (232) 873 40 74', '+90 (232) 873 40 81'].map((phone) => (
                 <div class="flex items-center space-x-3 group">
-                  <i class="fa fa-phone text-teal-400 group-hover:text-teal-300 transition-colors" aria-hidden="true" />
+                  <Icon name="phone" class="text-teal-400 group-hover:text-teal-300 transition-colors w-4 h-4" />
                   <a href={`tel:${phone.replace(/[^0-9+]/g, '')}`} class="hover:text-teal-300 transition-colors">
                     {phone}
                   </a>
@@ -43,11 +44,11 @@ const VERSION = `v${version}`;
           <h4 class="text-xl font-semibold inline-block border-b-2 border-teal-400 pb-1">İlçe Sağlık Müdürlüğü</h4>
           <div class="space-y-2">
             <div class="flex items-start space-x-3">
-              <i class="fa fa-map-marker mt-1 text-teal-400" aria-hidden="true"></i>
+              <Icon name="map-pin" class="mt-1 text-teal-400 w-4 h-4 shrink-0" />
               <span>Soğukpınar, Atatürk Blv. No:2 35730 Kemalpaşa / İzmir</span>
             </div>
             <div class="flex items-center space-x-3 group">
-              <i class="fa fa-link text-teal-400 group-hover:text-teal-300 transition-colors" aria-hidden="true"></i>
+              <Icon name="link" class="text-teal-400 group-hover:text-teal-300 transition-colors w-4 h-4" />
               <a
                 href="https://kemalpasasm.ism.gov.tr/"
                 target="_blank"
@@ -58,7 +59,7 @@ const VERSION = `v${version}`;
               </a>
             </div>
             <div class="flex items-center space-x-3 group">
-              <i class="fa fa-phone text-teal-400 group-hover:text-teal-300 transition-colors" aria-hidden="true"></i>
+              <Icon name="phone" class="text-teal-400 group-hover:text-teal-300 transition-colors w-4 h-4" />
               <a href="tel:+902328781102" class="hover:text-teal-300 transition-colors"> +90 (232) 878 11 02 </a>
             </div>
           </div>
@@ -69,17 +70,17 @@ const VERSION = `v${version}`;
           <h4 class="text-xl font-semibold inline-block border-b-2 border-teal-400 pb-1">İl Sağlık Müdürlüğü</h4>
           <div class="space-y-2">
             <div class="flex items-start space-x-3">
-              <i class="fa fa-map-marker mt-1 text-teal-400" aria-hidden="true"></i>
+              <Icon name="map-pin" class="mt-1 text-teal-400 w-4 h-4 shrink-0" />
               <span>Sümer Mah. 451 Sok. No:2 Konak / İzmir</span>
             </div>
             <div class="flex items-center space-x-3 group">
-              <i class="fa fa-link text-teal-400 group-hover:text-teal-300 transition-colors" aria-hidden="true"></i>
+              <Icon name="link" class="text-teal-400 group-hover:text-teal-300 transition-colors w-4 h-4" />
               <a href="https://www.ism.gov.tr" target="_blank" rel="noopener noreferrer" class="hover:text-teal-300 transition-colors">
                 www.ism.gov.tr
               </a>
             </div>
             <div class="flex items-center space-x-3 group">
-              <i class="fa fa-phone text-teal-400 group-hover:text-teal-300 transition-colors" aria-hidden="true"></i>
+              <Icon name="phone" class="text-teal-400 group-hover:text-teal-300 transition-colors w-4 h-4" />
               <a href="tel:+902324118111" class="hover:text-teal-300 transition-colors"> +90 (232) 411 81 11 </a>
             </div>
           </div>

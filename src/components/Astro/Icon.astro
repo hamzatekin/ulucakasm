@@ -1,0 +1,65 @@
+---
+interface Props {
+  name: 'map-pin' | 'link' | 'phone';
+  class?: string;
+}
+
+const { name, class: className = '' } = Astro.props;
+---
+
+{
+  name === 'map-pin' && (
+    <svg
+      class={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.75"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M12 21s7-6.25 7-11a7 7 0 10-14 0c0 4.75 7 11 7 11z" />
+      <circle cx="12" cy="10" r="3" />
+    </svg>
+  )
+}
+
+{
+  name === 'link' && (
+    <svg
+      class={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.75"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M10.5 13.5l3-3" />
+      <path d="M7.5 16.5l-1.5 1.5a3 3 0 11-4.243-4.243l1.5-1.5" />
+      <path d="M16.5 7.5l1.5-1.5a3 3 0 114.243 4.243l-1.5 1.5" />
+    </svg>
+  )
+}
+
+{
+  name === 'phone' && (
+    <svg
+      class={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.75"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M4.5 3h2.25c.6 0 1.125.38 1.32.96l.9 2.7a1.5 1.5 0 01-.7 1.8l-1.2.7a12 12 0 005.7 5.7l.7-1.2a1.5 1.5 0 011.8-.7l2.7.9c.58.195.96.72.96 1.32V19.5A1.5 1.5 0 0118 21h-.5C9.5 21 3 14.5 3 6.5V6A3 3 0 014.5 3z" />
+    </svg>
+  )
+}

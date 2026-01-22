@@ -36,6 +36,10 @@ const images = [
                 src={image.src}
                 alt={image.alt}
                 class="w-full aspect-[4/3] object-cover transform group-hover:scale-110 transition-transform duration-700"
+                sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                widths={[360, 540, 720, 960]}
+                loading="lazy"
+                decoding="async"
               />
               <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div class="absolute bottom-4 left-4 text-white">

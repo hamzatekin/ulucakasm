@@ -12,20 +12,27 @@ import { Image } from 'astro:assets';
 interface Props {
   src: ImageMetadata;
   alt: string;
+  widths?: number[];
+  sizes?: string;
+  width?: number;
+  height?: number;
+  loading?: 'lazy' | 'eager';
+  decoding?: 'sync' | 'async' | 'auto';
+  fetchpriority?: 'high' | 'low' | 'auto';
 }
 
-const { src, alt } = Astro.props;
+const { src, alt, ...imageProps } = Astro.props;
 const imageId = `img-${Math.random().toString(36).substring(2, 9)}`;
 ---
 
 <button class="thumbnail" data-lightbox-trigger={imageId} aria-label="Open image in modal">
-  <Image src={src} alt={alt} />
+  <Image src={src} alt={alt} {...imageProps} />
 </button>
 
 <dialog id={`dialog-${imageId}`} class="lightbox-dialog">
   <div class="backdrop"></div>
   <button class="modal-close" aria-label="Close image modal">
-    <Image class="modal-img" src={src} alt={alt} />
+    <Image class="modal-img" src={src} alt={alt} {...imageProps} />
   </button>
 </dialog>
 

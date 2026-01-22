@@ -18,6 +18,9 @@ const { shouldShowBg = true } = Astro.props;
           loading="eager"
           fetchpriority="high"
           quality="high"
+          sizes="100vw"
+          widths={[720, 960, 1280, 1600, 1920]}
+          decoding="async"
         />
       </div>
     )
@@ -29,7 +32,14 @@ const { shouldShowBg = true } = Astro.props;
         <!-- Logo and Ministry Name -->
         <div class="flex items-center space-x-4">
           <a class="flex-shrink-0" href="/">
-            <Image class="h-16 w-auto" src={healthMinistryLogo} alt="Sağlık Bakanlığı Logo" />
+            <Image
+              class="h-16 w-auto"
+              src={healthMinistryLogo}
+              alt="Sağlık Bakanlığı Logo"
+              width={64}
+              height={64}
+              decoding="async"
+            />
           </a>
           <div class="flex flex-col">
             <a
@@ -195,7 +205,7 @@ const { shouldShowBg = true } = Astro.props;
   // Update active link when hash changes
   window.addEventListener('hashchange', updateActiveLink);
 
-  // Run on initial load and after ClientRouter swaps
+  // Run on initial load and after navigation events
   initHeader();
   document.addEventListener('astro:page-load', initHeader);
 </script>

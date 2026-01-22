@@ -26,7 +26,15 @@ import Footer from '../components/Astro/Footer.astro';
           class="w-full rounded-xl overflow-hidden shadow-xl transform hover:scale-[1.02] transition-transform duration-500 relative bg-white/10 backdrop-blur-sm"
         >
           <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent z-10"></div>
-          <Image class="w-full h-full object-contain" src={asitakvimi} alt="Aşı Takvimi" />
+          <Image
+            class="w-full h-full object-contain"
+            src={asitakvimi}
+            alt="Aşı Takvimi"
+            sizes="(min-width: 1024px) 720px, 90vw"
+            widths={[480, 720, 960]}
+            loading="eager"
+            decoding="async"
+          />
         </div>
       </main>
     </div>

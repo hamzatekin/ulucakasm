@@ -86,7 +86,15 @@ const DOCTORS = [
                 <h5 class="text-2xl font-bold text-[#178066]">{doctor.name}</h5>
               </div>
               <div class="overflow-hidden rounded-lg w-full h-[500px]">
-                <Image src={doctor.image} alt={`${doctor.name} Fotoğraf`} class="w-full h-full object-cover" />
+                <Image
+                  src={doctor.image}
+                  alt={`${doctor.name} Fotoğraf`}
+                  class="w-full h-full object-cover"
+                  sizes="(min-width: 1024px) 520px, 90vw"
+                  widths={[480, 640, 800, 960]}
+                  loading="lazy"
+                  decoding="async"
+                />
               </div>
               <div class="bg-white/50 backdrop-blur-sm rounded-lg p-6 mt-4">
                 <div class="space-y-2">
@@ -105,7 +113,14 @@ const DOCTORS = [
                 </div>
               </div>
               <div class="w-full flex p-4 justify-center items-start mt-6 min-h-[450px]">
-                <Img src={doctor.schedule} alt={`${doctor.name} Programı`} />
+                <Img
+                  src={doctor.schedule}
+                  alt={`${doctor.name} Programı`}
+                  sizes="(min-width: 1024px) 520px, 90vw"
+                  widths={[480, 720, 960]}
+                  loading="lazy"
+                  decoding="async"
+                />
               </div>
             </div>
           </div>
@@ -117,7 +132,15 @@ const DOCTORS = [
             <h5 class="text-2xl font-bold text-[#178066]">ACİL HEMŞİRELERİ</h5>
           </div>
           <div class="overflow-hidden rounded-lg w-full h-[500px]">
-            <Image src={nursesImg} alt="Acil hemşireleri" class="w-full h-full object-cover" />
+            <Image
+              src={nursesImg}
+              alt="Acil hemşireleri"
+              class="w-full h-full object-cover"
+              sizes="(min-width: 1024px) 520px, 90vw"
+              widths={[480, 640, 800, 960]}
+              loading="lazy"
+              decoding="async"
+            />
           </div>
         </div>
       </div>
@@ -127,7 +150,15 @@ const DOCTORS = [
             <h5 class="text-2xl font-bold text-[#178066]">HİZMETLİLER</h5>
           </div>
           <div class="overflow-hidden rounded-lg w-full h-[500px]">
-            <Image src={supportImg} alt="Hizmetli" class="w-full h-full object-cover" />
+            <Image
+              src={supportImg}
+              alt="Hizmetli"
+              class="w-full h-full object-cover"
+              sizes="(min-width: 1024px) 520px, 90vw"
+              widths={[480, 640, 800, 960]}
+              loading="lazy"
+              decoding="async"
+            />
           </div>
         </div>
       </div>

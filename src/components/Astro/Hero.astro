@@ -1,4 +1,6 @@
 ---
+import Icon from './Icon.astro';
+
 const description =
   'İzmir Kemalpaşa bölgesinde bulunan "Kemalpaşa İbrahim-Hüsniye Özdurakoğlu Aile Sağlığı Merkezi" vatandaşlarımıza daha çağdaş hizmet verebilmek için modern, kolay ulaşılabilir, yeni binasında; koruyucu sağlık hizmeti, bağışıklama, ayaktan tedavi gibi temel görevleri ile çağın gereklerine uygun şekilde dizayn edilmiştir. Kurumumuzda, sahip olduğumuz etik değerleri muhafaza ederek, bizden sağlık hizmeti talep eden bireylerin beklentilerini en iyi şekilde karşılamaya, insana saygı duymayı ve bundan dolayı hastalarımıza gerekli ilgi ve özeni göstermeye gayret ediyoruz.';
 const subtitle = 'İzmir İl Sağlık Müdürlüğü İletişim';
@@ -32,12 +34,12 @@ const link = 'https://www.ism.gov.tr';
               rel="noopener noreferrer"
               class="inline-flex items-center text-white hover:text-teal-300 transition-colors group"
             >
-              <i class="fa fa-link mr-2 text-teal-400 group-hover:text-teal-300 transition-colors"></i>
+              <Icon name="link" class="mr-2 text-teal-400 group-hover:text-teal-300 transition-colors w-4 h-4" />
               {link}
             </a>
 
             <a href="tel:+902324118111" class="inline-flex items-center text-white hover:text-teal-300 transition-colors group">
-              <i class="fa fa-phone mr-2 text-teal-400 group-hover:text-teal-300 transition-colors"></i>
+              <Icon name="phone" class="mr-2 text-teal-400 group-hover:text-teal-300 transition-colors w-4 h-4" />
               {phone}
             </a>
           </div>
