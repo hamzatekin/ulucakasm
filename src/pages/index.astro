@@ -15,14 +15,14 @@ import Gallery from '../components/Astro/Gallery.astro';
       <Hero />
     </Header>
 
-    <div class="space-y-16 relative">
+    <div class="relative">
       <div class="absolute inset-0 bg-gradient-to-b from-transparent via-emerald-50/30 to-transparent pointer-events-none"></div>
 
       <div class="relative">
         <Services />
       </div>
 
-      <div class="relative bg-gradient-to-b from-gray-50 to-white py-16">
+      <div class="relative">
         <Doctors />
       </div>
 
@@ -40,19 +40,6 @@ import Gallery from '../components/Astro/Gallery.astro';
 </Layout>
 
 <style>
-  .space-y-16 > * {
-    margin-top: 4rem;
-    margin-bottom: 4rem;
-  }
-
-  .space-y-16 > *:first-child {
-    margin-top: 0;
-  }
-
-  .space-y-16 > *:last-child {
-    margin-bottom: 0;
-  }
-
   /* Add smooth scrolling to the page */
   html {
     scroll-behavior: smooth;
