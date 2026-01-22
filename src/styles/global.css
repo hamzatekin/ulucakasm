@@ -1,0 +1,25 @@
+@import './font-awesome.min.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-sans text-black overflow-x-hidden;
+  }
+}
+
+@layer utilities {
+  .layout_padding {
+    @apply py-[90px];
+  }
+  .layout_padding2 {
+    @apply py-[75px];
+  }
+  .layout_padding2-top {
+    @apply pt-[75px];
+  }
+  .layout_padding2-bottom {
+    @apply pb-[75px];
+  }
+}

@@ -1,0 +1,63 @@
+---
+/**
+ * Google Maps component - vanilla JS version
+ * Uses the modern AdvancedMarkerElement API
+ */
+const zoom = 17;
+const lat = 38.47771;
+const lng = 27.35559;
+---
+
+<div id="map-container" class="map" data-zoom={zoom} data-lat={lat} data-lng={lng}></div>
+
+<style>
+  .map {
+    height: 400px;
+    width: 100%;
+  }
+</style>
+
+<script>
+  async function initMap() {
+    const container = document.getElementById('map-container');
+    if (!container) return;
+
+    // Wait for Google Maps to be available
+    // Wait for Google Maps to be available
+    if (!window.google?.maps) return;
+
+    const zoom = parseInt(container.dataset.zoom || '17');
+    const center = {
+      lat: parseFloat(container.dataset.lat || '38.47771'),
+      lng: parseFloat(container.dataset.lng || '27.35559'),
+    };
+
+    // Import the Map class
+    const { Map } = (await google.maps.importLibrary('maps')) as google.maps.MapsLibrary;
+    const { AdvancedMarkerElement } = (await google.maps.importLibrary('marker')) as google.maps.MarkerLibrary;
+
+    const map = new Map(container, {
+      zoom,
+      center,
+      mapId: 'ulucak-asm-map', // Required for AdvancedMarkerElement
+    });
+
+    // Use the modern AdvancedMarkerElement
+    new AdvancedMarkerElement({
+      position: center,
+      map: map,
+      title: 'Kemalpaşa İbrahim-Hüsniye Özdurakoğlu Aile Sağlığı Merkezi',
+    });
+  }
+
+  // Wait for Google Maps API to load, then initialize
+  const checkGoogle = setInterval(() => {
+    if (window.google?.maps) {
+      clearInterval(checkGoogle);
+      initMap();
+    }
+  }, 100);
+
+  // Stop checking after 10 seconds
+  setTimeout(() => clearInterval(checkGoogle), 10000);
+</script>

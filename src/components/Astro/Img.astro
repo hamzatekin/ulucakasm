@@ -1,0 +1,116 @@
+---
+/**
+ * Image with Lightbox component - vanilla JS version
+ * Replaces the Svelte Img component
+ */
+interface Props {
+  src: string;
+  alt: string;
+}
+
+const { src, alt } = Astro.props;
+const imageId = `img-${Math.random().toString(36).substring(2, 9)}`;
+---
+
+<button class="thumbnail" data-lightbox-trigger={imageId} aria-label="Open image in modal">
+  <img src={src} alt={alt} loading="lazy" decoding="async" />
+</button>
+
+<dialog id={`dialog-${imageId}`} class="lightbox-dialog">
+  <div class="backdrop"></div>
+  <button class="modal-close" aria-label="Close image modal">
+    <img class="modal-img" src={src} alt={alt} />
+  </button>
+</dialog>
+
+<style>
+  .thumbnail {
+    cursor: zoom-in;
+    border: none;
+    background: none;
+    padding: 0;
+    width: 100%;
+  }
+
+  .thumbnail img {
+    width: 100%;
+    height: auto;
+  }
+
+  .lightbox-dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    border: none;
+    padding: 0;
+    margin: 0;
+    max-width: 100vw;
+    max-height: 100vh;
+  }
+
+  .lightbox-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  .lightbox-dialog:not([open]) {
+    display: none;
+  }
+
+  .backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: -1;
+  }
+
+  .modal-close {
+    position: relative;
+    cursor: zoom-out;
+    border: none;
+    background: none;
+    padding: 0;
+  }
+
+  .modal-img {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+  }
+</style>
+
+<script>
+  // Initialize all lightbox triggers
+  document.querySelectorAll('[data-lightbox-trigger]').forEach((button) => {
+    const imageId = button.getAttribute('data-lightbox-trigger');
+    const dialog = document.getElementById(`dialog-${imageId}`) as HTMLDialogElement;
+
+    if (!dialog) return;
+
+    // Open on thumbnail click
+    button.addEventListener('click', () => {
+      dialog.showModal();
+    });
+
+    // Close on backdrop/image click
+    dialog.addEventListener('click', () => {
+      dialog.close();
+    });
+
+    // Close on Escape key
+    dialog.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        dialog.close();
+      }
+    });
+  });
+</script>

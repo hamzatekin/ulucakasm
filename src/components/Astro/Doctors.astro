@@ -1,15 +1,15 @@
 ---
-import Img from '../Svelte/Img.svelte';
+import Img from './Img.astro';
 ---
 
-<section id="doctors" class="doctor_section layout_padding">
-  <div class="container">
-    <div class="heading_container heading_center">
-      <h2 class="animate-fade-in">Kadromuz</h2>
+<section id="doctors" class="py-20 bg-[#178066]">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-col items-center mb-12 text-center">
+      <h2 class="text-4xl font-bold text-white animate-fade-in uppercase">Kadromuz</h2>
       <div class="w-24 h-1 bg-emerald-600 mx-auto mt-4 rounded-full"></div>
-      <p class="col-md-10 mx-auto px-0 mt-6 text-white text-lg">Her an hizmetinize hazır kadromuz.</p>
+      <p class="max-w-2xl mx-auto px-0 mt-6 text-white text-lg">Her an hizmetinize hazır kadromuz.</p>
     </div>
-    <div class="row">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
       {
         [
           {
@@ -53,44 +53,56 @@ import Img from '../Svelte/Img.svelte';
             schedule: 'images/asm/schedules/gokhan_muglali_schedulev2.jpeg',
           },
         ].map((doctor) => (
-          <div class="col-sm-12 col-lg-6 mx-auto">
-            <div class="box group">
-              <div class="detail-box">
-                <h5 class="doctor-name">{doctor.name}</h5>
+          <div class="w-full">
+            <div class="bg-white p-8 rounded-2xl mb-8 border border-black/10 shadow-sm group">
+              <div class="w-full mb-6 text-center">
+                <h5 class="text-2xl font-bold text-[#178066]">{doctor.name}</h5>
               </div>
-              <div class="img-box overflow-hidden rounded-lg">
-                <img loading="lazy" decoding="async" src={doctor.image} alt={`${doctor.name} Fotoğraf`} />
+              <div class="overflow-hidden rounded-lg w-full h-[500px]">
+                <img
+                  loading="lazy"
+                  decoding="async"
+                  src={doctor.image}
+                  alt={`${doctor.name} Fotoğraf`}
+                  class="w-full h-full object-cover"
+                />
               </div>
-              <div class="detail-box bg-white/50 backdrop-blur-sm rounded-lg p-6 mt-4">
-                <div class="container">
-                  <div class="row  rounded p-2">
-                    <div class="col-lg-6 doctor-detail-title">Birim Kodu</div>
-                    <div class="col-lg-6 doctor-detail-value">{doctor.code} No'lu Aile Hekimi</div>
+              <div class="bg-white/50 backdrop-blur-sm rounded-lg p-6 mt-4">
+                <div class="space-y-2">
+                  <div class="flex flex-col lg:flex-row lg:justify-between rounded p-2 border-b border-gray-100 last:border-0">
+                    <div class="font-medium text-lg text-gray-800">Birim Kodu</div>
+                    <div class="text-base text-gray-600">{doctor.code} No'lu Aile Hekimi</div>
                   </div>
-                  <div class="row  rounded p-2">
-                    <div class="col-lg-6 doctor-detail-title">Telefon</div>
-                    <div class="col-lg-6 doctor-detail-value">{doctor.phone}</div>
+                  <div class="flex flex-col lg:flex-row lg:justify-between rounded p-2 border-b border-gray-100 last:border-0">
+                    <div class="font-medium text-lg text-gray-800">Telefon</div>
+                    <div class="text-base text-gray-600">{doctor.phone}</div>
                   </div>
-                  <div class="row rounded p-2">
-                    <div class="col-lg-6 doctor-detail-title">Aile Sağlığı Elemanı</div>
-                    <div class="col-lg-6 doctor-detail-value">{doctor.assistant}</div>
+                  <div class="flex flex-col lg:flex-row lg:justify-between rounded p-2 border-b border-gray-100 last:border-0">
+                    <div class="font-medium text-lg text-gray-800">Aile Sağlığı Elemanı</div>
+                    <div class="text-base text-gray-600">{doctor.assistant}</div>
                   </div>
                 </div>
               </div>
-              <div class="schedule_image">
-                <Img client:visible src={doctor.schedule} alt={`${doctor.name} Programı`} />
+              <div class="w-full flex p-4 justify-center items-start mt-6 min-h-[450px]">
+                <Img src={doctor.schedule} alt={`${doctor.name} Programı`} />
               </div>
             </div>
           </div>
         ))
       }
-      <div class="flex flex-col col-sm-12 col-lg-6 mx-auto h-full">
-        <div class="box group">
-          <div class="detail-box">
-            <h5 class="doctor-name">ACİL HEMŞİRELERİ</h5>
+      <div class="flex flex-col w-full h-full">
+        <div class="bg-white p-8 rounded-2xl mb-8 border border-black/10 shadow-sm group">
+          <div class="w-full mb-6 text-center">
+            <h5 class="text-2xl font-bold text-[#178066]">ACİL HEMŞİRELERİ</h5>
           </div>
-          <div class="img-box overflow-hidden rounded-lg">
-            <img loading="lazy" decoding="async" src="images/asm/doctors/acil_hemsireleri.webp" alt="Acil hemşireleri" />
+          <div class="overflow-hidden rounded-lg w-full h-[500px]">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="images/asm/doctors/acil_hemsireleri.webp"
+              alt="Acil hemşireleri"
+              class="w-full h-full object-cover"
+            />
           </div>
         </div>
       </div>
@@ -99,60 +111,6 @@ import Img from '../Svelte/Img.svelte';
 </section>
 
 <style>
-  .box {
-    background: white;
-    padding: 2rem;
-    border-radius: 1rem;
-    margin-bottom: 2rem;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-  }
-
-  .doctor-name {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #178066;
-    text-align: center;
-    margin-bottom: 1.5rem;
-  }
-
-  .doctor-detail-title {
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: #333;
-  }
-
-  .doctor-detail-value {
-    font-size: 1rem;
-    color: #666;
-  }
-
-  .schedule_image {
-    width: 100%;
-    display: flex;
-    padding: 1rem;
-    justify-content: center;
-    align-items: flex-start;
-    margin-top: 1.5rem;
-  }
-
-  @media screen and (max-width: 480px) {
-    .schedule_image {
-      height: 100% !important;
-    }
-  }
-
-  @media screen and (min-width: 481px) {
-    .schedule_image {
-      min-height: 450px;
-    }
-  }
-
-  img {
-    width: 100%;
-    height: 500px;
-    object-fit: cover;
-  }
-
   @keyframes fadeIn {
     from {
       opacity: 0;
