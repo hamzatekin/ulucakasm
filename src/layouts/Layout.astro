@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
 import { capitalizeEachWord } from '../lib/utils.js';
 import { MAPS_LINK, TITLE } from '../lib/const.astro';
 
@@ -7,7 +8,7 @@ const isProd = import.meta.env.PROD;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" transition:name="root" transition:animate="none">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -18,6 +19,7 @@ const isProd = import.meta.env.PROD;
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="theme-color" content="#ffffff" />
+    <ClientRouter />
     <script async is:inline defer src={MAPS_LINK}></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -31,7 +33,7 @@ const isProd = import.meta.env.PROD;
     <title>{capitalizeEachWord(TITLE)}</title>
   </head>
 
-  <body class="bg-white leading-normal tracking-normal">
+  <body class="bg-white leading-normal tracking-normal" transition:animate="fade">
     <slot />
   </body>
 </html>

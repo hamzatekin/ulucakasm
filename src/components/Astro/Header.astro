@@ -1,4 +1,8 @@
 ---
+import { Image } from 'astro:assets';
+import heroBg from '../../assets/images/hero-bg.png';
+import healthMinistryLogo from '../../assets/images/health_ministry-logo.png';
+
 import { TITLE } from '../../lib/const.astro';
 const { shouldShowBg = true } = Astro.props;
 ---
@@ -7,7 +11,14 @@ const { shouldShowBg = true } = Astro.props;
   {
     shouldShowBg && (
       <div class="absolute inset-0 flex justify-center items-end overflow-hidden -z-10">
-        <img src="images/hero-bg.png" alt="Doctor Silhouette" class="w-full h-full object-cover object-bottom" />
+        <Image
+          src={heroBg}
+          alt="Doctor Silhouette"
+          class="w-full h-full object-cover object-bottom"
+          loading="eager"
+          fetchpriority="high"
+          quality="high"
+        />
       </div>
     )
   }
@@ -17,15 +28,13 @@ const { shouldShowBg = true } = Astro.props;
       <nav class="flex items-center justify-between h-20">
         <!-- Logo and Ministry Name -->
         <div class="flex items-center space-x-4">
-          <a class="flex-shrink-0" href="https://saglik.gov.tr/" target="_blank" rel="noopener noreferrer">
-            <img class="h-16 w-auto" src="images/health_ministry-logo.png" alt="Sağlık Bakanlığı Logo" />
+          <a class="flex-shrink-0" href="/">
+            <Image class="h-16 w-auto" src={healthMinistryLogo} alt="Sağlık Bakanlığı Logo" />
           </a>
           <div class="flex flex-col">
             <a
               class="text-teal-600 font-bold text-sm hover:text-teal-500 transition-colors"
-              href="https://saglik.gov.tr/"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/"
             >
               T.C. SAĞLIK BAKANLIĞI
             </a>
@@ -92,47 +101,19 @@ const { shouldShowBg = true } = Astro.props;
 </style>
 
 <script>
-  // Mobile menu toggle
-  const menuButton = document.getElementById('menuButton');
-  const mobileMenu = document.getElementById('mobileMenu');
-  const header = document.querySelector('header');
-
+  let menuButton: HTMLElement | null = null;
+  let mobileMenu: HTMLElement | null = null;
+  let header: HTMLElement | null = null;
   let lastScroll = 0;
 
-  menuButton?.addEventListener('click', () => {
-    mobileMenu?.classList.toggle('hidden');
-  });
-
-  // Hide header on scroll down, show on scroll up
-  window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
-
-    if (currentScroll <= 0) {
-      header?.classList.remove('header-hidden');
-      return;
-    }
-
-    if (currentScroll > lastScroll && !header?.classList.contains('header-hidden')) {
-      // Scrolling down
-      header?.classList.add('header-hidden');
-    } else if (currentScroll < lastScroll && header?.classList.contains('header-hidden')) {
-      // Scrolling up
-      header?.classList.remove('header-hidden');
-    }
-
-    lastScroll = currentScroll;
-  });
-
-  // Close mobile menu when clicking outside
-  document.addEventListener('click', (e) => {
-    const target = e.target as HTMLElement;
-    if (!target.closest('#mobileMenu') && !target.closest('#menuButton')) {
-      mobileMenu?.classList.add('hidden');
-    }
-  });
+  const setHeaderRefs = () => {
+    menuButton = document.getElementById('menuButton');
+    mobileMenu = document.getElementById('mobileMenu');
+    header = document.querySelector('header');
+  };
 
   // Handle navigation links and current page highlighting
-  function updateActiveLink() {
+  const updateActiveLink = () => {
     const currentHash = window.location.hash;
     const currentPath = window.location.pathname;
     const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
@@ -153,19 +134,70 @@ const { shouldShowBg = true } = Astro.props;
         }
       }
     });
-  }
+  };
 
-  // Update active link on page load
-  updateActiveLink();
+  const initHeader = () => {
+    setHeaderRefs();
+    lastScroll = window.pageYOffset;
+    header?.classList.remove('header-hidden');
+    mobileMenu?.classList.add('hidden');
+    updateActiveLink();
+  };
+
+  // Hide header on scroll down, show on scroll up
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (!header) {
+        return;
+      }
+
+      const currentScroll = window.pageYOffset;
+
+      if (currentScroll <= 0) {
+        header.classList.remove('header-hidden');
+        return;
+      }
+
+      if (currentScroll > lastScroll && !header.classList.contains('header-hidden')) {
+        // Scrolling down
+        header.classList.add('header-hidden');
+      } else if (currentScroll < lastScroll && header.classList.contains('header-hidden')) {
+        // Scrolling up
+        header.classList.remove('header-hidden');
+      }
+
+      lastScroll = currentScroll;
+    },
+    { passive: true }
+  );
+
+  // Toggle/close mobile menu with event delegation
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement | null;
+    if (!target) {
+      return;
+    }
+
+    if (target.closest('#menuButton')) {
+      mobileMenu?.classList.toggle('hidden');
+      return;
+    }
+
+    if (target.closest('.nav-link, .mobile-nav-link')) {
+      mobileMenu?.classList.add('hidden');
+      return;
+    }
+
+    if (!target.closest('#mobileMenu')) {
+      mobileMenu?.classList.add('hidden');
+    }
+  });
 
   // Update active link when hash changes
   window.addEventListener('hashchange', updateActiveLink);
 
-  // Handle navigation link clicks
-  const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
-  navLinks.forEach((link) => {
-    link.addEventListener('click', () => {
-      mobileMenu?.classList.add('hidden');
-    });
-  });
+  // Run on initial load and after ClientRouter swaps
+  initHeader();
+  document.addEventListener('astro:page-load', initHeader);
 </script>

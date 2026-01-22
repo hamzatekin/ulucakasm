@@ -3,8 +3,14 @@
  * Image with Lightbox component - vanilla JS version
  * Replaces the Svelte Img component
  */
+import { Image } from 'astro:assets';
+
+/**
+ * Image with Lightbox component - vanilla JS version
+ * Replaces the Svelte Img component
+ */
 interface Props {
-  src: string;
+  src: ImageMetadata;
   alt: string;
 }
 
@@ -13,13 +19,13 @@ const imageId = `img-${Math.random().toString(36).substring(2, 9)}`;
 ---
 
 <button class="thumbnail" data-lightbox-trigger={imageId} aria-label="Open image in modal">
-  <img src={src} alt={alt} loading="lazy" decoding="async" />
+  <Image src={src} alt={alt} />
 </button>
 
 <dialog id={`dialog-${imageId}`} class="lightbox-dialog">
   <div class="backdrop"></div>
   <button class="modal-close" aria-label="Close image modal">
-    <img class="modal-img" src={src} alt={alt} />
+    <Image class="modal-img" src={src} alt={alt} />
   </button>
 </dialog>
 

@@ -1,13 +1,20 @@
 ---
+import { Image } from 'astro:assets';
 import LightboxModal from './LightboxModal.astro';
+import frontSide from '../../assets/images/asm/front-side.webp';
+import interior1 from '../../assets/images/asm/interior-1.webp';
+import interior2 from '../../assets/images/asm/interior-2.webp';
+import interior3 from '../../assets/images/asm/interior-3.webp';
+import interior4 from '../../assets/images/asm/interior-4.webp';
+import interior5 from '../../assets/images/asm/interior-5.webp';
 
 const images = [
-  { src: 'images/asm/front-side.webp', alt: 'Ön görünüş' },
-  { src: 'images/asm/interior-1.webp', alt: 'ASM içi 1' },
-  { src: 'images/asm/interior-2.webp', alt: 'ASM içi 2' },
-  { src: 'images/asm/interior-3.webp', alt: 'ASM içi 3' },
-  { src: 'images/asm/interior-4.webp', alt: 'ASM içi 4' },
-  { src: 'images/asm/interior-5.webp', alt: 'ASM içi 5' },
+  { src: frontSide, alt: 'Ön görünüş' },
+  { src: interior1, alt: 'ASM içi 1' },
+  { src: interior2, alt: 'ASM içi 2' },
+  { src: interior3, alt: 'ASM içi 3' },
+  { src: interior4, alt: 'ASM içi 4' },
+  { src: interior5, alt: 'ASM içi 5' },
 ];
 ---
 
@@ -23,13 +30,11 @@ const images = [
           <div class={`animate-fade-in`} style={`animation-delay: ${index * 0.2}s`}>
             <div
               class="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer group h-full"
-              onclick={`openLightbox('${image.src}', '${image.alt}')`}
+              onclick={`openLightbox('${image.src.src}', '${image.alt}')`}
             >
-              <img
+              <Image
                 src={image.src}
                 alt={image.alt}
-                decoding="async"
-                loading="lazy"
                 class="w-full aspect-[4/3] object-cover transform group-hover:scale-110 transition-transform duration-700"
               />
               <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">

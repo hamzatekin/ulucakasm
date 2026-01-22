@@ -1,53 +1,71 @@
 ---
+import { Image } from 'astro:assets';
 import Img from './Img.astro';
+
+import muratImg from '../../assets/images/asm/doctors/murat_tansel_kutluk.webp';
+import ilkayImg from '../../assets/images/asm/doctors/ilkay_taze.webp';
+import ahmetImg from '../../assets/images/asm/doctors/ahmet_serhan_sunbul.webp';
+import cumhurImg from '../../assets/images/asm/doctors/cumhur_citak.webp';
+import gokhanImg from '../../assets/images/asm/doctors/gokhan_muglali.webp';
+import seyhmusImg from '../../assets/images/asm/doctors/seyhmus_kaya.webp';
+import nursesImg from '../../assets/images/asm/doctors/nurses.webp';
+import supportImg from '../../assets/images/asm/doctors/support_staff.webp';
+
+import muratSchedule from '../../assets/images/asm/schedules/murat_tansel_kutluk_schedule.webp';
+import ilkaySchedule from '../../assets/images/asm/schedules/ilkay_taze_schedule.webp';
+import ahmetSchedule from '../../assets/images/asm/schedules/ahmet_serhan_sunbul_schedule.webp';
+import cumhurSchedule from '../../assets/images/asm/schedules/cumhur_citak_schedule.webp';
+import gokhanSchedule from '../../assets/images/asm/schedules/gokhan_muglali_schedule.webp';
+import seyhmusSchedule from '../../assets/images/asm/schedules/seyhmus_kaya_schedule.webp';
+
 const DOCTORS = [
   {
     name: 'DR. MURAT TANSEL KUTLUK',
-    image: 'images/asm/doctors/murat_tansel_kutluk.webp',
+    image: muratImg,
     code: '3516030',
     phone: '+90 (232) 873 40 81',
     assistant: 'Ebe Hatice Marangoz',
-    schedule: 'images/asm/schedules/murat_tansel_kutluk_schedule.webp',
+    schedule: muratSchedule,
   },
   {
     name: 'DR. İLKAY TAZE',
-    image: 'images/asm/doctors/ilkay_taze.webp',
+    image: ilkayImg,
     code: '3516035',
     phone: '+90 (232) 873 40 74',
     assistant: 'Fatma Doğru',
-    schedule: 'images/asm/schedules/ilkay_taze_schedule.webp',
+    schedule: ilkaySchedule,
   },
   {
     name: 'DR. AHMET SERHAN SÜNBÜL',
-    image: 'images/asm/doctors/ahmet_serhan_sunbul.webp',
+    image: ahmetImg,
     code: '3516015',
     phone: '+90 (232) 873 40 74',
     assistant: 'Ebe Şenay Erdoğdu',
-    schedule: 'images/asm/schedules/ahmet_serhan_sunbul_schedule.webp',
+    schedule: ahmetSchedule,
   },
   {
     name: 'UZM. DR. CUMHUR ÇITAK',
-    image: 'images/asm/doctors/cumhur_citak.webp',
+    image: cumhurImg,
     code: '3516014',
     phone: '+90 (232) 873 40 81',
     assistant: 'Nesli Çıtak',
-    schedule: 'images/asm/schedules/cumhur_citak_schedule.webp',
+    schedule: cumhurSchedule,
   },
   {
     name: 'DR. GÖKHAN MUĞLALI',
-    image: 'images/asm/doctors/gokhan_muglali.webp',
+    image: gokhanImg,
     code: '3516040',
     phone: '+90 (232) 873 40 81',
     assistant: 'Özgül Bilgin',
-    schedule: 'images/asm/schedules/gokhan_muglali_schedule.webp',
+    schedule: gokhanSchedule,
   },
   {
     name: 'DR. ŞEYHMUS KAYA',
-    image: 'images/asm/doctors/seyhmus_kaya.webp',
+    image: seyhmusImg,
     code: '3516042',
     phone: '+90 (232) 873 40 81',
     assistant: 'Nur Kaya',
-    schedule: 'images/asm/schedules/seyhmus_kaya_schedule.webp',
+    schedule: seyhmusSchedule,
   },
 ];
 ---
@@ -68,13 +86,7 @@ const DOCTORS = [
                 <h5 class="text-2xl font-bold text-[#178066]">{doctor.name}</h5>
               </div>
               <div class="overflow-hidden rounded-lg w-full h-[500px]">
-                <img
-                  loading="lazy"
-                  decoding="async"
-                  src={doctor.image}
-                  alt={`${doctor.name} Fotoğraf`}
-                  class="w-full h-full object-cover"
-                />
+                <Image src={doctor.image} alt={`${doctor.name} Fotoğraf`} class="w-full h-full object-cover" />
               </div>
               <div class="bg-white/50 backdrop-blur-sm rounded-lg p-6 mt-4">
                 <div class="space-y-2">
@@ -105,13 +117,7 @@ const DOCTORS = [
             <h5 class="text-2xl font-bold text-[#178066]">ACİL HEMŞİRELERİ</h5>
           </div>
           <div class="overflow-hidden rounded-lg w-full h-[500px]">
-            <img
-              loading="lazy"
-              decoding="async"
-              src="images/asm/doctors/nurses.webp"
-              alt="Acil hemşireleri"
-              class="w-full h-full object-cover"
-            />
+            <Image src={nursesImg} alt="Acil hemşireleri" class="w-full h-full object-cover" />
           </div>
         </div>
       </div>
@@ -121,13 +127,7 @@ const DOCTORS = [
             <h5 class="text-2xl font-bold text-[#178066]">HİZMETLİLER</h5>
           </div>
           <div class="overflow-hidden rounded-lg w-full h-[500px]">
-            <img
-              loading="lazy"
-              decoding="async"
-              src="images/asm/doctors/support_staff.webp"
-              alt="Hizmetli"
-              class="w-full h-full object-cover"
-            />
+            <Image src={supportImg} alt="Hizmetli" class="w-full h-full object-cover" />
           </div>
         </div>
       </div>
