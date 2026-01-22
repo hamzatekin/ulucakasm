@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
 import { capitalizeEachWord } from '../lib/utils.js';
-import { MAPS_LINK, TITLE } from '../lib/const.astro';
+import { TITLE } from '../lib/const.astro';
 
 const isProd = import.meta.env.PROD;
 ---
@@ -20,7 +20,6 @@ const isProd = import.meta.env.PROD;
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="theme-color" content="#ffffff" />
     <ClientRouter />
-    <script async is:inline defer src={MAPS_LINK}></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

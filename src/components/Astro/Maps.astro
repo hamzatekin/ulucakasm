@@ -3,6 +3,7 @@
  * Google Maps component - vanilla JS version
  * Uses the modern AdvancedMarkerElement API
  */
+import { MAPS_LINK } from '../../lib/const.astro';
 const zoom = 17;
 const lat = 38.47771;
 const lng = 27.35559;
@@ -17,14 +18,21 @@ const lng = 27.35559;
   }
 </style>
 
-<script>
+<script define:vars={{ MAPS_LINK }}>
+  const MAPS_SCRIPT_ID = 'google-maps-js';
+  let mapInitialized = false;
+
   async function initMap() {
     const container = document.getElementById('map-container');
     if (!container) return;
+    if (mapInitialized) return;
+    mapInitialized = true;
 
     // Wait for Google Maps to be available
-    // Wait for Google Maps to be available
-    if (!window.google?.maps) return;
+    if (!window.google?.maps || typeof google.maps.importLibrary !== 'function') {
+      mapInitialized = false;
+      return;
+    }
 
     const zoom = parseInt(container.dataset.zoom || '17');
     const center = {
@@ -33,8 +41,8 @@ const lng = 27.35559;
     };
 
     // Import the Map class
-    const { Map } = (await google.maps.importLibrary('maps')) as google.maps.MapsLibrary;
-    const { AdvancedMarkerElement } = (await google.maps.importLibrary('marker')) as google.maps.MarkerLibrary;
+    const { Map } = await google.maps.importLibrary('maps');
+    const { AdvancedMarkerElement } = await google.maps.importLibrary('marker');
 
     const map = new Map(container, {
       zoom,
@@ -50,14 +58,43 @@ const lng = 27.35559;
     });
   }
 
-  // Wait for Google Maps API to load, then initialize
-  const checkGoogle = setInterval(() => {
-    if (window.google?.maps) {
-      clearInterval(checkGoogle);
-      initMap();
-    }
-  }, 100);
+  function loadMapsScript() {
+    if (document.getElementById(MAPS_SCRIPT_ID)) return;
+    const script = document.createElement('script');
+    script.id = MAPS_SCRIPT_ID;
+    script.src = `${MAPS_LINK}&callback=initMap`;
+    script.async = true;
+    script.defer = true;
+    script.onerror = () => {
+      mapInitialized = false;
+      console.error('Failed to load Google Maps JS API');
+    };
+    document.head.appendChild(script);
+  }
 
-  // Stop checking after 10 seconds
-  setTimeout(() => clearInterval(checkGoogle), 10000);
+  const container = document.getElementById('map-container');
+  if (!container) {
+    // No container on this page; keep callback defined to avoid errors if loaded elsewhere.
+    window.initMap = () => {};
+  } else {
+    // Expose initMap for the Google Maps callback
+    window.initMap = initMap;
+
+    if (window.google?.maps && typeof google.maps.importLibrary === 'function') {
+      initMap();
+    } else if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((entry) => entry.isIntersecting)) {
+            observer.disconnect();
+            loadMapsScript();
+          }
+        },
+        { rootMargin: '200px 0px' }
+      );
+      observer.observe(container);
+    } else {
+      loadMapsScript();
+    }
+  }
 </script>
