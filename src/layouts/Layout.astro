@@ -5,6 +5,10 @@ import { capitalizeEachWord } from '../lib/utils.js';
 import { TITLE } from '../lib/const.astro';
 
 const isProd = import.meta.env.PROD;
+const {
+  title = capitalizeEachWord(TITLE),
+  description = 'Kemalpaşa İbrahim-Hüsniye Özdurakoğlu Aile Sağlığı Merkezi: koruyucu sağlık hizmeti, bağışıklama, ayaktan tedavi ve iletişim bilgileri.',
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -47,7 +51,8 @@ const isProd = import.meta.env.PROD;
         </>
       )
     }
-    <title>{capitalizeEachWord(TITLE)}</title>
+    <title>{title}</title>
+    <meta name="description" content={description} />
   </head>
 
   <body class="bg-white leading-normal tracking-normal" transition:animate="fade">
