@@ -84,7 +84,7 @@ const { shouldShowBg = true } = Astro.props;
   <slot />
 </main>
 
-<style>
+<style is:inline>
   .nav-link {
     @apply text-gray-700 font-medium hover:text-teal-600 transition-colors duration-200 py-2;
   }
