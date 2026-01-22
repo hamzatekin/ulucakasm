@@ -1,5 +1,55 @@
 ---
 import Img from './Img.astro';
+const DOCTORS = [
+  {
+    name: 'DR. MURAT TANSEL KUTLUK',
+    image: 'images/asm/doctors/murat_tansel_kutluk.webp',
+    code: '3516030',
+    phone: '+90 (232) 873 40 81',
+    assistant: 'Ebe Hatice Marangoz',
+    schedule: 'images/asm/schedules/murat_tansel_kutluk_schedule.webp',
+  },
+  {
+    name: 'DR. İLKAY TAZE',
+    image: 'images/asm/doctors/ilkay_taze.webp',
+    code: '3516035',
+    phone: '+90 (232) 873 40 74',
+    assistant: 'Fatma Doğru',
+    schedule: 'images/asm/schedules/ilkay_taze_schedule.webp',
+  },
+  {
+    name: 'DR. AHMET SERHAN SÜNBÜL',
+    image: 'images/asm/doctors/ahmet_serhan_sunbul.webp',
+    code: '3516015',
+    phone: '+90 (232) 873 40 74',
+    assistant: 'Ebe Şenay Erdoğdu',
+    schedule: 'images/asm/schedules/ahmet_serhan_sunbul_schedule.webp',
+  },
+  {
+    name: 'UZM. DR. CUMHUR ÇITAK',
+    image: 'images/asm/doctors/cumhur_citak.webp',
+    code: '3516014',
+    phone: '+90 (232) 873 40 81',
+    assistant: 'Nesli Çıtak',
+    schedule: 'images/asm/schedules/cumhur_citak_schedule.webp',
+  },
+  {
+    name: 'DR. GÖKHAN MUĞLALI',
+    image: 'images/asm/doctors/gokhan_muglali.webp',
+    code: '3516040',
+    phone: '+90 (232) 873 40 81',
+    assistant: 'Özgül Bilgin',
+    schedule: 'images/asm/schedules/gokhan_muglali_schedule.webp',
+  },
+  {
+    name: 'DR. ŞEYHMUS KAYA',
+    image: 'images/asm/doctors/seyhmus_kaya.webp',
+    code: '3516042',
+    phone: '+90 (232) 873 40 81',
+    assistant: 'Nur Kaya',
+    schedule: 'images/asm/schedules/seyhmus_kaya_schedule.webp',
+  },
+];
 ---
 
 <section id="doctors" class="py-20 bg-[#178066]">
@@ -11,48 +61,7 @@ import Img from './Img.astro';
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
       {
-        [
-          {
-            name: 'DR. İLKAY TAZE',
-            image: 'images/asm/doctors/ilkay_taze.webp',
-            code: '3516035',
-            phone: '+90 (232) 873 40 74',
-            assistant: 'Fatma Doğru',
-            schedule: 'images/asm/schedules/ilkay_taze_program.jpg',
-          },
-          {
-            name: 'DR. AHMET SERHAN SÜNBÜL',
-            image: 'images/asm/doctors/ahmet_serhan_sunbul.webp',
-            code: '3516015',
-            phone: '+90 (232) 873 40 74',
-            assistant: 'Ebe Şenay Erdoğdu',
-            schedule: 'images/asm/schedules/ahmet_serhan_schedule.webp',
-          },
-          {
-            name: 'DR. MURAT TANSEL KUTLUK',
-            image: 'images/asm/doctors/murat_tansel_kutluk.webp',
-            code: '3516030',
-            phone: '+90 (232) 873 40 81',
-            assistant: 'Ebe Hatice Marangoz',
-            schedule: 'images/asm/schedules/murat_tansel_kutluk_schedule.webp',
-          },
-          {
-            name: 'UZM. DR. CUMHUR ÇITAK',
-            image: 'images/asm/doctors/cumhur_citak.webp',
-            code: '3516014',
-            phone: '+90 (232) 873 40 81',
-            assistant: 'Nesli Çıtak',
-            schedule: 'images/asm/schedules/cumhur_citak_schedule.webp',
-          },
-          {
-            name: 'DR. GÖKHAN MUĞLALI',
-            image: 'images/asm/doctors/gokhan_muglali.webp',
-            code: '3516040',
-            phone: '+90 (232) 873 40 81',
-            assistant: 'Özgül Bilgin',
-            schedule: 'images/asm/schedules/gokhan_muglali_schedulev2.jpeg',
-          },
-        ].map((doctor) => (
+        DOCTORS.map((doctor) => (
           <div class="w-full">
             <div class="bg-white p-8 rounded-2xl mb-8 border border-black/10 shadow-sm group">
               <div class="w-full mb-6 text-center">
@@ -99,8 +108,24 @@ import Img from './Img.astro';
             <img
               loading="lazy"
               decoding="async"
-              src="images/asm/doctors/acil_hemsireleri.webp"
+              src="images/asm/doctors/nurses.webp"
               alt="Acil hemşireleri"
+              class="w-full h-full object-cover"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col w-full h-full">
+        <div class="bg-white p-8 rounded-2xl mb-8 border border-black/10 shadow-sm group">
+          <div class="w-full mb-6 text-center">
+            <h5 class="text-2xl font-bold text-[#178066]">HİZMETLİLER</h5>
+          </div>
+          <div class="overflow-hidden rounded-lg w-full h-[500px]">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="images/asm/doctors/support_staff.webp"
+              alt="Hizmetli"
               class="w-full h-full object-cover"
             />
           </div>
