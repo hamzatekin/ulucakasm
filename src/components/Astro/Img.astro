@@ -1,14 +1,9 @@
 ---
 /**
- * Image with Lightbox component - vanilla JS version
- * Replaces the Svelte Img component
+ * Image with a click-to-open <dialog> lightbox (vanilla JS, no framework).
  */
 import { Image } from 'astro:assets';
 
-/**
- * Image with Lightbox component - vanilla JS version
- * Replaces the Svelte Img component
- */
 interface Props {
   src: ImageMetadata;
   alt: string;
