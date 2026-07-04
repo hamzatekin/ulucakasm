@@ -1,6 +1,8 @@
 ---
 /**
- * Image with a click-to-open <dialog> lightbox (vanilla JS, no framework).
+ * Image with a zoomable lightbox (vanilla JS, no framework).
+ * Tap the thumbnail to open full-screen; tap the image to zoom in/out and
+ * pan by dragging/scrolling. Used for document-like images (schedules, calendars).
  */
 import { Image } from 'astro:assets';
 
@@ -20,105 +22,204 @@ const { src, alt, ...imageProps } = Astro.props;
 const imageId = `img-${Math.random().toString(36).substring(2, 9)}`;
 ---
 
-<button class="thumbnail" data-lightbox-trigger={imageId} aria-label="Open image in modal">
+<button class="thumbnail" data-lightbox-trigger={imageId} aria-label={`${alt} görselini büyüt`}>
   <Image src={src} alt={alt} {...imageProps} />
+  <span class="thumb-badge" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3"></path><path d="M11 8v6M8 11h6"></path>
+    </svg>
+    Büyüt
+  </span>
 </button>
 
-<dialog id={`dialog-${imageId}`} class="lightbox-dialog">
-  <div class="backdrop"></div>
-  <button class="modal-close" aria-label="Close image modal">
-    <Image class="modal-img" src={src} alt={alt} {...imageProps} />
+<dialog id={`dialog-${imageId}`} class="lightbox">
+  <div class="lb-scroll" data-lb-scroll>
+    <Image class="lb-img" src={src} alt={alt} {...imageProps} sizes="100vw" />
+  </div>
+  <button class="lb-close" aria-label="Kapat">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"></path></svg>
   </button>
+  <p class="lb-hint" data-lb-hint>Yakınlaştırmak için görsele dokunun</p>
 </dialog>
 
 <style>
   .thumbnail {
+    position: relative;
+    display: block;
+    width: 100%;
     cursor: zoom-in;
     border: none;
     background: none;
     padding: 0;
-    width: 100%;
   }
-
   .thumbnail img {
     width: 100%;
     height: auto;
+    display: block;
+  }
+  .thumb-badge {
+    position: absolute;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: rgba(12, 49, 37, 0.9);
+    color: #f5f2e9;
+    padding: 0.35rem 0.6rem;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    pointer-events: none;
+  }
+  .thumb-badge svg {
+    width: 14px;
+    height: 14px;
   }
 
-  .lightbox-dialog {
+  .lightbox {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: transparent;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    border: none;
-    padding: 0;
-    margin: 0;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     max-width: 100vw;
     max-height: 100vh;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    overscroll-behavior: contain;
   }
-
-  .lightbox-dialog::backdrop {
-    background: rgba(0, 0, 0, 0.8);
+  .lightbox::backdrop {
+    background: rgba(8, 20, 15, 0.92);
   }
-
-  .lightbox-dialog:not([open]) {
+  .lightbox:not([open]) {
     display: none;
   }
 
-  .backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    z-index: -1;
+  .lb-scroll {
+    position: absolute;
+    inset: 0;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    display: flex;
+    align-items: safe center;
+    justify-content: safe center;
   }
-
-  .modal-close {
-    position: relative;
-    cursor: zoom-out;
-    border: none;
-    background: none;
-    padding: 0;
-  }
-
-  .modal-img {
-    max-width: 90vw;
-    max-height: 90vh;
+  .lb-img {
+    display: block;
+    margin: auto;
+    max-width: 100%;
+    max-height: 100vh;
     object-fit: contain;
+    cursor: zoom-in;
+    user-select: none;
+  }
+  .lb-img.is-zoomed {
+    max-width: none;
+    max-height: none;
+    width: min(1600px, 230vw);
+    height: auto;
+    cursor: zoom-out;
+  }
+
+  .lb-close {
+    position: fixed;
+    top: 0.75rem;
+    right: 0.75rem;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    color: #f5f2e9;
+    background: rgba(12, 49, 37, 0.9);
+    border: 1px solid rgba(226, 232, 221, 0.25);
+    cursor: pointer;
+  }
+  .lb-close svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .lb-hint {
+    position: fixed;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    margin: 0;
+    padding: 0.4rem 0.8rem;
+    background: rgba(12, 49, 37, 0.9);
+    color: #e2e8dd;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+  .lb-hint.is-hidden {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lb-hint {
+      transition: none;
+    }
   }
 </style>
 
 <script>
-  // Initialize all lightbox triggers
-  document.querySelectorAll('[data-lightbox-trigger]').forEach((button) => {
-    const imageId = button.getAttribute('data-lightbox-trigger');
-    const dialog = document.getElementById(`dialog-${imageId}`) as HTMLDialogElement;
+  function initLightboxes() {
+    document.querySelectorAll<HTMLButtonElement>('[data-lightbox-trigger]').forEach((button) => {
+      if (button.dataset.lbBound === '1') return;
+      button.dataset.lbBound = '1';
 
-    if (!dialog) return;
+      const id = button.getAttribute('data-lightbox-trigger');
+      const dialog = document.getElementById(`dialog-${id}`) as HTMLDialogElement | null;
+      if (!dialog) return;
 
-    // Open on thumbnail click
-    button.addEventListener('click', () => {
-      dialog.showModal();
+      const img = dialog.querySelector('.lb-img') as HTMLImageElement | null;
+      const scroll = dialog.querySelector('[data-lb-scroll]') as HTMLElement | null;
+      const closeBtn = dialog.querySelector('.lb-close') as HTMLButtonElement | null;
+      const hint = dialog.querySelector('[data-lb-hint]') as HTMLElement | null;
+      if (!img || !scroll) return;
+
+      const reset = () => {
+        img.classList.remove('is-zoomed');
+        hint?.classList.remove('is-hidden');
+      };
+
+      button.addEventListener('click', () => {
+        reset();
+        dialog.showModal();
+      });
+
+      // tap image → toggle zoom, centering on the tapped point
+      img.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const rect = img.getBoundingClientRect();
+        const ratioX = (e.clientX - rect.left) / rect.width;
+        const ratioY = (e.clientY - rect.top) / rect.height;
+        const zoomed = img.classList.toggle('is-zoomed');
+        hint?.classList.add('is-hidden');
+        if (zoomed) {
+          requestAnimationFrame(() => {
+            scroll.scrollLeft = ratioX * (scroll.scrollWidth - scroll.clientWidth);
+            scroll.scrollTop = ratioY * (scroll.scrollHeight - scroll.clientHeight);
+          });
+        }
+      });
+
+      // tap outside the image closes
+      scroll.addEventListener('click', () => dialog.close());
+      closeBtn?.addEventListener('click', () => dialog.close());
+      dialog.addEventListener('close', reset); // also fires on Escape
     });
+  }
 
-    // Close on backdrop/image click
-    dialog.addEventListener('click', () => {
-      dialog.close();
-    });
-
-    // Close on Escape key
-    dialog.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        dialog.close();
-      }
-    });
-  });
+  initLightboxes();
 </script>

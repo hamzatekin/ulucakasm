@@ -1,16 +1,188 @@
 @import 'tailwindcss';
 
+/* Native cross-document view transitions — zero JS. A whole-page crossfade
+   (the browser default for :root), so nothing moves — header and footer stay
+   put without needing to be isolated. Progressive enhancement: supporting
+   browsers (Chrome/Edge/Opera 126+, Safari 18.2+) fade between pages; others
+   (e.g. Firefox) just navigate normally. */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 260ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Kayıt / Registry: design tokens
+   Grounded in the Sağlık Bakanlığı green+red identity and the
+   numbered aile-hekimliği unit system. Not generic wellness teal.
+   ───────────────────────────────────────────────────────────── */
 @theme {
-  --font-sans: 'Plus Jakarta Sans', sans-serif;
-  --color-ministry: #da291c;
-  --color-primary: #178066;
-  --color-primary-light: #62d2a2;
-  --color-primary-medium: #1fab89;
-  --color-surface: #fefefe;
+  --font-display: 'Bricolage Grotesque Variable', 'Instrument Sans Variable', sans-serif;
+  --font-sans: 'Instrument Sans Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+
+  --color-paper: #f5f2e9;
+  --color-paper-2: #efe9db;
+  --color-ink: #14231d;
+  --color-ink-soft: #4a5952;
+  --color-pine: #124a37;
+  --color-pine-deep: #0c3125;
+  --color-pine-bright: #2f7d5e;
+  --color-sage: #e2e8dd;
+  --color-seal: #c0392b;
+  --color-seal-soft: #d8503f;
+  --color-line: #d3cdbc;
+  --color-line-ink: #2a5a47;
 }
 
 @layer base {
+  html {
+    /* Background on the root (not just body) so the view-transition root
+       snapshot backdrop is paper, never the UA default white — otherwise a
+       white flash shows through the cross-fade on every navigation. */
+    @apply bg-paper;
+    scroll-behavior: smooth;
+    /* offset anchor jumps for the sticky header */
+    scroll-padding-top: 6rem;
+  }
+
   body {
-    @apply font-sans text-black overflow-x-hidden;
+    @apply bg-paper text-ink font-sans antialiased;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--color-pine);
+    color: var(--color-paper);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-seal);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+@layer components {
+  /* page container */
+  .wrap {
+    @apply mx-auto w-full max-w-6xl px-5 md:px-8;
+  }
+  .wrap-tight {
+    @apply mx-auto w-full max-w-3xl px-5 md:px-8;
+  }
+
+  /* eyebrow / section label: carries real information, not decoration */
+  .eyebrow {
+    @apply font-mono text-xs font-medium uppercase tracking-[0.22em] text-pine-bright;
+  }
+  .eyebrow-on-dark {
+    @apply font-mono text-xs font-medium uppercase tracking-[0.22em] text-sage/90;
+  }
+
+  /* the birim kodu chip: the recurring structural device */
+  .unit-code {
+    @apply inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.14em];
+  }
+  .unit-code::before {
+    content: '';
+    @apply inline-block h-2 w-2 flex-shrink-0 bg-seal;
+    clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+  }
+
+  /* buttons: base styles shared via a selector list (avoid @apply-ing a custom class) */
+  .btn,
+  .btn-primary,
+  .btn-pine,
+  .btn-line,
+  .btn-line-light {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-3 font-mono text-sm font-medium uppercase tracking-[0.1em] transition-colors duration-200;
+  }
+  .btn-primary {
+    @apply bg-seal text-paper hover:bg-seal-soft;
+  }
+  .btn-pine {
+    @apply bg-pine text-paper hover:bg-pine-bright;
+  }
+  .btn-line {
+    @apply border border-line-ink/40 text-ink hover:border-pine hover:text-pine;
+  }
+  .btn-line-light {
+    @apply border border-paper/30 text-paper hover:border-paper hover:bg-paper/10;
+  }
+
+  /* hairline rule */
+  .rule {
+    @apply border-0 border-t border-line;
+  }
+  .rule-ink {
+    @apply border-0 border-t border-line-ink/30;
+  }
+
+  /* underline-on-hover link */
+  .ulink {
+    @apply underline decoration-line-ink/30 decoration-1 underline-offset-4 transition-colors hover:decoration-pine;
+  }
+
+  /* skip-to-content link: off-screen until focused (WCAG 2.4.1 Bypass Blocks) */
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+  }
+  .skip-link:focus {
+    @apply fixed left-4 top-4 z-[100] bg-pine px-4 py-2 font-mono text-sm text-paper;
+    left: 1rem;
+  }
+}
+
+@layer utilities {
+  /* animated reveal (respects reduced motion below) */
+  .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    animation: reveal 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+  }
+  .reveal-2 {
+    animation-delay: 0.09s;
+  }
+  .reveal-3 {
+    animation-delay: 0.18s;
+  }
+  .reveal-4 {
+    animation-delay: 0.27s;
+  }
+}
+
+@keyframes reveal {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal,
+  .reveal-2,
+  .reveal-3,
+  .reveal-4 {
+    opacity: 1;
+    transform: none;
+    animation: none;
   }
 }

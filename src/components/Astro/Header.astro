@@ -1,213 +1,163 @@
 ---
 import { Image } from 'astro:assets';
-import heroBg from '../../assets/images/hero-bg.png';
 import healthMinistryLogo from '../../assets/images/health_ministry-logo.png';
+import Icon from './Icon.astro';
 
-import { TITLE } from '../../lib/const.astro';
-const { shouldShowBg = true } = Astro.props;
+const NAV = [
+  { label: 'Hizmetler', href: '/#hizmetler' },
+  { label: 'Kadromuz', href: '/#kadromuz' },
+  { label: 'Merkezimiz', href: '/#merkezimiz' },
+  { label: 'İletişim', href: '/#iletisim' },
+];
 ---
 
-<main class="relative flex flex-col min-h-screen">
-  {
-    shouldShowBg && (
-      <div class="absolute inset-0 flex justify-center items-end overflow-hidden -z-10">
-        <Image
-          src={heroBg}
-          alt="Doctor Silhouette"
-          class="w-full h-full object-cover object-bottom"
-          loading="eager"
-          fetchpriority="high"
-          quality="high"
-          sizes="100vw"
-          widths={[720, 960, 1280, 1600, 1920]}
-          decoding="async"
-        />
+<a href="#main-content" class="skip-link">İçeriğe geç</a>
+
+<header class="sticky -top-px z-40">
+    <!-- ministry strip -->
+    <div class="bg-pine-deep text-sage/75">
+      <div class="wrap flex items-center justify-between py-1.5 font-mono text-[11px] uppercase tracking-[0.18em]">
+        <span>T.C. Sağlık Bakanlığı</span>
+        <span class="hidden sm:inline">İzmir · Kemalpaşa · Ulucak</span>
       </div>
-    )
-  }
-  <!-- header section strats -->
-  <header class="py-8 sticky top-0 z-40 bg-white/95 backdrop-blur-sm shadow-md transition-all duration-300">
-    <div class="container mx-auto px-4">
-      <nav class="flex items-center justify-between h-20">
-        <!-- Logo and Ministry Name -->
-        <div class="flex items-center space-x-4">
-          <a class="flex-shrink-0" href="/">
-            <Image
-              class="h-16 w-auto"
-              src={healthMinistryLogo}
-              alt="Sağlık Bakanlığı Logo"
-              widths={[64, 96, 128]}
-              sizes="64px"
-              decoding="async"
-            />
-          </a>
-          <div class="flex flex-col">
-            <a
-              class="text-teal-600 font-bold text-sm hover:text-teal-500 transition-colors"
-              href="/"
-            >
-              T.C. SAĞLIK BAKANLIĞI
-            </a>
-            <span class="text-gray-700 font-semibold mt-1">
-              {TITLE.toLocaleUpperCase('tr')}
+    </div>
+
+    <!-- main bar — solid (backdrop-blur on a sticky element shimmers/jitters
+         during scroll in Chromium, so we avoid it) -->
+    <div class="border-b border-line bg-paper">
+      <div class="wrap flex items-center justify-between gap-4 py-3">
+        <a href="/" class="group flex items-center gap-3" aria-label="Ana sayfa">
+          <Image class="h-11 w-auto" src={healthMinistryLogo} alt="T.C. Sağlık Bakanlığı" widths={[64, 96, 128]} sizes="64px" decoding="async" />
+          <span class="flex flex-col leading-tight">
+            <span class="font-display text-sm font-bold text-ink transition-colors group-hover:text-pine md:text-[15px]">
+              İbrahim-Hüsniye Özdurakoğlu Aile Sağlığı Merkezi
             </span>
-          </div>
-        </div>
+            <span class="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-soft md:text-[11px]"> T.C. Sağlık Bakanlığı </span>
+          </span>
+        </a>
 
-        <!-- Mobile Menu Button -->
-        <button id="menuButton" class="lg:hidden flex items-center px-3 py-2 text-teal-600 hover:text-teal-500" aria-label="Toggle menu">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-          </svg>
+        <nav class="hidden items-center gap-7 lg:flex" aria-label="Ana menü">
+          {
+            NAV.map((item) => (
+              <a href={item.href} data-nav class="nav-link font-mono text-xs uppercase tracking-[0.14em] text-ink-soft transition-colors hover:text-pine">
+                {item.label}
+              </a>
+            ))
+          }
+          <a href="/#kadromuz" class="btn-primary text-xs">Hekimlerimiz</a>
+        </nav>
+
+        <button id="menuButton" class="text-pine lg:hidden" aria-label="Menüyü aç" aria-expanded="false" aria-controls="mobileMenu">
+          <span data-icon-open><Icon name="menu" class="h-7 w-7" /></span>
+          <span data-icon-close class="hidden"><Icon name="close" class="h-7 w-7" /></span>
         </button>
+      </div>
 
-        <!-- Navigation Links -->
-        <div id="navMenu" class="hidden lg:flex lg:items-center lg:space-x-8">
-          <a href="/" class="nav-link active">Ana Sayfa</a>
-          <a href="#doctors" class="nav-link">Kadromuz</a>
-          <a href="#gallery" class="nav-link">Galeri</a>
-          <a href="#contact" class="nav-link">İletişim</a>
-        </div>
-      </nav>
-
-      <!-- Mobile Menu -->
-      <div id="mobileMenu" class="lg:hidden hidden pb-4 mt-4">
-        <div class="flex flex-col space-y-3">
-          <a href="/" class="mobile-nav-link active">Ana Sayfa</a>
-          <a href="#doctors" class="mobile-nav-link">Kadromuz</a>
-          <a href="#gallery" class="mobile-nav-link">Galeri</a>
-          <a href="#contact" class="mobile-nav-link">İletişim</a>
-        </div>
+      <!-- mobile menu -->
+      <div id="mobileMenu" class="hidden border-t border-line lg:hidden">
+        <nav class="wrap flex flex-col py-2" aria-label="Mobil menü">
+          {
+            NAV.map((item) => (
+              <a href={item.href} data-nav-mobile class="border-b border-line/70 py-3 font-mono text-sm uppercase tracking-[0.12em] text-ink last:border-0">
+                {item.label}
+              </a>
+            ))
+          }
+          <a href="/#kadromuz" data-nav-mobile class="btn-primary mt-3 mb-2">Hekimlerimiz</a>
+        </nav>
       </div>
     </div>
   </header>
-  <slot />
-</main>
+
+  <main id="main-content" tabindex="-1">
+    <slot />
+  </main>
 
 <style>
   @reference '../../styles/global.css';
 
+  /* Cover the ~1px gap Chromium can leave above a `position: sticky` element on
+     fractional-DPR displays / non-100% zoom: bleed the header's top colour
+     (the ministry strip) a few px upward so any sub-pixel seam is filled. */
+  header::before {
+    content: '';
+    position: absolute;
+    inset: -4px 0 auto 0;
+    height: 4px;
+    background: var(--color-pine-deep);
+  }
+
   .nav-link {
-    @apply text-gray-700 font-medium hover:text-teal-600 transition-colors duration-200 py-2;
+    position: relative;
   }
-
-  .nav-link.active {
-    @apply text-teal-600 font-semibold;
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    height: 2px;
+    width: 0;
+    background: var(--color-seal);
+    transition: width 0.25s ease;
   }
-
-  .mobile-nav-link {
-    @apply text-gray-700 font-medium hover:text-teal-600 transition-colors duration-200 py-2 px-4 rounded-lg hover:bg-gray-50;
+  .nav-link:hover::after,
+  .nav-link[data-active]::after {
+    width: 100%;
   }
-
-  .mobile-nav-link.active {
-    @apply text-teal-600 font-semibold bg-gray-50;
-  }
-
-  header {
-    @apply transition-transform duration-300;
-  }
-
-  .header-hidden {
-    transform: translateY(-100%);
+  .nav-link[data-active] {
+    @apply text-pine;
   }
 </style>
 
 <script>
-  let mobileMenu: HTMLElement | null = null;
-  let header: HTMLElement | null = null;
-  let lastScroll = 0;
+  function initHeader() {
+    const btn = document.getElementById('menuButton');
+    const menu = document.getElementById('mobileMenu');
 
-  const setHeaderRefs = () => {
-    mobileMenu = document.getElementById('mobileMenu');
-    header = document.querySelector('header');
-  };
+    // dataset.bound keeps binding idempotent so each tap toggles the menu
+    // exactly once (guards against the script running more than once).
+    if (btn && menu && btn.dataset.bound !== '1') {
+      btn.dataset.bound = '1';
+      const iconOpen = btn.querySelector('[data-icon-open]');
+      const iconClose = btn.querySelector('[data-icon-close]');
 
-  // Handle navigation links and current page highlighting
-  const updateActiveLink = () => {
-    const currentHash = window.location.hash;
-    const currentPath = window.location.pathname;
-    const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
+      const setMenu = (open: boolean) => {
+        menu.classList.toggle('hidden', !open);
+        btn.setAttribute('aria-expanded', String(open));
+        btn.setAttribute('aria-label', open ? 'Menüyü kapat' : 'Menüyü aç');
+        iconOpen?.classList.toggle('hidden', open);
+        iconClose?.classList.toggle('hidden', !open);
+      };
 
-    navLinks.forEach((link) => {
-      const href = (link as HTMLAnchorElement).getAttribute('href');
-
-      if (href === '/') {
-        // For homepage link
-        link.classList.toggle('active', currentPath === '/');
-      } else if (href?.startsWith('#')) {
-        if (currentPath === '/') {
-          // On homepage, use hash-based navigation
-          link.classList.toggle('active', href === currentHash);
-        } else {
-          // On other pages, redirect to homepage with hash
-          (link as HTMLAnchorElement).href = '/' + href;
-        }
-      }
-    });
-  };
-
-  const initHeader = () => {
-    setHeaderRefs();
-    lastScroll = window.pageYOffset;
-    header?.classList.remove('header-hidden');
-    mobileMenu?.classList.add('hidden');
-    updateActiveLink();
-  };
-
-  // Hide header on scroll down, show on scroll up
-  window.addEventListener(
-    'scroll',
-    () => {
-      if (!header) {
-        return;
-      }
-
-      const currentScroll = window.pageYOffset;
-
-      if (currentScroll <= 0) {
-        header.classList.remove('header-hidden');
-        return;
-      }
-
-      if (currentScroll > lastScroll && !header.classList.contains('header-hidden')) {
-        // Scrolling down
-        header.classList.add('header-hidden');
-      } else if (currentScroll < lastScroll && header.classList.contains('header-hidden')) {
-        // Scrolling up
-        header.classList.remove('header-hidden');
-      }
-
-      lastScroll = currentScroll;
-    },
-    { passive: true }
-  );
-
-  // Toggle/close mobile menu with event delegation
-  document.addEventListener('click', (e) => {
-    const target = e.target as HTMLElement | null;
-    if (!target) {
-      return;
+      btn.addEventListener('click', () => setMenu(menu.classList.contains('hidden')));
+      menu.querySelectorAll('[data-nav-mobile]').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+      btn.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') setMenu(false);
+      });
     }
 
-    if (target.closest('#menuButton')) {
-      mobileMenu?.classList.toggle('hidden');
-      return;
-    }
+    // scroll-spy: highlight the section currently in view (home page only)
+    const links = Array.from(document.querySelectorAll('[data-nav]')) as HTMLAnchorElement[];
+    const sections = ['hizmetler', 'kadromuz', 'merkezimiz', 'iletisim']
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+    if (!sections.length || !links.length) return;
 
-    if (target.closest('.nav-link, .mobile-nav-link')) {
-      mobileMenu?.classList.add('hidden');
-      return;
-    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          links.forEach((l) => {
+            l.toggleAttribute('data-active', l.getAttribute('href') === `/#${entry.target.id}`);
+          });
+        });
+      },
+      { rootMargin: '-45% 0px -50% 0px' }
+    );
+    sections.forEach((s) => observer.observe(s));
+  }
 
-    if (!target.closest('#mobileMenu')) {
-      mobileMenu?.classList.add('hidden');
-    }
-  });
-
-  // Update active link when hash changes
-  window.addEventListener('hashchange', updateActiveLink);
-
-  // Run on initial load and after navigation events
+  // Native cross-document navigation reloads the document each time, so this
+  // module runs on every page load; the dataset guard keeps it idempotent.
   initHeader();
-  document.addEventListener('astro:page-load', initHeader);
 </script>

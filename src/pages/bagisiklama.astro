@@ -1,72 +1,81 @@
 ---
-import { Image } from 'astro:assets';
 import asitakvimi from '../assets/images/asm/asitakvimi.png';
 
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Astro/Header.astro';
 import Footer from '../components/Astro/Footer.astro';
+import Img from '../components/Astro/Img.astro';
 ---
 
 <Layout
-  title="Aşı Takvimi | Kemalpaşa İbrahim-Hüsniye Özdurakoğlu Aile Sağlığı Merkezi"
-  description="Aşı takvimi görseli ve aşılamaya dair temel bilgilendirme."
+  title="Aşı Takvimi | İbrahim-Hüsniye Özdurakoğlu Aile Sağlığı Merkezi"
+  description="Sağlık Bakanlığı güncel bağışıklama programı; bebek, çocuk ve erişkin aşı takvimi."
 >
-  <Header shouldShowBg={false}>
-    <div class="w-full bg-gradient-to-br from-[#178066] via-[#1a9177] to-[#14725c] relative overflow-hidden">
-      <div class="absolute inset-0 bg-[url('/images/jupiter.svg')] opacity-5"></div>
-      <main class="container mx-auto px-4 py-12 max-w-4xl text-white relative">
-        <a
-          href="/"
-          class="inline-flex items-center gap-2 text-emerald-100/90 hover:text-white transition-colors mb-6"
-          aria-label="Ana sayfaya dön"
-        >
-          <span aria-hidden="true">←</span>
-          <span class="text-sm font-semibold">Ana Sayfa</span>
+  <Header>
+    <!-- page header band -->
+    <section class="bg-pine-deep text-paper">
+      <div class="wrap-tight py-14 md:py-20">
+        <a href="/" class="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.16em] text-sage/70 transition-colors hover:text-paper">
+          <span aria-hidden="true">←</span> Ana sayfa
         </a>
-        <h1 class="text-4xl font-bold text-center mb-8 animate-fade-in">Aşı Takvimi</h1>
+        <p class="eyebrow-on-dark mt-8">Bağışıklama</p>
+        <h1 class="mt-4 font-display text-4xl font-extrabold tracking-tight md:text-6xl">Aşı Takvimi</h1>
+        <p class="mt-5 max-w-xl text-lg leading-relaxed text-sage/85">
+          Aşılar, çocukları ve erişkinleri ciddi bulaşıcı hastalıklardan korumanın en etkili yoludur.
+        </p>
+      </div>
+    </section>
 
-        <div
-          class="w-full rounded-xl overflow-hidden shadow-xl transform hover:scale-[1.02] transition-transform duration-500 relative bg-white/10 backdrop-blur-sm"
-        >
-          <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent z-10"></div>
-          <Image
-            class="w-full h-full object-contain"
+    <!-- content -->
+    <section class="bg-paper py-16 md:py-20">
+      <div class="wrap-tight">
+        <p class="text-lg leading-relaxed text-ink-soft">
+          Aşağıdaki takvim, T.C. Sağlık Bakanlığı'nın güncel bağışıklama programını gösterir. Bebeğinizin veya kendinizin aşı durumu için
+          size kayıtlı aile hekiminize başvurabilirsiniz.
+        </p>
+
+        <figure class="mt-10 border border-line p-2">
+          <Img
             src={asitakvimi}
-            alt="Aşı Takvimi"
-            sizes="(min-width: 1024px) 720px, 90vw"
+            alt="T.C. Sağlık Bakanlığı aşı takvimi görseli. Takvimin tam metin karşılığı görselin hemen ardından yer alır."
             widths={[480, 720, 960]}
+            sizes="(min-width: 768px) 720px, 90vw"
             loading="eager"
             decoding="async"
           />
+        </figure>
+        <figcaption class="mt-3 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft">Görseli büyütmek için üzerine dokunun</figcaption>
+        <p class="mt-4 text-sm leading-relaxed text-ink-soft">
+          Kaynak:
+          <a
+            class="ulink text-ink"
+            href="https://asi.saglik.gov.tr/bagisiklama-programi-ve-asi-takvimi/asi-takvimi.html"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            T.C. Sağlık Bakanlığı Aşı Portalı</a
+          > · Son kontrol: Temmuz 2026
+        </p>
+
+        {/* Screen-reader-only text equivalent of the schedule image (WCAG 1.1.1). Keep in sync with asitakvimi.png. */}
+        <div class="sr-only">
+          <h2>Aşı takvimi — metin karşılığı</h2>
+          <p>Doz kısaltmaları: I birinci doz, II ikinci doz, III üçüncü doz, R rapel (pekiştirme dozu).</p>
+          <ul>
+            <li>Hep-B (Hepatit B Aşısı): doğumda birinci doz, 1. ayın sonu ikinci doz, 6. ayın sonu üçüncü doz.</li>
+            <li>BCG (Verem Aşısı): 2. ayın sonu birinci doz.</li>
+            <li>DaBT-İPA-Hib (Beşli Karma Aşı — Difteri, Boğmaca, Tetanos, İnaktif Polio, Hemofilus influenza Tip B): 2. ayın sonu birinci doz, 4. ayın sonu ikinci doz, 6. ayın sonu üçüncü doz, 18. ayın sonu rapel.</li>
+            <li>KPA (Konjuge Pnömokok Aşısı): 2. ayın sonu birinci doz, 4. ayın sonu ikinci doz, 6. ayın sonu üçüncü doz, 12. ayın sonu rapel.</li>
+            <li>KKK (Kızamık, Kızamıkçık, Kabakulak Aşısı): 12. ayın sonu birinci doz, ilköğretim 1. sınıfta rapel.</li>
+            <li>DaBT-İPA (Dörtlü Karma Aşı — Difteri, Boğmaca, Tetanos, İnaktif Polio): ilköğretim 1. sınıfta rapel.</li>
+            <li>OPA (Oral Polio — Çocuk Felci Aşısı): 6. ayın sonu ve 18. ayın sonu.</li>
+            <li>Td (Erişkin Tipi Difteri-Tetanoz Aşısı): ilköğretim 8. sınıfta rapel.</li>
+            <li>Hep-A (Hepatit A Aşısı): 18. ayın sonu birinci doz, 24. ayın sonu ikinci doz.</li>
+            <li>Su Çiçeği (Suçiçeği Aşısı): 12. ayın sonu birinci doz.</li>
+          </ul>
         </div>
-      </main>
-    </div>
+      </div>
+    </section>
   </Header>
   <Footer />
 </Layout>
-
-<style is:inline>
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  .animate-fade-in {
-    animation: fadeIn 1s ease-out forwards;
-  }
-
-  /* Add smooth scrolling to the page */
-  html {
-    scroll-behavior: smooth;
-  }
-
-  /* Enhance text selection */
-  ::selection {
-    background: rgba(23, 128, 102, 0.3);
-    color: white;
-  }
-</style>

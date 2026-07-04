@@ -3,108 +3,79 @@ import { version } from '../../../package.json';
 import Icon from './Icon.astro';
 const currentYear = new Date().getFullYear();
 const VERSION = `v${version}`;
+
+const tel = (p: string) => `tel:${p.replace(/[^0-9+]/g, '')}`;
+
+const DIRECTORY = [
+  {
+    title: 'Merkez',
+    address: 'Mustafa Kemal Atatürk Mah. 9247 Sok. No:3, Ulucak, Kemalpaşa / İzmir',
+    web: { label: 'www.ism.gov.tr', href: 'https://www.ism.gov.tr' },
+    phones: ['+90 (232) 873 40 74', '+90 (232) 873 40 81'],
+  },
+  {
+    title: 'İlçe Sağlık Müdürlüğü',
+    address: 'Soğukpınar, Atatürk Blv. No:2, 35730 Kemalpaşa / İzmir',
+    web: { label: 'kemalpasasm.ism.gov.tr', href: 'https://kemalpasasm.ism.gov.tr/' },
+    phones: ['+90 (232) 878 11 02'],
+  },
+  {
+    title: 'İl Sağlık Müdürlüğü',
+    address: 'Sümer Mah. 451 Sok. No:2, Konak / İzmir',
+    web: { label: 'www.ism.gov.tr', href: 'https://www.ism.gov.tr' },
+    phones: ['+90 (232) 411 81 11'],
+  },
+];
 ---
 
-<footer class="bg-[#092f25] text-white py-12">
-  <div class="container mx-auto px-4">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-      <!-- Contact Information -->
-      <div class="space-y-6">
-        <h3 class="text-xl font-semibold mb-4 inline-block border-b-2 border-teal-400 pb-1">Bize Ulaşın</h3>
-        <div class="space-y-4">
-          <div class="flex items-start space-x-3">
-            <Icon name="map-pin" class="mt-1 text-teal-400 w-4 h-4 shrink-0" />
-            <span class="flex-1"> Mustafa Kemal Atatürk Mah. 9247 Sok No:3 Ulucak - Kemalpaşa / İzmir </span>
-          </div>
-          <div class="flex items-center space-x-3 group">
-            <Icon name="link" class="text-teal-400 group-hover:text-teal-300 transition-colors w-4 h-4" />
-            <a href="https://www.ism.gov.tr" target="_blank" rel="noopener noreferrer" class="hover:text-teal-300 transition-colors">
-              www.ism.gov.tr
-            </a>
-          </div>
-          <div class="space-y-2">
-            {
-              ['+90 (232) 411 81 11', '+90 (232) 873 40 74', '+90 (232) 873 40 81'].map((phone) => (
-                <div class="flex items-center space-x-3 group">
-                  <Icon name="phone" class="text-teal-400 group-hover:text-teal-300 transition-colors w-4 h-4" />
-                  <a href={`tel:${phone.replace(/[^0-9+]/g, '')}`} class="hover:text-teal-300 transition-colors">
-                    {phone}
-                  </a>
-                </div>
-              ))
-            }
-          </div>
-        </div>
-      </div>
-
-      <!-- Additional Information -->
-      <div class="space-y-8">
-        <!-- İlçe Sağlık Müdürlüğü -->
-        <div class="space-y-4">
-          <h3 class="text-xl font-semibold inline-block border-b-2 border-teal-400 pb-1">İlçe Sağlık Müdürlüğü</h3>
-          <div class="space-y-2">
-            <div class="flex items-start space-x-3">
-              <Icon name="map-pin" class="mt-1 text-teal-400 w-4 h-4 shrink-0" />
-              <span>Soğukpınar, Atatürk Blv. No:2 35730 Kemalpaşa / İzmir</span>
-            </div>
-            <div class="flex items-center space-x-3 group">
-              <Icon name="link" class="text-teal-400 group-hover:text-teal-300 transition-colors w-4 h-4" />
-              <a
-                href="https://kemalpasasm.ism.gov.tr/"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="hover:text-teal-300 transition-colors"
-              >
-                www.kemalpasasm.ism.gov.tr
-              </a>
-            </div>
-            <div class="flex items-center space-x-3 group">
-              <Icon name="phone" class="text-teal-400 group-hover:text-teal-300 transition-colors w-4 h-4" />
-              <a href="tel:+902328781102" class="hover:text-teal-300 transition-colors"> +90 (232) 878 11 02 </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- İl Sağlık Müdürlüğü -->
-        <div class="space-y-4">
-          <h3 class="text-xl font-semibold inline-block border-b-2 border-teal-400 pb-1">İl Sağlık Müdürlüğü</h3>
-          <div class="space-y-2">
-            <div class="flex items-start space-x-3">
-              <Icon name="map-pin" class="mt-1 text-teal-400 w-4 h-4 shrink-0" />
-              <span>Sümer Mah. 451 Sok. No:2 Konak / İzmir</span>
-            </div>
-            <div class="flex items-center space-x-3 group">
-              <Icon name="link" class="text-teal-400 group-hover:text-teal-300 transition-colors w-4 h-4" />
-              <a href="https://www.ism.gov.tr" target="_blank" rel="noopener noreferrer" class="hover:text-teal-300 transition-colors">
-                www.ism.gov.tr
-              </a>
-            </div>
-            <div class="flex items-center space-x-3 group">
-              <Icon name="phone" class="text-teal-400 group-hover:text-teal-300 transition-colors w-4 h-4" />
-              <a href="tel:+902324118111" class="hover:text-teal-300 transition-colors"> +90 (232) 411 81 11 </a>
-            </div>
-          </div>
-        </div>
-      </div>
+<footer class="bg-ink text-sage/70">
+  <div class="wrap py-16">
+    <div class="flex flex-col gap-2 border-b border-line-ink/30 pb-10">
+      <span class="font-mono text-[11px] uppercase tracking-[0.2em] text-sage/65">T.C. Sağlık Bakanlığı</span>
+      <span class="font-display text-2xl font-bold text-paper md:text-3xl">İbrahim-Hüsniye Özdurakoğlu Aile Sağlığı Merkezi</span>
+      <span class="font-mono text-[11px] uppercase tracking-[0.16em] text-sage/65">Kemalpaşa . Ulucak </span>
     </div>
 
-    <!-- Footer Bottom -->
-    <div class="border-t border-teal-800 pt-6 mt-8">
-      <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 text-sm text-gray-300">
-        <div>Kemalpaşa İbrahim-Hüsniye Özdürakoğlu Aile Sağlığı Merkezi</div>
-        <div class="flex items-center space-x-4">
-          <div class="text-teal-400">{VERSION}</div>
-          <span class="text-gray-500">|</span>
-          <a
-            href="https://avvossoft.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-teal-400 hover:text-teal-300 transition-colors"
-          >
-            Avvossoft <span>{currentYear}</span>
-          </a>
-        </div>
-      </div>
+    <div class="grid gap-10 py-10 md:grid-cols-3">
+      {
+        DIRECTORY.map((d) => (
+          <div>
+            <h3 class="eyebrow-on-dark">{d.title}</h3>
+            <div class="mt-4 space-y-3 text-sm leading-relaxed">
+              <p class="flex gap-3">
+                <Icon name="map-pin" class="mt-0.5 h-4 w-4 flex-shrink-0 text-seal-soft" />
+                <span>{d.address}</span>
+              </p>
+              <p class="flex gap-3">
+                <Icon name="external" class="mt-0.5 h-4 w-4 flex-shrink-0 text-seal-soft" />
+                <a href={d.web.href} target="_blank" rel="noopener noreferrer" class="ulink text-sage/85 decoration-line-ink/40 hover:text-paper">
+                  {d.web.label}
+                </a>
+              </p>
+              {d.phones.map((p) => (
+                <p class="flex gap-3">
+                  <Icon name="phone" class="mt-0.5 h-4 w-4 flex-shrink-0 text-seal-soft" />
+                  <a href={tel(p)} class="font-mono tracking-wide text-sage/85 hover:text-paper">
+                    {p}
+                  </a>
+                </p>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="flex flex-col gap-4 border-t border-line-ink/30 pt-8 text-xs text-sage/65 md:flex-row md:items-center md:justify-between">
+      <span class="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-4">
+        <span>Kemalpaşa İbrahim-Hüsniye Özdurakoğlu Aile Sağlığı Merkezi</span>
+        <a href="/erisilebilirlik" class="ulink text-sage/85 decoration-line-ink/40 hover:text-paper">Erişilebilirlik</a>
+      </span>
+      <span class="flex items-center gap-3 font-mono uppercase tracking-[0.14em]">
+        <span>{VERSION}</span>
+        <span class="text-sage/30">/</span>
+        <a href="https://avvossoft.com" target="_blank" rel="noopener noreferrer" class="hover:text-paper">Avvossoft {currentYear}</a>
+      </span>
     </div>
   </div>
 </footer>

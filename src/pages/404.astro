@@ -1,0 +1,28 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Astro/Header.astro';
+import Footer from '../components/Astro/Footer.astro';
+---
+
+<Layout
+  title="Sayfa bulunamadı | İbrahim-Hüsniye Özdurakoğlu Aile Sağlığı Merkezi"
+  description="Aradığınız sayfa bulunamadı. Ana sayfaya dönebilir veya bizimle iletişime geçebilirsiniz."
+>
+  <Header>
+    <section class="relative overflow-hidden bg-pine-deep text-paper">
+      <div class="wrap-tight flex min-h-[60vh] flex-col justify-center py-20 md:py-28">
+        <span class="unit-code">HTTP 404</span>
+        <p class="eyebrow-on-dark mt-8">Sayfa bulunamadı</p>
+        <h1 class="mt-4 font-display text-5xl font-extrabold tracking-tight md:text-7xl">Bu sayfa mevcut değil</h1>
+        <p class="mt-6 max-w-2xl font-display text-xl text-sage/80 md:text-2xl">
+          Aradığınız sayfa taşınmış, adı değişmiş veya hiç var olmamış olabilir. Aşağıdaki bağlantılardan devam edebilirsiniz.
+        </p>
+        <div class="mt-10 flex flex-wrap items-center gap-4">
+          <a href="/" class="btn-primary">Ana sayfaya dön</a>
+          <a href="/#iletisim" class="btn-line-light">İletişime geç</a>
+        </div>
+      </div>
+    </section>
+  </Header>
+  <Footer />
+</Layout>

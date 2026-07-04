@@ -1,22 +1,30 @@
 ---
 /**
- * Google Maps component - vanilla JS version
- * Uses the modern AdvancedMarkerElement API
+ * Google Maps component — privacy façade / click-to-load.
+ * Nothing is requested from Google (no script, no cookies, no visitor IP)
+ * until the visitor explicitly clicks "Haritayı göster". This keeps the
+ * default page load free of any third-party call, so no çerez/KVKK notice
+ * is triggered by the map. Uses the modern AdvancedMarkerElement API.
  */
 import { MAPS_LINK } from '../../lib/const.astro';
+import Icon from './Icon.astro';
 const zoom = 17;
 const lat = 38.47771;
 const lng = 27.35559;
 ---
 
-<div id="map-container" class="map" data-zoom={zoom} data-lat={lat} data-lng={lng}></div>
-
-<style>
-  .map {
-    height: 500px;
-    width: 100%;
-  }
-</style>
+<div class="relative h-[500px] w-full">
+  <button
+    type="button"
+    id="map-load"
+    class="absolute inset-0 z-10 flex cursor-pointer flex-col items-center justify-center gap-3 bg-sage/70 text-ink transition-colors hover:bg-sage"
+  >
+    <Icon name="map-pin" class="h-8 w-8 text-seal" />
+    <span class="font-display text-lg font-semibold">Haritayı göster</span>
+    <span class="max-w-xs px-6 text-center text-sm text-ink-soft">Tıkladığınızda konumu göstermek için Google Haritalar yüklenir.</span>
+  </button>
+  <div id="map-container" class="h-full w-full" data-zoom={zoom} data-lat={lat} data-lng={lng}></div>
+</div>
 
 <script define:vars={{ MAPS_LINK }}>
   const MAPS_SCRIPT_ID = 'google-maps-js';
@@ -24,15 +32,9 @@ const lng = 27.35559;
 
   async function initMap() {
     const container = document.getElementById('map-container');
-    if (!container) return;
-    if (mapInitialized) return;
+    if (!container || mapInitialized) return;
+    if (!window.google?.maps || typeof google.maps.importLibrary !== 'function') return;
     mapInitialized = true;
-
-    // Wait for Google Maps to be available
-    if (!window.google?.maps || typeof google.maps.importLibrary !== 'function') {
-      mapInitialized = false;
-      return;
-    }
 
     const zoom = parseInt(container.dataset.zoom || '17');
     const center = {
@@ -40,7 +42,6 @@ const lng = 27.35559;
       lng: parseFloat(container.dataset.lng || '27.35559'),
     };
 
-    // Import the Map class
     const { Map } = await google.maps.importLibrary('maps');
     const { AdvancedMarkerElement } = await google.maps.importLibrary('marker');
 
@@ -50,10 +51,9 @@ const lng = 27.35559;
       mapId: 'ulucak-asm-map', // Required for AdvancedMarkerElement
     });
 
-    // Use the modern AdvancedMarkerElement
     new AdvancedMarkerElement({
       position: center,
-      map: map,
+      map,
       title: 'Kemalpaşa İbrahim-Hüsniye Özdurakoğlu Aile Sağlığı Merkezi',
     });
   }
@@ -72,29 +72,18 @@ const lng = 27.35559;
     document.head.appendChild(script);
   }
 
-  const container = document.getElementById('map-container');
-  if (!container) {
-    // No container on this page; keep callback defined to avoid errors if loaded elsewhere.
-    window.initMap = () => {};
-  } else {
-    // Expose initMap for the Google Maps callback
-    window.initMap = initMap;
+  // Expose the callback for the Google Maps loader; only fires after a click.
+  window.initMap = initMap;
 
-    if (window.google?.maps && typeof google.maps.importLibrary === 'function') {
-      initMap();
-    } else if ('IntersectionObserver' in window) {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          if (entries.some((entry) => entry.isIntersecting)) {
-            observer.disconnect();
-            loadMapsScript();
-          }
-        },
-        { rootMargin: '200px 0px' }
-      );
-      observer.observe(container);
-    } else {
-      loadMapsScript();
-    }
+  const btn = document.getElementById('map-load');
+  if (btn) {
+    btn.addEventListener('click', () => {
+      btn.remove();
+      if (window.google?.maps && typeof google.maps.importLibrary === 'function') {
+        initMap();
+      } else {
+        loadMapsScript();
+      }
+    });
   }
 </script>

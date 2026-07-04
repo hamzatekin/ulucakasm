@@ -1,72 +1,46 @@
 ---
+import { Image } from 'astro:assets';
+import frontSide from '../../assets/images/asm/front-side.webp';
 import Icon from './Icon.astro';
-
-const description =
-  'İzmir Kemalpaşa bölgesinde bulunan "Kemalpaşa İbrahim-Hüsniye Özdurakoğlu Aile Sağlığı Merkezi" vatandaşlarımıza daha çağdaş hizmet verebilmek için modern, kolay ulaşılabilir, yeni binasında; koruyucu sağlık hizmeti, bağışıklama, ayaktan tedavi gibi temel görevleri ile çağın gereklerine uygun şekilde dizayn edilmiştir. Kurumumuzda, sahip olduğumuz etik değerleri muhafaza ederek, bizden sağlık hizmeti talep eden bireylerin beklentilerini en iyi şekilde karşılamaya, insana saygı duymayı ve bundan dolayı hastalarımıza gerekli ilgi ve özeni göstermeye gayret ediyoruz.';
-const subtitle = 'İzmir İl Sağlık Müdürlüğü İletişim';
-const phone = 'Tel: +90 (232) 411 81 11';
-const link = 'https://www.ism.gov.tr';
 ---
 
-<section id="homepage" class="relative min-h-[80vh] flex items-center py-20 overflow-hidden">
-  <div class="absolute inset-0 bg-gradient-to-r from-teal-900/90 to-teal-800/80 z-10"></div>
+<section class="bg-pine-deep text-paper">
+  <div class="wrap grid items-center gap-12 py-16 md:py-24 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+    <!-- left: the pitch -->
+    <div>
+      <p class="eyebrow-on-dark reveal">Ulucak · Kemalpaşa · T.C. Sağlık Bakanlığı</p>
 
-  <div class="container mx-auto px-4 relative z-20">
-    <div class="max-w-3xl">
-      <h1 class="text-4xl font-bold text-white mb-6 animate-fade-in md:text-5xl md:leading-tight leading-tight">
+      <h1 class="reveal reveal-2 mt-6 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-paper md:text-5xl">
         Kemalpaşa İbrahim-Hüsniye Özdurakoğlu Aile Sağlığı Merkezi
       </h1>
 
-      <div class="space-y-6 text-gray-100">
-        <p class="text-lg leading-relaxed animate-fade-in" style="animation-delay: 0.2s">
-          {description}
-        </p>
+      <p class="reveal reveal-3 mt-7 max-w-xl text-lg leading-relaxed text-sage/85">
+        Kemalpaşa'daki modern ve kolay ulaşılabilir yeni binamızda koruyucu sağlık hizmeti, bağışıklama ve ayaktan tedavi sunuyor;
+        hastalarımıza gereken ilgi ve özeni göstermeye özen gösteriyoruz.
+      </p>
 
-        <div class="space-y-3 animate-fade-in" style="animation-delay: 0.4s">
-          <h2 class="text-xl font-semibold text-teal-300">
-            {subtitle}
-          </h2>
-
-          <div class="flex flex-col space-y-2">
-            <a
-              href={link}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="inline-flex items-center text-white hover:text-teal-300 transition-colors group"
-            >
-              <Icon name="link" class="mr-2 text-teal-400 group-hover:text-teal-300 transition-colors w-4 h-4" />
-              {link}
-            </a>
-
-            <a href="tel:+902324118111" class="inline-flex items-center text-white hover:text-teal-300 transition-colors group">
-              <Icon name="phone" class="mr-2 text-teal-400 group-hover:text-teal-300 transition-colors w-4 h-4" />
-              {phone}
-            </a>
-          </div>
-        </div>
+      <div class="reveal reveal-3 mt-9 flex flex-wrap items-center gap-3">
+        <a href="#kadromuz" class="btn-primary">Hekimlerimiz <Icon name="arrow" class="h-4 w-4" /></a>
+        <a href="#iletisim" class="btn-line-light">Yol tarifi · İletişim</a>
       </div>
+    </div>
+
+    <!-- right: the building itself -->
+    <div class="reveal reveal-2 relative">
+      <div class="absolute -left-3 -top-3 hidden h-16 w-16 border-l-2 border-t-2 border-seal md:block"></div>
+      <div class="overflow-hidden">
+        <Image
+          src={frontSide}
+          alt="Kemalpaşa İbrahim-Hüsniye Özdurakoğlu Aile Sağlığı Merkezi binası"
+          class="h-full w-full object-cover"
+          widths={[480, 720, 960, 1200]}
+          sizes="(min-width: 1024px) 520px, 90vw"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </div>
+      <p class="mt-3 font-mono text-[11px] uppercase tracking-[0.16em] text-sage/75">Mustafa Kemal Atatürk Mah. · Ulucak</p>
     </div>
   </div>
 </section>
-
-<style>
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .animate-fade-in {
-    opacity: 0;
-    animation: fadeIn 1s ease-out forwards;
-  }
-
-  #homepage {
-    /* Background handled by Header component for optimization */
-  }
-</style>

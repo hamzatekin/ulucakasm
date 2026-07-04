@@ -1,9 +1,10 @@
 {
   "name": "ulucakasm.com",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "private": true,
   "description": "ulucakasm.com",
   "author": "Hamza Tekin",
+  "packageManager": "pnpm@10.33.2",
   "scripts": {
     "dev": "astro dev",
     "start": "astro preview --host",
@@ -19,6 +20,10 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",
+    "@fontsource-variable/bricolage-grotesque": "^5.2.10",
+    "@fontsource-variable/instrument-sans": "^5.2.8",
+    "@fontsource-variable/jetbrains-mono": "^5.2.8",
+    "sharp": "^0.35.3",
     "tailwindcss": "^4.3.2",
     "typescript": "^5.9.3"
   },
@@ -26,7 +31,10 @@
     "string-width": "^4.2.3"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["esbuild", "sharp"]
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp"
+    ]
   },
   "engines": {
     "node": ">=22.12.0"

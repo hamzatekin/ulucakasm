@@ -1,51 +1,67 @@
 ---
 import Maps from './Maps.astro';
+import Icon from './Icon.astro';
+
+const ADDRESS = 'Mustafa Kemal Atatürk Mah. 9247 Sok. No:3, Ulucak, Kemalpaşa / İzmir';
+const DIRECTIONS = 'https://www.google.com/maps/search/?api=1&query=38.47771,27.35559';
+const PHONES = ['+90 (232) 873 40 74', '+90 (232) 873 40 81'];
+const tel = (p: string) => `tel:${p.replace(/[^0-9+]/g, '')}`;
 ---
 
-<section id="contact" class="py-20 relative">
-  <div class="container mx-auto px-4">
-    <div class="flex flex-col items-center mb-12 text-center">
-      <h2 class="text-4xl font-bold text-gray-800 animate-fade-in uppercase">İLETİŞİM</h2>
-      <div class="w-24 h-1 bg-emerald-600 mx-auto mt-4 rounded-full"></div>
-    </div>
-    <div class="w-full">
-      <div class="w-full rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-        <div id="googleMap" class="w-full h-full">
-          <Maps />
+<section id="iletisim" class="scroll-mt-24 bg-pine-deep py-20 text-paper md:py-28">
+  <div class="wrap grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+    <div>
+      <p class="eyebrow-on-dark">İletişim</p>
+      <h2 class="mt-4 font-display text-4xl font-bold tracking-tight md:text-5xl">Bize ulaşın</h2>
+
+      <dl class="mt-10 space-y-8">
+        <div class="flex gap-4">
+          <Icon name="map-pin" class="mt-0.5 h-5 w-5 flex-shrink-0 text-seal-soft" />
+          <div>
+            <dt class="font-mono text-[11px] uppercase tracking-[0.16em] text-sage/75">Adres</dt>
+            <dd class="mt-1 text-lg leading-relaxed text-paper">{ADDRESS}</dd>
+            <a href={DIRECTIONS} target="_blank" rel="noopener noreferrer" class="mt-2 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.14em] text-sage/85 hover:text-paper">
+              Yol tarifi <Icon name="arrow" class="h-4 w-4" />
+            </a>
+          </div>
         </div>
+
+        <div class="flex gap-4">
+          <Icon name="phone" class="mt-0.5 h-5 w-5 flex-shrink-0 text-seal-soft" />
+          <div class="w-full">
+            <dt class="font-mono text-[11px] uppercase tracking-[0.16em] text-sage/75">Telefon</dt>
+            <dd class="mt-2 flex flex-col gap-2">
+              {
+                PHONES.map((p) => (
+                  <a href={tel(p)} class="inline-flex w-fit items-center gap-2 border border-line-ink/40 px-4 py-2 font-mono text-sm tracking-wide text-paper transition-colors hover:border-seal">
+                    {p}
+                  </a>
+                ))
+              }
+            </dd>
+          </div>
+        </div>
+
+        <div class="flex gap-4">
+          <Icon name="clock" class="mt-0.5 h-5 w-5 flex-shrink-0 text-seal-soft" />
+          <div>
+            <dt class="font-mono text-[11px] uppercase tracking-[0.16em] text-sage/75">Randevu</dt>
+            <dd class="mt-1 text-lg text-paper">MHRS · ALO 182</dd>
+            <p class="mt-1 text-sm text-sage/80">Hafta içi mesai saatleri içinde hizmet verilmektedir.</p>
+            <p class="mt-2 text-sm text-sage/80">
+              Sağlık kayıtlarınız:
+              <a href="https://enabiz.gov.tr" target="_blank" rel="noopener noreferrer" class="ulink text-paper decoration-line-ink/40 hover:text-paper">e-Nabız</a>
+            </p>
+          </div>
+        </div>
+      </dl>
+    </div>
+
+    <div class="relative">
+      <div class="absolute -right-3 -top-3 hidden h-16 w-16 border-r-2 border-t-2 border-seal md:block"></div>
+      <div class="overflow-hidden border border-line-ink/40">
+        <Maps />
       </div>
     </div>
   </div>
 </section>
-
-<style>
-  .contact-item {
-    text-align: center;
-    padding: 1.5rem;
-    border-radius: 1rem;
-    transition: all 0.3s ease;
-  }
-
-  .contact-item:hover {
-    background: rgba(16, 185, 129, 0.05);
-  }
-
-  .icon-box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  .animate-fade-in {
-    animation: fadeIn 1s ease-out forwards;
-  }
-</style>

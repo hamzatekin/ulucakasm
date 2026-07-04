@@ -1,53 +1,21 @@
 ---
-import Contact from '../components/Astro/Contact.astro';
-import Footer from '../components/Astro/Footer.astro';
+import Layout from '../layouts/Layout.astro';
 import Header from '../components/Astro/Header.astro';
 import Hero from '../components/Astro/Hero.astro';
 import Services from '../components/Astro/Services.astro';
 import Doctors from '../components/Astro/Doctors.astro';
-import Layout from '../layouts/Layout.astro';
+import Contact from '../components/Astro/Contact.astro';
 import Gallery from '../components/Astro/Gallery.astro';
+import Footer from '../components/Astro/Footer.astro';
 ---
 
-<Layout description="Kemalpaşa İbrahim-Hüsniye Özdurakoğlu Aile Sağlığı Merkezi resmi sitesi; kadromuz, hizmetler, galeri ve iletişim bilgileri.">
-  <div class="relative">
-    <Header>
-      <Hero />
-    </Header>
-
-    <div class="relative">
-      <div class="absolute inset-0 bg-gradient-to-b from-transparent via-emerald-50/30 to-transparent pointer-events-none"></div>
-
-      <div class="relative">
-        <Services />
-      </div>
-
-      <div class="relative">
-        <Doctors />
-      </div>
-
-      <div class="relative">
-        <Contact />
-      </div>
-
-      <div class="relative bg-gradient-to-b from-gray-50 to-white">
-        <Gallery />
-      </div>
-    </div>
-
-    <Footer />
-  </div>
+<Layout description="Kemalpaşa İbrahim-Hüsniye Özdurakoğlu Aile Sağlığı Merkezi resmi sitesi; aile hekimleriniz, hizmetler, merkezimiz ve iletişim bilgileri.">
+  <Header>
+    <Hero />
+    <Services />
+    <Doctors />
+    <Contact />
+    <Gallery />
+  </Header>
+  <Footer />
 </Layout>
-
-<style>
-  /* Add smooth scrolling to the page */
-  html {
-    scroll-behavior: smooth;
-  }
-
-  /* Enhance text selection */
-  ::selection {
-    background: rgba(23, 128, 102, 0.3);
-    color: inherit;
-  }
-</style>
