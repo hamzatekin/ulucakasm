@@ -13,21 +13,22 @@
     "typecheck": "astro check"
   },
   "devDependencies": {
-    "@astrojs/tailwind": "^5.1.0",
+    "@tailwindcss/vite": "^4.3.2",
     "@types/google.maps": "^3.58.1",
-    "astro": "^5.3.1"
+    "astro": "^7.0.6"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.6",
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.38",
-    "tailwindcss": "^3.4.1",
+    "@astrojs/check": "^0.9.9",
+    "tailwindcss": "^4.3.2",
     "typescript": "^5.9.3"
   },
   "resolutions": {
     "string-width": "^4.2.3"
   },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild", "sharp"]
+  },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.12.0"
   }
 }

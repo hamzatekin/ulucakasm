@@ -9,8 +9,8 @@ Canlı: https://ulucakasm.com
 - Bilgilendirici sayfalar: Aşı Takvimi, Beslenme ve Obezite
 
 ## Teknoloji
-- Astro 5
-- Tailwind CSS
+- Astro 7
+- Tailwind CSS v4
 - TypeScript
 - Google Maps JS API
 
@@ -20,7 +20,7 @@ Canlı: https://ulucakasm.com
 - Ölçüm: 22 Ocak 2026, Lighthouse 13.0.1, Moto G Power emülasyonu, Yavaş 4G
 
 ## Kurulum
-Gereksinim: Node.js >= 20
+Gereksinim: Node.js >= 22.12
 
 ```bash
 pnpm install

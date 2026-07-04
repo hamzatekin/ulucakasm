@@ -4,11 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-Static marketing/information site for a Turkish family health center (Aile Sağlığı Merkezi), served at https://ulucakasm.com. All user-facing content is in Turkish. Built with Astro 5 (SSG, no server runtime), Tailwind CSS, and TypeScript. There is no test suite and no backend — output is fully static HTML.
+Static marketing/information site for a Turkish family health center (Aile Sağlığı Merkezi), served at https://ulucakasm.com. All user-facing content is in Turkish. Built with Astro 7 (SSG, no server runtime), Tailwind CSS v4, and TypeScript. There is no test suite and no backend — output is fully static HTML.
 
 ## Commands
 
-Package manager is **pnpm** (Node >= 20). `.npmrc` sets `shamefully-hoist=true` for Astro deps.
+Package manager is **pnpm** (Node >= 22.12). `.npmrc` sets `shamefully-hoist=true` for Astro deps.
 
 ```bash
 pnpm install
@@ -37,5 +37,5 @@ There is no lint or test command. Run `pnpm typecheck` to validate changes.
 
 - **Images**: use Astro's `<Image>` from `astro:assets` with sources under `src/assets/images/` (mostly `.webp`). `Img.astro` wraps an image with a click-to-open `<dialog>` lightbox (vanilla JS, no framework). `downloads/` holds working/source images and is not part of the site.
 - **Icons**: inline SVGs live in `Icon.astro` as a small name-keyed registry (`map-pin` | `link` | `phone`); add new icons there rather than importing an icon library.
-- **Styling**: Tailwind with a custom theme in **`tailwind.config.mjs`** (`primary` green palette, `ministry` red, `surface`, and `font-sans` → `Plus Jakarta Sans`). Keep this as the only Tailwind config — Tailwind resolves `.cjs`/`.js` before `.mjs`, so re-adding a second config file will silently shadow this theme. Component-scoped `<style>` blocks are used for anything beyond utilities.
+- **Styling**: Tailwind **v4**, CSS-first — no `tailwind.config.*` file. The plugin is wired via `@tailwindcss/vite` in `astro.config.mjs`, and the theme lives in an `@theme` block in `src/styles/global.css` (`primary` green palette, `ministry` red, `surface`, and `--font-sans` → `Plus Jakarta Sans`). Content scanning is automatic. Component-scoped `<style>` blocks are used for anything beyond utilities; a scoped block that uses `@apply` must start with `@reference '../../styles/global.css';` (see `Header.astro`) — and must NOT be `is:inline`, or the `@apply` ships uncompiled to the browser.
 - **Formatting**: Prettier with `printWidth: 140`, single quotes, 2-space indent.
