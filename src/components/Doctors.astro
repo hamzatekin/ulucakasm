@@ -20,12 +20,12 @@ const TEAM = [
 
 <section id="kadromuz" class="scroll-mt-20 py-14 md:py-20">
   <div class="wrap">
-    <h2 class="max-w-[46rem] text-title text-ink">
+    <h2 class="reveal max-w-[46rem] text-title text-ink">
       Aile hekimleriniz. <span class="text-ink-3">Size kayıtlı birimi bulun.</span>
     </h2>
 
     <!-- jump straight to a doctor's card; the card briefly rings on arrival (CSS :target, no JS) -->
-    <nav class="mt-6 flex flex-wrap gap-2" aria-label="Hekim listesi">
+    <nav class="reveal mt-6 flex flex-wrap gap-2" aria-label="Hekim listesi">
       {DOCTORS.map((d) => (
         <a href={`#hekim-${d.slug}`} class="btn-secondary min-h-9 rounded-full px-3.5 text-sm">
           {d.name}
@@ -35,7 +35,7 @@ const TEAM = [
 
     <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {DOCTORS.map((d) => (
-        <article id={`hekim-${d.slug}`} class="doctor card flex scroll-mt-24 flex-col p-2">
+        <article id={`hekim-${d.slug}`} class="doctor card reveal flex scroll-mt-24 flex-col p-2">
           <div class="relative overflow-hidden rounded-[12px] bg-surface-2">
             <Image
               src={photo(d.slug)}
@@ -82,10 +82,10 @@ const TEAM = [
     </div>
 
     <!-- support team -->
-    <h3 class="mt-16 text-lg font-semibold tracking-[-0.01em] text-ink">Destek ekibimiz</h3>
+    <h3 class="reveal mt-16 text-lg font-semibold tracking-[-0.01em] text-ink">Destek ekibimiz</h3>
     <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {TEAM.map((t) => (
-        <article class="card p-2">
+        <article class="card reveal p-2">
           <div class="overflow-hidden rounded-[12px] bg-surface-2">
             <Image
               src={t.img}

@@ -323,6 +323,24 @@
     @apply fixed top-4 z-[100] rounded-[10px] bg-accent px-4 py-2 text-sm font-medium text-on-accent;
     left: 1rem;
   }
+
+  /* Scroll reveal for the home sections: a block fades in and rises 16px while
+     it crosses the bottom fifth of the viewport. Scroll-driven, so zero JS and
+     tied to position, not time: content in the reading area is always at rest,
+     anchor jumps land on settled content, and nothing replays on a timer.
+     The scroll is already the clock, so the curve is the plain `ease-out`;
+     --ease-out would finish the reveal within the first few pixels.
+     `translate` (not `transform`) keeps the :active press scale working.
+     Browsers without view timelines simply show everything static. */
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation-name: reveal;
+      animation-fill-mode: both;
+      animation-timing-function: ease-out;
+      animation-timeline: view();
+      animation-range: entry 0% entry 20vh;
+    }
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -331,7 +349,8 @@
   }
   /* Gentler, not zero: keep the fades, drop the movement. */
   .animate-enter,
-  .animate-enter-image {
+  .animate-enter-image,
+  .reveal {
     animation-name: fade-in;
   }
   .card-link:active,
@@ -346,5 +365,12 @@
 @keyframes fade-in {
   from {
     opacity: 0;
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    translate: 0 16px;
   }
 }
