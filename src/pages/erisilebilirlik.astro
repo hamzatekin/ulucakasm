@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Astro/Header.astro';
 import Footer from '../components/Astro/Footer.astro';
+import PageIntro from '../components/Astro/PageIntro.astro';
 
 const UPDATED = '4 Temmuz 2026';
 ---
@@ -11,26 +12,16 @@ const UPDATED = '4 Temmuz 2026';
   description="İbrahim-Hüsniye Özdurakoğlu Aile Sağlığı Merkezi web sitesinin erişilebilirlik beyanı; WCAG 2.2 A düzeyi uygunluk durumu, bilinen sınırlamalar ve iletişim."
 >
   <Header>
-    <!-- page header band -->
-    <section class="bg-pine-deep text-paper">
-      <div class="wrap-tight py-14 md:py-20">
-        <a href="/" class="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.16em] text-sage/70 transition-colors hover:text-paper">
-          <span aria-hidden="true">←</span> Ana sayfa
-        </a>
-        <p class="eyebrow-on-dark mt-8">Bilgilendirme</p>
-        <h1 class="mt-4 font-display text-4xl font-extrabold tracking-tight md:text-6xl">Erişilebilirlik Beyanı</h1>
-        <p class="mt-5 max-w-xl text-lg leading-relaxed text-sage/85">
-          Bu siteyi herkes için, engel durumundan bağımsız olarak kullanılabilir kılmaya özen gösteriyoruz.
-        </p>
-      </div>
-    </section>
+    <PageIntro section="Bilgilendirme" title="Erişilebilirlik Beyanı">
+      Bu siteyi herkes için, engel durumundan bağımsız olarak kullanılabilir kılmaya özen gösteriyoruz.
+    </PageIntro>
 
     <!-- content -->
-    <section class="bg-paper py-16 md:py-20">
+    <section class="pb-16 md:pb-24">
       <div class="wrap-tight space-y-12">
         <div>
-          <h2 class="font-display text-2xl font-bold text-ink md:text-3xl">Uygunluk durumu</h2>
-          <p class="mt-4 text-lg leading-relaxed text-ink-soft">
+          <h2 class="text-2xl font-semibold tracking-[-0.02em] text-ink">Uygunluk durumu</h2>
+          <p class="mt-3 max-w-[65ch] text-lead text-ink-2">
             Bu web sitesi, <strong class="text-ink">Web İçeriği Erişilebilirlik Yönergeleri (WCAG) 2.2 A düzeyi</strong> ölçütlerini ve
             20 Haziran 2025 tarihli “Web Siteleri ve Mobil Uygulamaların Erişilebilirliği” konulu Cumhurbaşkanlığı Genelgesi (2025/10)
             ilkelerini karşılamayı hedefler. Site bu ölçütlerle <strong class="text-ink">büyük ölçüde uyumludur</strong>; aşağıda
@@ -39,8 +30,8 @@ const UPDATED = '4 Temmuz 2026';
         </div>
 
         <div>
-          <h2 class="font-display text-2xl font-bold text-ink md:text-3xl">Sitede yer alan erişilebilirlik önlemleri</h2>
-          <ul class="mt-4 space-y-2 text-lg leading-relaxed text-ink-soft">
+          <h2 class="text-2xl font-semibold tracking-[-0.02em] text-ink">Sitede yer alan erişilebilirlik önlemleri</h2>
+          <ul class="mt-3 max-w-[65ch] list-disc space-y-2 pl-5 text-lead text-ink-2 marker:text-ink-3">
             <li>Klavyeyle gezinme ve içeriğe doğrudan atlama (“İçeriğe geç”) bağlantısı.</li>
             <li>Görünür odak göstergesi ve anlamlı başlık/bölüm yapısı (landmark).</li>
             <li>Görsellere alternatif metin; kaldırılabilir, klavye ve Esc ile kapatılabilen görsel önizleme.</li>
@@ -50,8 +41,8 @@ const UPDATED = '4 Temmuz 2026';
         </div>
 
         <div>
-          <h2 class="font-display text-2xl font-bold text-ink md:text-3xl">Bilinen sınırlamalar</h2>
-          <p class="mt-4 text-lg leading-relaxed text-ink-soft">
+          <h2 class="text-2xl font-semibold tracking-[-0.02em] text-ink">Bilinen sınırlamalar</h2>
+          <p class="mt-3 max-w-[65ch] text-lead text-ink-2">
             Aşı takvimi ve hekim çalışma programları şu an <strong class="text-ink">görsel (resim) biçiminde</strong> sunulmaktadır;
             bu içeriklerin ekran okuyucular için tam metin karşılığı hazırlanmaktadır. Bu içeriklere erişimde zorluk yaşarsanız,
             size kayıtlı aile hekiminizden veya merkez telefonlarından bilgi alabilirsiniz.
@@ -59,17 +50,17 @@ const UPDATED = '4 Temmuz 2026';
         </div>
 
         <div>
-          <h2 class="font-display text-2xl font-bold text-ink md:text-3xl">Geri bildirim ve iletişim</h2>
-          <p class="mt-4 text-lg leading-relaxed text-ink-soft">
+          <h2 class="text-2xl font-semibold tracking-[-0.02em] text-ink">Geri bildirim ve iletişim</h2>
+          <p class="mt-3 max-w-[65ch] text-lead text-ink-2">
             Bir erişilebilirlik sorunu fark ederseniz lütfen bize bildirin; en kısa sürede gidermeye çalışırız.
           </p>
-          <ul class="mt-4 space-y-2 text-lg leading-relaxed text-ink-soft">
-            <li>Telefon: <a class="ulink text-ink" href="tel:+902328734074">+90 (232) 873 40 74</a> · <a class="ulink text-ink" href="tel:+902328734081">+90 (232) 873 40 81</a></li>
+          <ul class="mt-3 max-w-[65ch] list-disc space-y-2 pl-5 text-lead text-ink-2 marker:text-ink-3">
+            <li>Telefon: <a class="ulink tabular-nums" href="tel:+902328734074">+90 (232) 873 40 74</a> · <a class="ulink tabular-nums" href="tel:+902328734081">+90 (232) 873 40 81</a></li>
             <li>Adres: Mustafa Kemal Atatürk Mah. 9247 Sok. No:3, Ulucak, Kemalpaşa / İzmir</li>
           </ul>
         </div>
 
-        <p class="border-t border-line pt-6 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft">
+        <p class="border-t border-hairline pt-6 text-[13px] text-ink-3">
           Son güncelleme: {UPDATED}
         </p>
       </div>

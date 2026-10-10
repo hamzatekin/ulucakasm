@@ -1,17 +1,26 @@
 @import 'tailwindcss';
 
+/* Hover styles only for precise pointers. Touch devices fake :hover on tap and
+   leave it stuck until the next tap, so every `hover:` utility is gated here. */
+@custom-variant hover {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      @slot;
+    }
+  }
+}
+
 /* Native cross-document view transitions — zero JS. A whole-page crossfade
-   (the browser default for :root), so nothing moves — header and footer stay
-   put without needing to be isolated. Progressive enhancement: supporting
-   browsers (Chrome/Edge/Opera 126+, Safari 18.2+) fade between pages; others
-   (e.g. Firefox) just navigate normally. */
+   (the browser default for :root), so nothing moves. Progressive enhancement:
+   supporting browsers fade between pages; others navigate normally. */
 @view-transition {
   navigation: auto;
 }
 
 ::view-transition-old(root),
 ::view-transition-new(root) {
-  animation-duration: 260ms;
+  animation-duration: 200ms;
+  animation-timing-function: var(--ease-out);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -23,117 +32,223 @@
 }
 
 /* ─────────────────────────────────────────────────────────────
-   Kayıt / Registry: design tokens
-   Grounded in the Sağlık Bakanlığı green+red identity and the
-   numbered aile-hekimliği unit system. Not generic wellness teal.
+   Design tokens
+   Calm, clinical surfaces with the green kept for actions and the
+   Ministry red kept for the seal. Depth comes from translucent
+   shadows, not hairline borders. Light + dark follow the OS.
    ───────────────────────────────────────────────────────────── */
 @theme {
-  --font-display: 'Bricolage Grotesque Variable', 'Instrument Sans Variable', sans-serif;
-  --font-sans: 'Instrument Sans Variable', ui-sans-serif, system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+  /* System font: zero font downloads, native optical sizing and Turkish glyphs. */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 
-  --color-paper: #f5f2e9;
-  --color-paper-2: #efe9db;
-  --color-ink: #14231d;
-  --color-ink-soft: #4a5952;
-  --color-pine: #124a37;
-  --color-pine-deep: #0c3125;
-  --color-pine-bright: #2f7d5e;
-  --color-sage: #e2e8dd;
-  --color-seal: #c0392b;
-  --color-seal-soft: #d8503f;
-  --color-line: #d3cdbc;
-  --color-line-ink: #2a5a47;
+  --color-canvas: #f6f7f6;
+  --color-surface: #ffffff;
+  --color-surface-2: #eef1ef;
+  --color-ink: #141a17;
+  --color-ink-2: #4d5651;
+  --color-ink-3: #666f6a;
+  --color-accent: #0e6b4c;
+  --color-accent-strong: #0a5a3f;
+  --color-accent-soft: #e2f0e9;
+  --color-on-accent: #ffffff;
+  --color-seal: #c8102e;
+  --color-hairline: rgb(20 26 23 / 0.08);
+
+  /* type scale: tracking tightens and leading drops as size grows */
+  --text-display: clamp(2.25rem, 1.6rem + 2.6vw, 3.5rem);
+  --text-display--line-height: 1.04;
+  --text-display--letter-spacing: -0.032em;
+  --text-display--font-weight: 650;
+  --text-title: clamp(1.5rem, 1.25rem + 1.1vw, 2.125rem);
+  --text-title--line-height: 1.15;
+  --text-title--letter-spacing: -0.022em;
+  --text-title--font-weight: 600;
+  --text-lead: 1.125rem;
+  --text-lead--line-height: 1.6;
+
+  /* motion: strong custom curves; the built-in easings are too weak */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+
+  --animate-enter: enter 520ms var(--ease-out) both;
+  --animate-enter-image: enter-image 700ms var(--ease-out) both;
+
+  @keyframes enter {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+      filter: blur(4px);
+    }
+  }
+  @keyframes enter-image {
+    from {
+      opacity: 0;
+      transform: scale(0.98);
+    }
+  }
+}
+
+/* Elevation lives outside @theme so dark mode can swap it in one place. */
+:root {
+  color-scheme: light;
+  --elev-1: 0 0 0 1px rgb(20 26 23 / 0.06), 0 1px 2px rgb(20 26 23 / 0.04), 0 4px 12px -4px rgb(20 26 23 / 0.06);
+  --elev-2: 0 0 0 1px rgb(20 26 23 / 0.07), 0 2px 4px rgb(20 26 23 / 0.05), 0 16px 32px -12px rgb(20 26 23 / 0.16);
+  --elev-btn: 0 0 0 1px rgb(20 26 23 / 0.1), 0 1px 2px rgb(20 26 23 / 0.06);
+  --elev-btn-accent: inset 0 1px 0 rgb(255 255 255 / 0.14), 0 0 0 1px var(--color-accent-strong), 0 1px 2px rgb(10 40 28 / 0.2);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --color-canvas: #0c100e;
+    --color-surface: #141a17;
+    --color-surface-2: #1b221f;
+    --color-ink: #ecf1ee;
+    --color-ink-2: #a5aea9;
+    --color-ink-3: #7f8984;
+    --color-accent: #4cc38a;
+    --color-accent-strong: #6dd3a1;
+    --color-accent-soft: rgb(76 195 138 / 0.12);
+    --color-on-accent: #04160d;
+    --color-seal: #ff5c6c;
+    --color-hairline: rgb(255 255 255 / 0.08);
+
+    --elev-1: 0 0 0 1px rgb(255 255 255 / 0.07), 0 1px 2px rgb(0 0 0 / 0.4);
+    --elev-2: 0 0 0 1px rgb(255 255 255 / 0.1), 0 2px 4px rgb(0 0 0 / 0.4), 0 16px 32px -12px rgb(0 0 0 / 0.6);
+    --elev-btn: 0 0 0 1px rgb(255 255 255 / 0.1), 0 1px 2px rgb(0 0 0 / 0.4);
+    --elev-btn-accent: inset 0 1px 0 rgb(255 255 255 / 0.2), 0 0 0 1px var(--color-accent), 0 1px 2px rgb(0 0 0 / 0.4);
+  }
 }
 
 @layer base {
   html {
-    /* Background on the root (not just body) so the view-transition root
-       snapshot backdrop is paper, never the UA default white — otherwise a
-       white flash shows through the cross-fade on every navigation. */
-    @apply bg-paper;
+    /* Background on the root (not just body) so the view-transition snapshot
+       backdrop is the canvas colour, never a white flash between pages. */
+    @apply bg-canvas;
     scroll-behavior: smooth;
     /* offset anchor jumps for the sticky header */
-    scroll-padding-top: 6rem;
+    scroll-padding-top: 5rem;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 
   body {
-    @apply bg-paper text-ink font-sans antialiased;
-    -webkit-font-smoothing: antialiased;
+    @apply bg-canvas font-sans text-ink antialiased;
+    font-synthesis-weight: none;
     text-rendering: optimizeLegibility;
   }
 
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  p,
+  li,
+  dd {
+    text-wrap: pretty;
+  }
+
+  a,
+  button,
+  summary {
+    /* no double-tap-zoom wait before a tap registers */
+    touch-action: manipulation;
+  }
+
   ::selection {
-    background: var(--color-pine);
-    color: var(--color-paper);
+    background: var(--color-accent-soft);
+    color: var(--color-ink);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-seal);
-    outline-offset: 3px;
-    border-radius: 2px;
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
   }
 }
 
 @layer components {
-  /* page container */
+  /* page containers; side padding respects the notch in landscape */
+  .wrap,
+  .wrap-tight {
+    @apply mx-auto w-full;
+    padding-inline: max(1.25rem, env(safe-area-inset-left, 0px));
+  }
   .wrap {
-    @apply mx-auto w-full max-w-6xl px-5 md:px-8;
+    @apply max-w-6xl;
   }
   .wrap-tight {
-    @apply mx-auto w-full max-w-3xl px-5 md:px-8;
+    @apply max-w-3xl;
+  }
+  @media (min-width: 768px) {
+    .wrap,
+    .wrap-tight {
+      padding-inline: max(2rem, env(safe-area-inset-left, 0px));
+    }
   }
 
-  /* eyebrow / section label: carries real information, not decoration */
-  .eyebrow {
-    @apply font-mono text-xs font-medium uppercase tracking-[0.22em] text-pine-bright;
+  /* raised surface: translucent ring + soft drop instead of a solid border */
+  .card {
+    @apply rounded-[20px] bg-surface;
+    box-shadow: var(--elev-1);
   }
-  .eyebrow-on-dark {
-    @apply font-mono text-xs font-medium uppercase tracking-[0.22em] text-sage/90;
+  /* a card that is itself the link: lifts on hover, gives under the finger */
+  .card-link {
+    @apply rounded-[20px] bg-surface;
+    box-shadow: var(--elev-1);
+    transition:
+      box-shadow 200ms ease,
+      transform 160ms var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .card-link:hover {
+      box-shadow: var(--elev-2);
+    }
+  }
+  .card-link:active {
+    transform: scale(0.985);
   }
 
-  /* the birim kodu chip: the recurring structural device */
-  .unit-code {
-    @apply inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.14em];
-  }
-  .unit-code::before {
-    content: '';
-    @apply inline-block h-2 w-2 flex-shrink-0 bg-seal;
-    clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
-  }
-
-  /* buttons: base styles shared via a selector list (avoid @apply-ing a custom class) */
-  .btn,
+  /* buttons: base shared via a selector list (avoid @apply-ing a custom class) */
   .btn-primary,
-  .btn-pine,
-  .btn-line,
-  .btn-line-light {
-    @apply inline-flex items-center justify-center gap-2 px-5 py-3 font-mono text-sm font-medium uppercase tracking-[0.1em] transition-colors duration-200;
+  .btn-secondary,
+  .btn-ghost {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-[10px] px-4 text-[15px] font-medium select-none;
+    -webkit-touch-callout: none;
+    transition:
+      transform 160ms var(--ease-out),
+      background-color 150ms ease,
+      box-shadow 150ms ease,
+      color 150ms ease;
+  }
+  .btn-primary:active,
+  .btn-secondary:active,
+  .btn-ghost:active {
+    transform: scale(0.97);
   }
   .btn-primary {
-    @apply bg-seal text-paper hover:bg-seal-soft;
+    @apply bg-accent text-on-accent hover:bg-accent-strong;
+    box-shadow: var(--elev-btn-accent);
   }
-  .btn-pine {
-    @apply bg-pine text-paper hover:bg-pine-bright;
+  .btn-secondary {
+    @apply bg-surface text-ink hover:bg-surface-2;
+    box-shadow: var(--elev-btn);
   }
-  .btn-line {
-    @apply border border-line-ink/40 text-ink hover:border-pine hover:text-pine;
-  }
-  .btn-line-light {
-    @apply border border-paper/30 text-paper hover:border-paper hover:bg-paper/10;
-  }
-
-  /* hairline rule */
-  .rule {
-    @apply border-0 border-t border-line;
-  }
-  .rule-ink {
-    @apply border-0 border-t border-line-ink/30;
+  .btn-ghost {
+    @apply text-ink-2 hover:bg-surface-2 hover:text-ink;
   }
 
-  /* underline-on-hover link */
+  /* small label pill, e.g. the birim kodu over a doctor's photo */
+  .chip {
+    @apply inline-flex h-7 items-center gap-1.5 rounded-full px-2.5 text-xs font-medium tabular-nums;
+  }
+
+  /* inline text link */
   .ulink {
-    @apply underline decoration-line-ink/30 decoration-1 underline-offset-4 transition-colors hover:decoration-pine;
+    @apply text-ink underline decoration-ink/25 decoration-1 underline-offset-[3px] hover:decoration-ink/70;
+    transition: text-decoration-color 150ms ease;
   }
 
   /* skip-to-content link: off-screen until focused (WCAG 2.4.1 Bypass Blocks) */
@@ -143,33 +258,8 @@
     top: 0;
   }
   .skip-link:focus {
-    @apply fixed left-4 top-4 z-[100] bg-pine px-4 py-2 font-mono text-sm text-paper;
+    @apply fixed top-4 z-[100] rounded-[10px] bg-accent px-4 py-2 text-sm font-medium text-on-accent;
     left: 1rem;
-  }
-}
-
-@layer utilities {
-  /* animated reveal (respects reduced motion below) */
-  .reveal {
-    opacity: 0;
-    transform: translateY(14px);
-    animation: reveal 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
-  }
-  .reveal-2 {
-    animation-delay: 0.09s;
-  }
-  .reveal-3 {
-    animation-delay: 0.18s;
-  }
-  .reveal-4 {
-    animation-delay: 0.27s;
-  }
-}
-
-@keyframes reveal {
-  to {
-    opacity: 1;
-    transform: none;
   }
 }
 
@@ -177,12 +267,21 @@
   html {
     scroll-behavior: auto;
   }
-  .reveal,
-  .reveal-2,
-  .reveal-3,
-  .reveal-4 {
-    opacity: 1;
+  /* Gentler, not zero: keep the fades, drop the movement. */
+  .animate-enter,
+  .animate-enter-image {
+    animation-name: fade-in;
+  }
+  .card-link:active,
+  .btn-primary:active,
+  .btn-secondary:active,
+  .btn-ghost:active {
     transform: none;
-    animation: none;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
   }
 }

@@ -14,15 +14,6 @@ importers:
       '@astrojs/check':
         specifier: ^0.9.9
         version: 0.9.9(prettier@3.8.1)(typescript@5.9.3)
-      '@fontsource-variable/bricolage-grotesque':
-        specifier: ^5.2.10
-        version: 5.2.10
-      '@fontsource-variable/instrument-sans':
-        specifier: ^5.2.8
-        version: 5.2.8
-      '@fontsource-variable/jetbrains-mono':
-        specifier: ^5.2.8
-        version: 5.2.8
       sharp:
         specifier: ^0.35.3
         version: 0.35.3
@@ -411,15 +402,6 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
-
-  '@fontsource-variable/bricolage-grotesque@5.2.10':
-    resolution: {integrity: sha512-5EDsCqgGpKVcJWE4sg9ydli+t5WM97mISYw5lla/Ev4z71FwXh1oN0YUU8xjkRW9+wBCGD9R+ntAvI8G4bUFJg==}
-
-  '@fontsource-variable/instrument-sans@5.2.8':
-    resolution: {integrity: sha512-mTCaukbdIjjoipj2E3Q5XoZM3ZxJWdzyHevf/LG/0PHlfF9Q85pxOM7B7A9MerFyxmRzz5kVlumgIvgDSG4CPg==}
-
-  '@fontsource-variable/jetbrains-mono@5.2.8':
-    resolution: {integrity: sha512-WBA9elru6Jdp5df2mES55wuOO0WIrn3kpXnI4+W2ek5u3ZgLS9XS4gmIlcQhiZOWEKl95meYdvK7xI+ETLCq/Q==}
 
   '@img/colour@1.1.0':
     resolution: {integrity: sha512-Td76q7j57o/tLVdgS746cYARfSyxk8iEfRxewL9h4OMzYhbW4TAcppl0mT4eyqXddh6L/jwoM75mo7ixa/pCeQ==}
@@ -2329,12 +2311,6 @@ snapshots:
 
   '@esbuild/win32-x64@0.28.1':
     optional: true
-
-  '@fontsource-variable/bricolage-grotesque@5.2.10': {}
-
-  '@fontsource-variable/instrument-sans@5.2.8': {}
-
-  '@fontsource-variable/jetbrains-mono@5.2.8': {}
 
   '@img/colour@1.1.0': {}
 

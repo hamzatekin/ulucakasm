@@ -1,0 +1,29 @@
+---
+/** Title block shared by the inner pages: back link, section name, h1 and an optional lead (slot). */
+import Icon from './Icon.astro';
+
+interface Props {
+  section: string;
+  title: string;
+}
+
+const { section, title } = Astro.props;
+---
+
+<section class="pt-6 pb-10 md:pt-10 md:pb-14">
+  <div class="wrap-tight">
+    <a href="/" class="btn-ghost -ml-3 min-h-9 gap-1.5 px-3 text-sm">
+      <Icon name="arrow" class="h-4 w-4 rotate-180" />
+      Ana sayfa
+    </a>
+    <p class="mt-8 text-sm text-ink-2">{section}</p>
+    <h1 class="mt-2 text-display text-ink">{title}</h1>
+    {
+      Astro.slots.has('default') && (
+        <div class="mt-5 max-w-[60ch] text-lead text-ink-2">
+          <slot />
+        </div>
+      )
+    }
+  </div>
+</section>

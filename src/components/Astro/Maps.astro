@@ -13,18 +13,45 @@ const lat = 38.47771;
 const lng = 27.35559;
 ---
 
-<div class="relative h-[500px] w-full">
-  <button
-    type="button"
-    id="map-load"
-    class="absolute inset-0 z-10 flex cursor-pointer flex-col items-center justify-center gap-3 bg-sage/70 text-ink transition-colors hover:bg-sage"
-  >
-    <Icon name="map-pin" class="h-8 w-8 text-seal" />
-    <span class="font-display text-lg font-semibold">Haritayı göster</span>
-    <span class="max-w-xs px-6 text-center text-sm text-ink-soft">Tıkladığınızda konumu göstermek için Google Haritalar yüklenir.</span>
+<div class="relative h-[360px] w-full md:h-[480px] lg:h-full lg:min-h-[480px]">
+  <button type="button" id="map-load" class="map-facade absolute inset-0 z-10 flex cursor-pointer flex-col items-center justify-center gap-3 px-6 text-ink">
+    <span class="map-pin flex size-12 items-center justify-center rounded-full bg-surface text-seal">
+      <Icon name="map-pin" class="h-6 w-6" />
+    </span>
+    <span class="text-[17px] font-semibold tracking-[-0.01em]">Haritayı göster</span>
+    <span class="max-w-xs text-center text-sm text-ink-2">Tıkladığınızda konumu göstermek için Google Haritalar yüklenir.</span>
   </button>
   <div id="map-container" class="h-full w-full" data-zoom={zoom} data-lat={lat} data-lng={lng}></div>
 </div>
+
+<style>
+  @reference '../../styles/global.css';
+
+  /* A quiet dot grid stands in for the map until the visitor opts in. */
+  .map-facade {
+    background-color: var(--color-surface-2);
+    background-image: radial-gradient(circle at 1px 1px, color-mix(in oklab, var(--color-ink) 14%, transparent) 1px, transparent 0);
+    background-size: 18px 18px;
+  }
+  .map-pin {
+    box-shadow: var(--elev-2);
+    transition: transform 160ms var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .map-facade:hover .map-pin {
+      transform: translateY(-2px);
+    }
+  }
+  .map-facade:active .map-pin {
+    transform: scale(0.94);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .map-facade:active .map-pin,
+    .map-facade:hover .map-pin {
+      transform: none;
+    }
+  }
+</style>
 
 <script define:vars={{ MAPS_LINK }}>
   const MAPS_SCRIPT_ID = 'google-maps-js';

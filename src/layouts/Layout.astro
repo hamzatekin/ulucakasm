@@ -1,10 +1,5 @@
 ---
 import '../styles/global.css';
-// Self-hosted fonts (Fontsource) — no request to Google, no visitor IP leaves the site.
-import '@fontsource-variable/bricolage-grotesque';
-import '@fontsource-variable/instrument-sans';
-import '@fontsource-variable/instrument-sans/wght-italic.css';
-import '@fontsource-variable/jetbrains-mono';
 import { capitalizeEachWord } from '../lib/utils.js';
 import { TITLE } from '../lib/const.astro';
 
@@ -19,14 +14,18 @@ const {
 <html lang="tr">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <!-- viewport-fit=cover lets the page paint under the notch; content is padded back with env(safe-area-inset-*) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <!-- status bar / browser chrome matches the header in each scheme -->
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f6f7f6" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0c100e" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="manifest" href="/site.webmanifest" />
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#124a37" />
-    <meta name="msapplication-TileColor" content="#124a37" />
-    <meta name="theme-color" content="#124a37" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0e6b4c" />
+    <meta name="msapplication-TileColor" content="#0e6b4c" />
     {
       isProd && (
         <>

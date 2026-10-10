@@ -13,126 +13,157 @@ const NAV = [
 
 <a href="#main-content" class="skip-link">İçeriğe geç</a>
 
-<header class="sticky -top-px z-40">
-    <!-- ministry strip -->
-    <div class="bg-pine-deep text-sage/75">
-      <div class="wrap flex items-center justify-between py-1.5 font-mono text-[11px] uppercase tracking-[0.18em]">
-        <span>T.C. Sağlık Bakanlığı</span>
-        <span class="hidden sm:inline">İzmir · Kemalpaşa · Ulucak</span>
-      </div>
-    </div>
+<header class="site-header sticky top-0 z-40 bg-canvas">
+  <div class="wrap flex h-16 items-center justify-between gap-4">
+    <a href="/" class="flex min-w-0 items-center gap-3">
+      <Image class="h-9 w-9 shrink-0" src={healthMinistryLogo} alt="T.C. Sağlık Bakanlığı" widths={[48, 72, 96]} sizes="36px" decoding="async" />
+      <span class="flex min-w-0 flex-col">
+        <span class="truncate text-[15px] leading-5 font-semibold tracking-[-0.01em] text-ink">İbrahim-Hüsniye Özdurakoğlu</span>
+        <span class="truncate text-[13px] leading-5 text-ink-2">Aile Sağlığı Merkezi · Ulucak</span>
+      </span>
+    </a>
 
-    <!-- main bar — solid (backdrop-blur on a sticky element shimmers/jitters
-         during scroll in Chromium, so we avoid it) -->
-    <div class="border-b border-line bg-paper">
-      <div class="wrap flex items-center justify-between gap-4 py-3">
-        <a href="/" class="group flex items-center gap-3" aria-label="Ana sayfa">
-          <Image class="h-11 w-auto" src={healthMinistryLogo} alt="T.C. Sağlık Bakanlığı" widths={[64, 96, 128]} sizes="64px" decoding="async" />
-          <span class="flex flex-col leading-tight">
-            <span class="font-display text-sm font-bold text-ink transition-colors group-hover:text-pine md:text-[15px]">
-              İbrahim-Hüsniye Özdurakoğlu Aile Sağlığı Merkezi
-            </span>
-            <span class="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-soft md:text-[11px]"> T.C. Sağlık Bakanlığı </span>
-          </span>
-        </a>
+    <nav class="hidden items-center gap-1 lg:flex" aria-label="Ana menü">
+      {
+        NAV.map((item) => (
+          <a href={item.href} data-nav class="nav-link rounded-full px-3 py-2 text-sm text-ink-2 hover:text-ink">
+            {item.label}
+          </a>
+        ))
+      }
+      <a href="/#kadromuz" class="btn-primary ml-3 min-h-9 px-3.5 text-sm">Hekiminizi bulun</a>
+    </nav>
 
-        <nav class="hidden items-center gap-7 lg:flex" aria-label="Ana menü">
-          {
-            NAV.map((item) => (
-              <a href={item.href} data-nav class="nav-link font-mono text-xs uppercase tracking-[0.14em] text-ink-soft transition-colors hover:text-pine">
-                {item.label}
-              </a>
-            ))
-          }
-          <a href="/#kadromuz" class="btn-primary text-xs">Hekimlerimiz</a>
-        </nav>
+    <button type="button" popovertarget="mobileMenu" class="menu-button btn-ghost -mr-2 size-11 p-0 text-ink lg:hidden" aria-label="Menü">
+      <Icon name="menu" class="icon-open h-6 w-6" />
+      <Icon name="close" class="icon-close h-6 w-6" />
+    </button>
+  </div>
 
-        <button id="menuButton" class="text-pine lg:hidden" aria-label="Menüyü aç" aria-expanded="false" aria-controls="mobileMenu">
-          <span data-icon-open><Icon name="menu" class="h-7 w-7" /></span>
-          <span data-icon-close class="hidden"><Icon name="close" class="h-7 w-7" /></span>
-        </button>
-      </div>
+  <!-- mobile menu: native popover — light-dismiss, Esc and focus return come from the browser -->
+  <div id="mobileMenu" popover class="menu-panel lg:hidden">
+    <nav class="flex flex-col" aria-label="Mobil menü">
+      {
+        NAV.map((item) => (
+          <a href={item.href} class="menu-row">
+            {item.label}
+          </a>
+        ))
+      }
+      <a href="/#kadromuz" class="btn-primary mt-2 min-h-12 text-base">Hekiminizi bulun</a>
+    </nav>
+  </div>
+</header>
 
-      <!-- mobile menu -->
-      <div id="mobileMenu" class="hidden border-t border-line lg:hidden">
-        <nav class="wrap flex flex-col py-2" aria-label="Mobil menü">
-          {
-            NAV.map((item) => (
-              <a href={item.href} data-nav-mobile class="border-b border-line/70 py-3 font-mono text-sm uppercase tracking-[0.12em] text-ink last:border-0">
-                {item.label}
-              </a>
-            ))
-          }
-          <a href="/#kadromuz" data-nav-mobile class="btn-primary mt-3 mb-2">Hekimlerimiz</a>
-        </nav>
-      </div>
-    </div>
-  </header>
-
-  <main id="main-content" tabindex="-1">
-    <slot />
-  </main>
+<main id="main-content" tabindex="-1">
+  <slot />
+</main>
 
 <style>
   @reference '../../styles/global.css';
 
-  /* Cover the ~1px gap Chromium can leave above a `position: sticky` element on
-     fractional-DPR displays / non-100% zoom: bleed the header's top colour
-     (the ministry strip) a few px upward so any sub-pixel seam is filled. */
-  header::before {
-    content: '';
-    position: absolute;
-    inset: -4px 0 auto 0;
-    height: 4px;
-    background: var(--color-pine-deep);
+  .site-header {
+    padding-top: env(safe-area-inset-top, 0px);
+    box-shadow: 0 1px 0 var(--color-hairline);
+  }
+  /* Scroll-driven, zero JS: the hairline under the header fades in over the
+     first 48px of scroll, so the header sits flat on the page at rest. */
+  @supports (animation-timeline: scroll()) {
+    .site-header {
+      animation: header-hairline linear both;
+      animation-timeline: scroll();
+      animation-range: 0 48px;
+    }
+  }
+  @keyframes header-hairline {
+    from {
+      box-shadow: 0 1px 0 transparent;
+    }
   }
 
   .nav-link {
-    position: relative;
-  }
-  .nav-link::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: -6px;
-    height: 2px;
-    width: 0;
-    background: var(--color-seal);
-    transition: width 0.25s ease;
-  }
-  .nav-link:hover::after,
-  .nav-link[data-active]::after {
-    width: 100%;
+    transition:
+      color 150ms ease,
+      background-color 150ms ease;
   }
   .nav-link[data-active] {
-    @apply text-pine;
+    @apply bg-surface-2 text-ink;
+  }
+
+  /* the svgs come from Icon.astro, outside this component's style scope */
+  .menu-button :global(.icon-close) {
+    display: none;
+  }
+  .site-header:has(.menu-panel:popover-open) :global(.icon-open) {
+    display: none;
+  }
+  .site-header:has(.menu-panel:popover-open) :global(.icon-close) {
+    display: block;
+  }
+
+  /* Drops from the menu button (origin top-right), fast in and faster out. */
+  .menu-panel {
+    position: fixed;
+    inset: auto 0.75rem auto auto;
+    top: calc(env(safe-area-inset-top, 0px) + 4.25rem);
+    width: min(22rem, calc(100vw - 1.5rem));
+    margin: 0;
+    padding: 0.5rem;
+    border: 0;
+    border-radius: 18px;
+    color: var(--color-ink);
+    background: var(--color-surface);
+    box-shadow: var(--elev-2);
+    transform-origin: top right;
+    opacity: 0;
+    transform: translateY(-4px) scale(0.97);
+    transition:
+      opacity 120ms var(--ease-out),
+      transform 120ms var(--ease-out),
+      overlay 120ms allow-discrete,
+      display 120ms allow-discrete;
+  }
+  .menu-panel:popover-open {
+    opacity: 1;
+    transform: none;
+    transition-duration: 200ms;
+  }
+  @starting-style {
+    .menu-panel:popover-open {
+      opacity: 0;
+      transform: translateY(-4px) scale(0.97);
+    }
+  }
+
+  .menu-row {
+    @apply flex min-h-12 items-center rounded-xl px-3 text-[17px] text-ink select-none;
+    transition: background-color 150ms ease;
+  }
+  .menu-row:active {
+    @apply bg-surface-2;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .menu-panel,
+    .menu-panel:popover-open {
+      transform: none;
+    }
+    @starting-style {
+      .menu-panel:popover-open {
+        transform: none;
+      }
+    }
   }
 </style>
 
 <script>
   function initHeader() {
-    const btn = document.getElementById('menuButton');
+    // A tap on a menu link scrolls to its section; close the popover with it.
     const menu = document.getElementById('mobileMenu');
-
-    // dataset.bound keeps binding idempotent so each tap toggles the menu
-    // exactly once (guards against the script running more than once).
-    if (btn && menu && btn.dataset.bound !== '1') {
-      btn.dataset.bound = '1';
-      const iconOpen = btn.querySelector('[data-icon-open]');
-      const iconClose = btn.querySelector('[data-icon-close]');
-
-      const setMenu = (open: boolean) => {
-        menu.classList.toggle('hidden', !open);
-        btn.setAttribute('aria-expanded', String(open));
-        btn.setAttribute('aria-label', open ? 'Menüyü kapat' : 'Menüyü aç');
-        iconOpen?.classList.toggle('hidden', open);
-        iconClose?.classList.toggle('hidden', !open);
-      };
-
-      btn.addEventListener('click', () => setMenu(menu.classList.contains('hidden')));
-      menu.querySelectorAll('[data-nav-mobile]').forEach((a) => a.addEventListener('click', () => setMenu(false)));
-      btn.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') setMenu(false);
+    if (menu && menu.dataset.bound !== '1') {
+      menu.dataset.bound = '1';
+      menu.addEventListener('click', (e) => {
+        if ((e.target as Element).closest('a')) menu.hidePopover();
       });
     }
 

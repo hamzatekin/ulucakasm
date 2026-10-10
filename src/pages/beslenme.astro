@@ -5,6 +5,7 @@ import kids from '../assets/images/asm/kids.jpeg';
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Astro/Header.astro';
 import Footer from '../components/Astro/Footer.astro';
+import PageIntro from '../components/Astro/PageIntro.astro';
 
 const maxSaglik = ['Yeterli ve dengeli beslenme', 'Düzenli fiziksel aktivite', 'Sigarasız yaşam', 'Stresten uzak durma', 'Düzenli sağlık kontrolü'];
 
@@ -34,40 +35,42 @@ const dengesiz = [
   description="Yeterli ve dengeli beslenme ile sağlıklı yaşam önerileri; beslenme ve obezite hakkında bilgilendirme."
 >
   <Header>
-    <!-- page header band -->
-    <section class="relative overflow-hidden bg-pine-deep text-paper">
-      <div class="wrap-tight py-14 md:py-20">
-        <a href="/" class="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.16em] text-sage/70 transition-colors hover:text-paper">
-          <span aria-hidden="true">←</span> Ana sayfa
-        </a>
-        <p class="eyebrow-on-dark mt-8">Koruyucu Sağlık</p>
-        <h1 class="mt-4 font-display text-4xl font-extrabold tracking-tight md:text-6xl">Beslenme ve Obezite</h1>
-        <p class="mt-6 font-display text-2xl font-semibold text-seal-soft md:text-3xl">"Minimum hastalık riski, maksimum sağlık."</p>
-      </div>
-    </section>
+    <PageIntro section="Koruyucu Sağlık" title="Beslenme ve Obezite">
+      <p class="font-medium text-ink">“Minimum hastalık riski, maksimum sağlık.”</p>
+    </PageIntro>
 
-    <section class="bg-paper py-16 md:py-20">
+    <section class="pb-16 md:pb-24">
       <div class="wrap-tight">
-        <div class="overflow-hidden border border-line">
-          <Image class="aspect-[16/9] w-full object-cover" src={kids} alt="Sağlıklı beslenen çocuklar" widths={[480, 720, 960]} sizes="(min-width: 768px) 720px, 90vw" loading="eager" decoding="async" />
+        <div class="card p-2">
+          <Image
+            class="aspect-[16/9] w-full rounded-[12px] object-cover"
+            src={kids}
+            alt="Sağlıklı beslenen çocuklar"
+            widths={[480, 720, 960]}
+            sizes="(min-width: 768px) 720px, 90vw"
+            loading="eager"
+            decoding="async"
+          />
         </div>
 
         <!-- maksimum sağlık için -->
-        <div class="mt-14">
-          <p class="eyebrow">Maksimum sağlık için</p>
-          <ul class="mt-6 divide-y divide-line border-y border-line">
-            {
-              maxSaglik.map((item) => (
-                <li class="flex items-center gap-4 py-4">
-                  <span class="unit-code text-pine" />
-                  <span class="text-lg text-ink">{item}</span>
-                </li>
-              ))
-            }
-          </ul>
-        </div>
+        <h2 class="mt-14 text-2xl font-semibold tracking-[-0.02em] text-ink">Maksimum sağlık için</h2>
+        <ul class="card mt-5 divide-y divide-hairline px-5">
+          {
+            maxSaglik.map((item) => (
+              <li class="flex items-center gap-3 py-4 text-[17px] text-ink">
+                <span class="flex size-6 shrink-0 items-center justify-center rounded-full bg-accent-soft text-accent">
+                  <svg viewBox="0 0 16 16" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M3.5 8.5l3 3 6-7" />
+                  </svg>
+                </span>
+                {item}
+              </li>
+            ))
+          }
+        </ul>
 
-        <div class="mt-14 space-y-5 text-lg leading-relaxed text-ink-soft">
+        <div class="mt-14 max-w-[65ch] space-y-5 text-lead text-ink-2">
           <p>Optimal sağlık için yaşamın her döneminde yeterli ve dengeli beslenme temel unsurdur.</p>
           <p>
             Beslenme; açlık duygusunu bastırmak ya da canının çektiğini yemek değildir. Sağlığı korumak, geliştirmek ve yaşam kalitesini
@@ -77,32 +80,24 @@ const dengesiz = [
         </div>
 
         <!-- compare -->
-        <div class="mt-14 grid gap-6 md:grid-cols-2">
-          <div class="border border-line bg-sage/50 p-7">
-            <h2 class="font-display text-xl font-semibold text-pine">Yeterli ve dengeli beslenenler</h2>
-            <ul class="mt-5 space-y-3">
-              {
-                dengeli.map((item) => (
-                  <li class="flex gap-3 text-ink">
-                    <span class="mt-2 h-1.5 w-1.5 flex-shrink-0 bg-pine" />
-                    <span>{item}</span>
-                  </li>
-                ))
-              }
+        <div class="mt-14 grid gap-3 md:grid-cols-2">
+          <div class="card p-6">
+            <h2 class="flex items-center gap-2 text-lg font-semibold tracking-[-0.01em] text-ink">
+              <span class="size-2 rounded-full bg-accent" aria-hidden="true"></span>
+              Yeterli ve dengeli beslenenler
+            </h2>
+            <ul class="mt-4 list-disc space-y-2.5 pl-5 text-[15px] leading-relaxed text-ink-2 marker:text-ink-3">
+              {dengeli.map((item) => <li>{item}</li>)}
             </ul>
           </div>
 
-          <div class="border border-line bg-paper p-7">
-            <h2 class="font-display text-xl font-semibold text-seal">Yetersiz ve dengesiz beslenenler</h2>
-            <ul class="mt-5 space-y-3">
-              {
-                dengesiz.map((item) => (
-                  <li class="flex gap-3 text-ink">
-                    <span class="mt-2 h-1.5 w-1.5 flex-shrink-0 bg-seal" />
-                    <span>{item}</span>
-                  </li>
-                ))
-              }
+          <div class="card p-6">
+            <h2 class="flex items-center gap-2 text-lg font-semibold tracking-[-0.01em] text-ink">
+              <span class="size-2 rounded-full bg-seal" aria-hidden="true"></span>
+              Yetersiz ve dengesiz beslenenler
+            </h2>
+            <ul class="mt-4 list-disc space-y-2.5 pl-5 text-[15px] leading-relaxed text-ink-2 marker:text-ink-3">
+              {dengesiz.map((item) => <li>{item}</li>)}
             </ul>
           </div>
         </div>
