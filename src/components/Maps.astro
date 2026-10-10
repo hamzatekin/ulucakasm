@@ -3,9 +3,9 @@
  * Google Maps component — privacy façade / click-to-load.
  * Nothing is requested from Google (no script, no cookies, no visitor IP)
  * until the visitor explicitly clicks "Haritayı göster". This keeps the
- * default page load free of any third-party call. The facade text is the
- * KVKK m. 9/6-a notice for the transfer to Google (ABD): it names who gets
- * what and links to /kvkk#harita, so the click counts as informed consent.
+ * default page load free of any third-party call. The facade links to
+ * /kvkk#harita, which explains the transfer to Google LLC (ABD) that the
+ * click consents to (KVKK m. 9/6-a).
  * Uses the modern AdvancedMarkerElement API.
  */
 import Icon from './Icon.astro';
@@ -25,9 +25,7 @@ const MAPS_LINK = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env
         <Icon name="map-pin" class="h-6 w-6" />
       </span>
       <span class="text-[17px] font-semibold tracking-[-0.01em]">Haritayı göster</span>
-      <span class="max-w-xs text-center text-sm text-ink-2">
-        Tıkladığınızda harita Google Haritalar’dan yüklenir; IP adresiniz ve tarayıcı bilgileriniz Google LLC’ye (ABD) iletilir.
-      </span>
+      <span class="max-w-xs text-center text-sm text-ink-2">Tıkladığınızda harita Google Haritalar’dan yüklenir.</span>
     </button>
     <a href="/kvkk#harita" class="ulink absolute inset-x-0 bottom-4 mx-auto w-fit text-[13px] text-ink-2">
       Kişisel verileriniz hakkında
