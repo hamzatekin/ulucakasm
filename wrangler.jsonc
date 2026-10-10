@@ -1,8 +1,21 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
+  // Static Astro build served by Workers Static Assets: no Worker script, so no "main".
+  // Must match the Worker's name in the Cloudflare dashboard, or Workers Builds fails.
   "name": "ulucakasm",
-  "compatibility_date": "2026-07-08",
+  "compatibility_date": "2026-10-10",
   "assets": {
-    "directory": "./dist"
-  }
+    "directory": "./dist",
+    // Pages picked up dist/404.html on its own; Workers has to be told.
+    "not_found_handling": "404-page",
+    // Astro writes /kvkk as kvkk/index.html, so /kvkk redirects to /kvkk/ (same as Pages did).
+    "html_handling": "auto-trailing-slash"
+  },
+  // ulucakasm.<account>.workers.dev, plus one Preview URL per branch from Workers Builds.
+  "workers_dev": true,
+  "preview_urls": true,
+  // Previews need nothing of their own: the site has no runtime vars or bindings.
+  "previews": {}
+  // ulucakasm.com and www.ulucakasm.com are Custom Domains added in the dashboard.
+  // There is deliberately no "routes" key: with one, every deploy would rewrite them.
 }

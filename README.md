@@ -34,6 +34,9 @@ Google Maps için API anahtarı gereklidir.
 MAPS_API_KEY="YOUR_KEY"
 ```
 
+## Yayınlama
+Site, Cloudflare Workers üzerinde statik dosyalar olarak (Workers Static Assets) yayınlanır; ayarlar `wrangler.jsonc` ve `public/_headers` dosyalarındadır. Workers Builds, `main` dalındaki her değişikliği canlıya alır ve diğer dallar için PR'a bir önizleme adresi yazar. `MAPS_API_KEY`, Workers Builds'te build değişkeni olarak tanımlıdır.
+
 ## Komutlar
 ```bash
 pnpm dev       # geliştirme
