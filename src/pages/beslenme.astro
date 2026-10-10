@@ -3,11 +3,15 @@ import { Image } from 'astro:assets';
 import kids from '../assets/images/asm/kids.jpeg';
 
 import Layout from '../layouts/Layout.astro';
-import Header from '../components/Astro/Header.astro';
-import Footer from '../components/Astro/Footer.astro';
-import PageIntro from '../components/Astro/PageIntro.astro';
+import PageIntro from '../components/PageIntro.astro';
 
-const maxSaglik = ['Yeterli ve dengeli beslenme', 'Düzenli fiziksel aktivite', 'Sigarasız yaşam', 'Stresten uzak durma', 'Düzenli sağlık kontrolü'];
+const maxSaglik = [
+  'Yeterli ve dengeli beslenme',
+  'Düzenli fiziksel aktivite',
+  'Sigarasız yaşam',
+  'Stresten uzak durma',
+  'Düzenli sağlık kontrolü',
+];
 
 const dengeli = [
   'Sağlam ve sağlıklı bir görünüş',
@@ -31,78 +35,85 @@ const dengesiz = [
 ---
 
 <Layout
-  title="Beslenme ve Obezite | İbrahim-Hüsniye Özdurakoğlu Aile Sağlığı Merkezi"
+  title="Beslenme ve Obezite"
   description="Yeterli ve dengeli beslenme ile sağlıklı yaşam önerileri; beslenme ve obezite hakkında bilgilendirme."
 >
-  <Header>
-    <PageIntro section="Koruyucu Sağlık" title="Beslenme ve Obezite">
-      <p class="font-medium text-ink">“Minimum hastalık riski, maksimum sağlık.”</p>
-    </PageIntro>
+  <PageIntro section="Koruyucu Sağlık" title="Beslenme ve Obezite">
+    <p class="font-medium text-ink">“Minimum hastalık riski, maksimum sağlık.”</p>
+  </PageIntro>
 
-    <section class="pb-16 md:pb-24">
-      <div class="wrap-tight">
-        <div class="card p-2">
-          <Image
-            class="aspect-[16/9] w-full rounded-[12px] object-cover"
-            src={kids}
-            alt="Sağlıklı beslenen çocuklar"
-            widths={[480, 720, 960]}
-            sizes="(min-width: 768px) 720px, 90vw"
-            loading="eager"
-            decoding="async"
-          />
+  <section class="pb-16 md:pb-24">
+    <div class="wrap-tight">
+      <div class="card p-2">
+        <Image
+          class="aspect-[16/9] w-full rounded-[12px] object-cover"
+          src={kids}
+          alt="Sağlıklı beslenen çocuklar"
+          widths={[480, 720, 960]}
+          sizes="(min-width: 768px) 720px, 90vw"
+          loading="eager"
+        />
+      </div>
+
+      <!-- maksimum sağlık için -->
+      <h2 class="mt-14 text-2xl font-semibold tracking-[-0.02em] text-ink">Maksimum sağlık için</h2>
+      <ul class="card mt-5 divide-y divide-hairline px-5">
+        {maxSaglik.map((item) => (
+          <li class="flex items-center gap-3 py-4 text-[17px] text-ink">
+            <span class="flex size-6 shrink-0 items-center justify-center rounded-full bg-accent-soft text-accent">
+              <svg
+                viewBox="0 0 16 16"
+                class="h-3.5 w-3.5"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M3.5 8.5l3 3 6-7" />
+              </svg>
+            </span>
+            {item}
+          </li>
+        ))}
+      </ul>
+
+      <div class="mt-14 max-w-[65ch] space-y-5 text-lead text-ink-2">
+        <p>Optimal sağlık için yaşamın her döneminde yeterli ve dengeli beslenme temel unsurdur.</p>
+        <p>
+          Beslenme; açlık duygusunu bastırmak ya da canının çektiğini yemek değildir. Sağlığı korumak, geliştirmek ve yaşam kalitesini
+          yükseltmek için vücudun gereksinim duyduğu besin öğelerini yeterli miktarda ve uygun zamanda almak için bilinçli yapılan bir
+          davranıştır.
+        </p>
+      </div>
+
+      <!-- compare -->
+      <div class="mt-14 grid gap-3 md:grid-cols-2">
+        <div class="card p-6">
+          <h2 class="flex items-center gap-2 text-lg font-semibold tracking-[-0.01em] text-ink">
+            <span class="size-2 rounded-full bg-accent" aria-hidden="true"></span>
+            Yeterli ve dengeli beslenenler
+          </h2>
+          <ul class="mt-4 list-disc space-y-2.5 pl-5 text-[15px] leading-relaxed text-ink-2 marker:text-ink-3">
+            {dengeli.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
         </div>
 
-        <!-- maksimum sağlık için -->
-        <h2 class="mt-14 text-2xl font-semibold tracking-[-0.02em] text-ink">Maksimum sağlık için</h2>
-        <ul class="card mt-5 divide-y divide-hairline px-5">
-          {
-            maxSaglik.map((item) => (
-              <li class="flex items-center gap-3 py-4 text-[17px] text-ink">
-                <span class="flex size-6 shrink-0 items-center justify-center rounded-full bg-accent-soft text-accent">
-                  <svg viewBox="0 0 16 16" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M3.5 8.5l3 3 6-7" />
-                  </svg>
-                </span>
-                {item}
-              </li>
-            ))
-          }
-        </ul>
-
-        <div class="mt-14 max-w-[65ch] space-y-5 text-lead text-ink-2">
-          <p>Optimal sağlık için yaşamın her döneminde yeterli ve dengeli beslenme temel unsurdur.</p>
-          <p>
-            Beslenme; açlık duygusunu bastırmak ya da canının çektiğini yemek değildir. Sağlığı korumak, geliştirmek ve yaşam kalitesini
-            yükseltmek için vücudun gereksinim duyduğu besin öğelerini yeterli miktarda ve uygun zamanda almak için bilinçli yapılan bir
-            davranıştır.
-          </p>
-        </div>
-
-        <!-- compare -->
-        <div class="mt-14 grid gap-3 md:grid-cols-2">
-          <div class="card p-6">
-            <h2 class="flex items-center gap-2 text-lg font-semibold tracking-[-0.01em] text-ink">
-              <span class="size-2 rounded-full bg-accent" aria-hidden="true"></span>
-              Yeterli ve dengeli beslenenler
-            </h2>
-            <ul class="mt-4 list-disc space-y-2.5 pl-5 text-[15px] leading-relaxed text-ink-2 marker:text-ink-3">
-              {dengeli.map((item) => <li>{item}</li>)}
-            </ul>
-          </div>
-
-          <div class="card p-6">
-            <h2 class="flex items-center gap-2 text-lg font-semibold tracking-[-0.01em] text-ink">
-              <span class="size-2 rounded-full bg-seal" aria-hidden="true"></span>
-              Yetersiz ve dengesiz beslenenler
-            </h2>
-            <ul class="mt-4 list-disc space-y-2.5 pl-5 text-[15px] leading-relaxed text-ink-2 marker:text-ink-3">
-              {dengesiz.map((item) => <li>{item}</li>)}
-            </ul>
-          </div>
+        <div class="card p-6">
+          <h2 class="flex items-center gap-2 text-lg font-semibold tracking-[-0.01em] text-ink">
+            <span class="size-2 rounded-full bg-seal" aria-hidden="true"></span>
+            Yetersiz ve dengesiz beslenenler
+          </h2>
+          <ul class="mt-4 list-disc space-y-2.5 pl-5 text-[15px] leading-relaxed text-ink-2 marker:text-ink-3">
+            {dengesiz.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
         </div>
       </div>
-    </section>
-  </Header>
-  <Footer />
+    </div>
+  </section>
 </Layout>

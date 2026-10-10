@@ -1,9 +1,8 @@
 ---
 import { Image } from 'astro:assets';
-import frontSide from '../../assets/images/asm/front-side.webp';
+import frontSide from '../assets/images/asm/front-side.webp';
 import Icon from './Icon.astro';
-
-const DIRECTIONS = 'https://www.google.com/maps/search/?api=1&query=38.47771,27.35559';
+import { DIRECTIONS, NAME } from '../lib/clinic';
 ---
 
 <!-- First visit is rare for a patient, so the hero gets the page's one entrance:
@@ -14,7 +13,7 @@ const DIRECTIONS = 'https://www.google.com/maps/search/?api=1&query=38.47771,27.
       <p class="animate-enter text-sm text-ink-2">T.C. Sağlık Bakanlığı · Kemalpaşa, Ulucak</p>
 
       <h1 class="animate-enter mt-4 text-display text-ink" style="animation-delay: 60ms">
-        Kemalpaşa İbrahim-Hüsniye Özdurakoğlu Aile Sağlığı Merkezi
+        {NAME}
       </h1>
 
       <p class="animate-enter mt-6 max-w-[58ch] text-lead text-ink-2" style="animation-delay: 120ms">
@@ -42,13 +41,12 @@ const DIRECTIONS = 'https://www.google.com/maps/search/?api=1&query=38.47771,27.
       <div class="card overflow-hidden p-2">
         <Image
           src={frontSide}
-          alt="Kemalpaşa İbrahim-Hüsniye Özdurakoğlu Aile Sağlığı Merkezi binası"
+          alt={`${NAME} binası`}
           class="aspect-[4/3] w-full rounded-[12px] object-cover object-[center_30%] lg:aspect-[5/6]"
           widths={[480, 720, 960, 1200]}
           sizes="(min-width: 1024px) 460px, 90vw"
           loading="eager"
           fetchpriority="high"
-          decoding="async"
         />
       </div>
       <figcaption class="mt-3 px-1 text-[13px] text-ink-3">Mustafa Kemal Atatürk Mah. 9247 Sok. No:3</figcaption>

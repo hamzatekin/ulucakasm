@@ -1,20 +1,20 @@
 ---
-import { version } from '../../../package.json';
+import { version } from '../../package.json';
 import Icon from './Icon.astro';
+import { ADDRESS, NAME, PHONES, SHORT_NAME, telHref } from '../lib/clinic';
+
 const currentYear = new Date().getFullYear();
 const VERSION = `v${version}`;
 // Build date: every content change ships as a new build, so this is the "son güncelleme tarihi"
 // the Sağlık Hizmetlerinde Tanıtım ve Bilgilendirme Yönetmeliği (m. 5/1-ğ) asks for, next to a site contact.
 const UPDATED = new Date().toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Istanbul' });
 
-const tel = (p: string) => `tel:${p.replace(/[^0-9+]/g, '')}`;
-
 const DIRECTORY = [
   {
     title: 'Merkez',
-    address: 'Mustafa Kemal Atatürk Mah. 9247 Sok. No:3, Ulucak, Kemalpaşa / İzmir',
+    address: ADDRESS,
     web: { label: 'www.ism.gov.tr', href: 'https://www.ism.gov.tr' },
-    phones: ['+90 (232) 873 40 74', '+90 (232) 873 40 81'],
+    phones: PHONES,
   },
   {
     title: 'İlçe Sağlık Müdürlüğü',
@@ -35,56 +35,67 @@ const DIRECTORY = [
   <div class="wrap pt-14 pb-[calc(2.5rem+env(safe-area-inset-bottom,0px))]">
     <div class="flex flex-col gap-1">
       <span class="text-sm text-ink-2">T.C. Sağlık Bakanlığı</span>
-      <span class="text-xl font-semibold tracking-[-0.015em] text-ink md:text-2xl">İbrahim-Hüsniye Özdurakoğlu Aile Sağlığı Merkezi</span>
+      <span class="text-xl font-semibold tracking-[-0.015em] text-ink md:text-2xl">{SHORT_NAME}</span>
       <span class="text-sm text-ink-2">Kemalpaşa · Ulucak</span>
     </div>
 
     <div class="grid gap-10 py-10 md:grid-cols-3">
-      {
-        DIRECTORY.map((d) => (
-          <div>
-            <h3 class="text-sm font-semibold text-ink">{d.title}</h3>
-            <div class="mt-3 space-y-2.5 text-sm leading-relaxed text-ink-2">
+      {DIRECTORY.map((d) => (
+        <div>
+          <h3 class="text-sm font-semibold text-ink">{d.title}</h3>
+          <div class="mt-3 space-y-2.5 text-sm leading-relaxed text-ink-2">
+            <p class="flex gap-2.5">
+              <Icon name="map-pin" class="mt-0.5 h-4 w-4 flex-shrink-0 text-ink-3" />
+              <span>{d.address}</span>
+            </p>
+            <p class="flex gap-2.5">
+              <Icon name="external" class="mt-0.5 h-4 w-4 flex-shrink-0 text-ink-3" />
+              <a href={d.web.href} target="_blank" rel="noopener noreferrer" class="ulink text-ink-2">
+                {d.web.label}
+              </a>
+            </p>
+            {d.phones.map((p) => (
               <p class="flex gap-2.5">
-                <Icon name="map-pin" class="mt-0.5 h-4 w-4 flex-shrink-0 text-ink-3" />
-                <span>{d.address}</span>
-              </p>
-              <p class="flex gap-2.5">
-                <Icon name="external" class="mt-0.5 h-4 w-4 flex-shrink-0 text-ink-3" />
-                <a href={d.web.href} target="_blank" rel="noopener noreferrer" class="ulink text-ink-2">
-                  {d.web.label}
+                <Icon name="phone" class="mt-0.5 h-4 w-4 flex-shrink-0 text-ink-3" />
+                <a href={telHref(p)} class="tabular-nums hover:text-ink">
+                  {p}
                 </a>
               </p>
-              {d.phones.map((p) => (
-                <p class="flex gap-2.5">
-                  <Icon name="phone" class="mt-0.5 h-4 w-4 flex-shrink-0 text-ink-3" />
-                  <a href={tel(p)} class="tabular-nums hover:text-ink">
-                    {p}
-                  </a>
-                </p>
-              ))}
-            </div>
+            ))}
           </div>
-        ))
-      }
+        </div>
+      ))}
     </div>
 
     <div class="flex flex-col gap-3 border-t border-hairline pt-6 text-[13px] text-ink-3 md:flex-row md:items-center md:justify-between">
       <span class="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-4">
-        <span>Kemalpaşa İbrahim-Hüsniye Özdurakoğlu Aile Sağlığı Merkezi</span>
-        <a href="/kvkk" class="ulink text-ink-2">Kişisel Veriler</a>
-        <a href="/erisilebilirlik" class="ulink text-ink-2">Erişilebilirlik</a>
+        <span>{NAME}</span>
+        <a href="/kvkk" class="ulink text-ink-2">
+          Kişisel Veriler
+        </a>
+        <a href="/erisilebilirlik" class="ulink text-ink-2">
+          Erişilebilirlik
+        </a>
       </span>
       <span class="flex items-center gap-2 tabular-nums">
         <span>{VERSION}</span>
         <span aria-hidden="true">·</span>
-        <a href="https://avvossoft.com" target="_blank" rel="noopener noreferrer" class="hover:text-ink">Avvossoft {currentYear}</a>
+        <a href="https://avvossoft.com" target="_blank" rel="noopener noreferrer" class="hover:text-ink">
+          Avvossoft {currentYear}
+        </a>
       </span>
     </div>
     <p class="mt-3 flex flex-col gap-1 text-[13px] text-ink-3 sm:flex-row sm:items-center sm:gap-2">
       <span>Son güncelleme: {UPDATED}</span>
-      <span aria-hidden="true" class="hidden sm:inline">·</span>
-      <span>Site ile ilgili iletişim: <a href={tel(DIRECTORY[0].phones[0])} class="tabular-nums hover:text-ink">{DIRECTORY[0].phones[0]}</a></span>
+      <span aria-hidden="true" class="hidden sm:inline">
+        ·
+      </span>
+      <span>
+        Site ile ilgili iletişim:{' '}
+        <a href={telHref(PHONES[0])} class="tabular-nums hover:text-ink">
+          {PHONES[0]}
+        </a>
+      </span>
     </p>
   </div>
 </footer>

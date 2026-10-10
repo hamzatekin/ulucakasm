@@ -1,0 +1,120 @@
+---
+import { Image } from 'astro:assets';
+import Img from './Img.astro';
+import Icon from './Icon.astro';
+import { DOCTORS, telHref } from '../lib/clinic';
+import nurses from '../assets/images/asm/doctors/nurses_v2.avif';
+import supportStaff from '../assets/images/asm/doctors/support_staff.webp';
+
+// Doctor photos and schedules are looked up by slug (see lib/clinic.ts).
+const photos = import.meta.glob<{ default: ImageMetadata }>('../assets/images/asm/doctors/*.webp', { eager: true });
+const schedules = import.meta.glob<{ default: ImageMetadata }>('../assets/images/asm/schedules/*.webp', { eager: true });
+const photo = (slug: string) => photos[`../assets/images/asm/doctors/${slug}.webp`].default;
+const schedule = (slug: string) => schedules[`../assets/images/asm/schedules/${slug}_schedule.webp`].default;
+
+const TEAM = [
+  { name: 'Acil Hemşireleri', img: nurses, role: 'Acil müdahale ve bakım' },
+  { name: 'Hizmetliler', img: supportStaff, role: 'Destek ve temizlik ekibi' },
+];
+---
+
+<section id="kadromuz" class="scroll-mt-20 py-14 md:py-20">
+  <div class="wrap">
+    <h2 class="max-w-[46rem] text-title text-ink">
+      Aile hekimleriniz. <span class="text-ink-3">Size kayıtlı birimi bulun.</span>
+    </h2>
+
+    <!-- jump straight to a doctor's card; the card briefly rings on arrival (CSS :target, no JS) -->
+    <nav class="mt-6 flex flex-wrap gap-2" aria-label="Hekim listesi">
+      {DOCTORS.map((d) => (
+        <a href={`#hekim-${d.slug}`} class="btn-secondary min-h-9 rounded-full px-3.5 text-sm">
+          {d.name}
+        </a>
+      ))}
+    </nav>
+
+    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {DOCTORS.map((d) => (
+        <article id={`hekim-${d.slug}`} class="doctor card flex scroll-mt-24 flex-col p-2">
+          <div class="relative overflow-hidden rounded-[12px] bg-surface-2">
+            <Image
+              src={photo(d.slug)}
+              alt={d.name}
+              class="aspect-[4/3] w-full object-cover object-[center_22%]"
+              widths={[320, 480, 640, 760]}
+              sizes="(min-width: 1024px) 360px, (min-width: 640px) 45vw, 92vw"
+            />
+            <span class="chip absolute top-2.5 left-2.5 bg-surface/85 text-ink backdrop-blur-md">
+              <span class="text-ink-2">Birim</span> {d.code}
+            </span>
+          </div>
+
+          <div class="flex flex-1 flex-col px-3 pt-4 pb-1">
+            <h3 class="text-lg font-semibold tracking-[-0.01em] text-ink">{d.name}</h3>
+            <p class="mt-1 text-sm text-ink-2">
+              <span class="text-ink-3">Aile sağlığı çalışanı:</span> {d.assistant}
+            </p>
+          </div>
+
+          <div class="mt-4 grid gap-2">
+            <a href={telHref(d.phone)} class="btn-secondary w-full justify-between rounded-[12px] px-3.5 tabular-nums">
+              <span class="flex items-center gap-2.5">
+                <Icon name="phone" class="h-4 w-4 text-accent" />
+                {d.phone}
+              </span>
+              <span class="text-sm text-ink-3">Ara</span>
+            </a>
+            <Img
+              src={schedule(d.slug)}
+              label="Haftalık çalışma programı"
+              hint="Büyütmek için dokunun"
+              alt={`${d.name} haftalık çalışma programı görseli`}
+              widths={[720, 1080, 1600]}
+            />
+            <p class="sr-only">
+              {d.name} çalışma programı: Hafta içi Pazartesi–Cuma, yaklaşık {d.hours} saatleri arasında aile hekimliği hizmeti verilir. Gün
+              içinde bir saat öğle tatili vardır ve belirli saatlerde ev ziyareti yapılır. Cumartesi ve Pazar kapalıdır. Kesin saatler için
+              görseli büyütebilir veya birimi arayabilirsiniz.
+            </p>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <!-- support team -->
+    <h3 class="mt-16 text-lg font-semibold tracking-[-0.01em] text-ink">Destek ekibimiz</h3>
+    <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {TEAM.map((t) => (
+        <article class="card p-2">
+          <div class="overflow-hidden rounded-[12px] bg-surface-2">
+            <Image
+              src={t.img}
+              alt={t.name}
+              class="aspect-[4/3] w-full object-cover object-[center_30%]"
+              widths={[320, 480, 640, 760]}
+              sizes="(min-width: 1024px) 360px, (min-width: 640px) 45vw, 92vw"
+            />
+          </div>
+          <div class="px-3 pt-4 pb-3">
+            <h4 class="text-lg font-semibold tracking-[-0.01em] text-ink">{t.name}</h4>
+            <p class="mt-1 text-sm text-ink-2">{t.role}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Arriving from the list above: a ring that fades out, so the eye lands on the right card. */
+  .doctor:target {
+    animation: arrive 1400ms var(--ease-out);
+  }
+  @keyframes arrive {
+    from {
+      box-shadow:
+        0 0 0 3px var(--color-accent),
+        var(--elev-2);
+    }
+  }
+</style>

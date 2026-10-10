@@ -1,11 +1,7 @@
 ---
 import Maps from './Maps.astro';
 import Icon from './Icon.astro';
-
-const ADDRESS = 'Mustafa Kemal Atatürk Mah. 9247 Sok. No:3, Ulucak, Kemalpaşa / İzmir';
-const DIRECTIONS = 'https://www.google.com/maps/search/?api=1&query=38.47771,27.35559';
-const PHONES = ['+90 (232) 873 40 74', '+90 (232) 873 40 81'];
-const tel = (p: string) => `tel:${p.replace(/[^0-9+]/g, '')}`;
+import { ADDRESS, DIRECTIONS, PHONES, telHref } from '../lib/clinic';
 ---
 
 <section id="iletisim" class="scroll-mt-20 py-14 md:py-20">
@@ -36,13 +32,11 @@ const tel = (p: string) => `tel:${p.replace(/[^0-9+]/g, '')}`;
             Telefon
           </dt>
           <dd class="mt-3 flex flex-wrap gap-2">
-            {
-              PHONES.map((p) => (
-                <a href={tel(p)} class="btn-secondary tabular-nums">
-                  {p}
-                </a>
-              ))
-            }
+            {PHONES.map((p) => (
+              <a href={telHref(p)} class="btn-secondary tabular-nums">
+                {p}
+              </a>
+            ))}
           </dd>
         </div>
 
@@ -55,7 +49,9 @@ const tel = (p: string) => `tel:${p.replace(/[^0-9+]/g, '')}`;
           <dd class="mt-1 text-[15px] text-ink-2">Hafta içi mesai saatleri içinde hizmet verilmektedir.</dd>
           <dd class="mt-3 text-[15px] text-ink-2">
             Sağlık kayıtlarınız:{' '}
-            <a href="https://enabiz.gov.tr" target="_blank" rel="noopener noreferrer" class="ulink">e-Nabız</a>
+            <a href="https://enabiz.gov.tr" target="_blank" rel="noopener noreferrer" class="ulink">
+              e-Nabız
+            </a>
           </dd>
         </div>
       </dl>

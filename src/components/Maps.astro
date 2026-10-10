@@ -1,0 +1,87 @@
+---
+/**
+ * Google Maps component — privacy façade / click-to-load.
+ * Nothing is requested from Google (no script, no cookies, no visitor IP)
+ * until the visitor explicitly clicks "Haritayı göster". This keeps the
+ * default page load free of any third-party call. The facade links to
+ * /kvkk#harita, which explains the transfer to Google LLC (ABD) that the
+ * click consents to (KVKK m. 9/6-a).
+ * Uses the modern AdvancedMarkerElement API.
+ */
+import Icon from './Icon.astro';
+import { LOCATION, NAME } from '../lib/clinic';
+
+const MAPS_LINK = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.MAPS_API_KEY}&loading=async&libraries=marker`;
+---
+
+<div class="relative h-[360px] w-full md:h-[480px] lg:h-full lg:min-h-[480px]">
+  <div id="map-facade" class="map-facade absolute inset-0 z-10">
+    <button
+      type="button"
+      id="map-load"
+      class="map-load flex h-full w-full cursor-pointer flex-col items-center justify-center gap-3 px-6 pb-8 text-ink"
+    >
+      <span class="map-pin flex size-12 items-center justify-center rounded-full bg-surface text-seal">
+        <Icon name="map-pin" class="h-6 w-6" />
+      </span>
+      <span class="text-[17px] font-semibold tracking-[-0.01em]">Haritayı göster</span>
+      <span class="max-w-xs text-center text-sm text-ink-2">Tıkladığınızda harita Google Haritalar’dan yüklenir.</span>
+    </button>
+    <a href="/kvkk#harita" class="ulink absolute inset-x-0 bottom-4 mx-auto w-fit text-[13px] text-ink-2">
+      Kişisel verileriniz hakkında
+    </a>
+  </div>
+  <div id="map-container" class="h-full w-full"></div>
+</div>
+
+<style>
+  @reference '../styles/global.css';
+
+  /* A quiet dot grid stands in for the map until the visitor opts in. */
+  .map-facade {
+    background-color: var(--color-surface-2);
+    background-image: radial-gradient(circle at 1px 1px, color-mix(in oklab, var(--color-ink) 14%, transparent) 1px, transparent 0);
+    background-size: 18px 18px;
+  }
+  .map-pin {
+    box-shadow: var(--elev-2);
+    transition: transform 160ms var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .map-load:hover .map-pin {
+      transform: translateY(-2px);
+    }
+  }
+  .map-load:active .map-pin {
+    transform: scale(0.94);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .map-load:active .map-pin,
+    .map-load:hover .map-pin {
+      transform: none;
+    }
+  }
+</style>
+
+<script is:inline define:vars={{ MAPS_LINK, LOCATION, NAME }}>
+  // The Maps loader calls this (callback=initMap) once the API is ready.
+  window.initMap = async () => {
+    const { Map } = await google.maps.importLibrary('maps');
+    const { AdvancedMarkerElement } = await google.maps.importLibrary('marker');
+    const map = new Map(document.getElementById('map-container'), {
+      zoom: 17,
+      center: LOCATION,
+      mapId: 'ulucak-asm-map', // required for AdvancedMarkerElement
+    });
+    new AdvancedMarkerElement({ position: LOCATION, map, title: NAME });
+  };
+
+  // The facade (and this button) goes away on the first click, so the script loads once.
+  document.getElementById('map-load').addEventListener('click', () => {
+    document.getElementById('map-facade').remove();
+    const script = document.createElement('script');
+    script.src = `${MAPS_LINK}&callback=initMap`;
+    script.async = true;
+    document.head.append(script);
+  });
+</script>

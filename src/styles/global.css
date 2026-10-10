@@ -190,14 +190,13 @@
   }
 
   /* raised surface: translucent ring + soft drop instead of a solid border */
-  .card {
+  .card,
+  .card-link {
     @apply rounded-[20px] bg-surface;
     box-shadow: var(--elev-1);
   }
   /* a card that is itself the link: lifts on hover, gives under the finger */
   .card-link {
-    @apply rounded-[20px] bg-surface;
-    box-shadow: var(--elev-1);
     transition:
       box-shadow 200ms ease,
       transform 160ms var(--ease-out);
@@ -251,6 +250,69 @@
     transition: text-decoration-color 150ms ease;
   }
 
+  /* Full-screen image viewer on a native <dialog> (focus trap, Esc and focus
+     return come free). A modal, so it stays centred: fades in over a dark
+     backdrop and leaves faster than it arrives. Used by Img and Gallery. */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100dvh;
+    max-width: 100vw;
+    max-height: 100dvh;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    overscroll-behavior: contain;
+    opacity: 0;
+    transition:
+      opacity 150ms var(--ease-out),
+      overlay 150ms allow-discrete,
+      display 150ms allow-discrete;
+  }
+  .lightbox[open] {
+    opacity: 1;
+    transition-duration: 220ms;
+  }
+  .lightbox::backdrop {
+    background: rgb(6 9 8 / 0);
+    transition:
+      background-color 150ms ease,
+      overlay 150ms allow-discrete,
+      display 150ms allow-discrete;
+  }
+  .lightbox[open]::backdrop {
+    background: rgb(6 9 8 / 0.9);
+  }
+  @starting-style {
+    .lightbox[open] {
+      opacity: 0;
+    }
+    .lightbox[open]::backdrop {
+      background: rgb(6 9 8 / 0);
+    }
+  }
+  .lightbox-close {
+    @apply fixed z-[2] inline-flex size-11 cursor-pointer items-center justify-center rounded-full text-white;
+    top: calc(env(safe-area-inset-top, 0px) + 0.75rem);
+    right: calc(env(safe-area-inset-right, 0px) + 0.75rem);
+    background: rgb(255 255 255 / 0.12);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition:
+      transform 160ms var(--ease-out),
+      background-color 150ms ease;
+  }
+  .lightbox-close:active {
+    transform: scale(0.94);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .lightbox-close:hover {
+      background: rgb(255 255 255 / 0.2);
+    }
+  }
+
   /* skip-to-content link: off-screen until focused (WCAG 2.4.1 Bypass Blocks) */
   .skip-link {
     position: absolute;
@@ -275,7 +337,8 @@
   .card-link:active,
   .btn-primary:active,
   .btn-secondary:active,
-  .btn-ghost:active {
+  .btn-ghost:active,
+  .lightbox-close:active {
     transform: none;
   }
 }

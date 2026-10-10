@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import healthMinistryLogo from '../../assets/images/health_ministry-logo.png';
+import healthMinistryLogo from '../assets/images/health_ministry-logo.png';
 import Icon from './Icon.astro';
 
 const NAV = [
@@ -11,12 +11,14 @@ const NAV = [
 ];
 ---
 
-<a href="#main-content" class="skip-link">İçeriğe geç</a>
+<a href="#main-content" class="skip-link">
+  İçeriğe geç
+</a>
 
 <header class="site-header sticky top-0 z-40 bg-canvas">
   <div class="wrap flex h-16 items-center justify-between gap-4">
     <a href="/" class="flex min-w-0 items-center gap-3">
-      <Image class="h-9 w-9 shrink-0" src={healthMinistryLogo} alt="T.C. Sağlık Bakanlığı" widths={[48, 72, 96]} sizes="36px" decoding="async" />
+      <Image class="h-9 w-9 shrink-0" src={healthMinistryLogo} alt="T.C. Sağlık Bakanlığı" widths={[48, 72, 96]} sizes="36px" />
       <span class="flex min-w-0 flex-col">
         <span class="truncate text-[15px] leading-5 font-semibold tracking-[-0.01em] text-ink">İbrahim-Hüsniye Özdurakoğlu</span>
         <span class="truncate text-[13px] leading-5 text-ink-2">Aile Sağlığı Merkezi · Ulucak</span>
@@ -24,14 +26,14 @@ const NAV = [
     </a>
 
     <nav class="hidden items-center gap-1 lg:flex" aria-label="Ana menü">
-      {
-        NAV.map((item) => (
-          <a href={item.href} data-nav class="nav-link rounded-full px-3 py-2 text-sm text-ink-2 hover:text-ink">
-            {item.label}
-          </a>
-        ))
-      }
-      <a href="/#kadromuz" class="btn-primary ml-3 min-h-9 px-3.5 text-sm">Hekiminizi bulun</a>
+      {NAV.map((item) => (
+        <a href={item.href} class="nav-link rounded-full px-3 py-2 text-sm text-ink-2 hover:text-ink">
+          {item.label}
+        </a>
+      ))}
+      <a href="/#kadromuz" class="btn-primary ml-3 min-h-9 px-3.5 text-sm">
+        Hekiminizi bulun
+      </a>
     </nav>
 
     <button type="button" popovertarget="mobileMenu" class="menu-button btn-ghost -mr-2 size-11 p-0 text-ink lg:hidden" aria-label="Menü">
@@ -43,24 +45,20 @@ const NAV = [
   <!-- mobile menu: native popover — light-dismiss, Esc and focus return come from the browser -->
   <div id="mobileMenu" popover class="menu-panel lg:hidden">
     <nav class="flex flex-col" aria-label="Mobil menü">
-      {
-        NAV.map((item) => (
-          <a href={item.href} class="menu-row">
-            {item.label}
-          </a>
-        ))
-      }
-      <a href="/#kadromuz" class="btn-primary mt-2 min-h-12 text-base">Hekiminizi bulun</a>
+      {NAV.map((item) => (
+        <a href={item.href} class="menu-row">
+          {item.label}
+        </a>
+      ))}
+      <a href="/#kadromuz" class="btn-primary mt-2 min-h-12 text-base">
+        Hekiminizi bulun
+      </a>
     </nav>
   </div>
 </header>
 
-<main id="main-content" tabindex="-1">
-  <slot />
-</main>
-
 <style>
-  @reference '../../styles/global.css';
+  @reference '../styles/global.css';
 
   .site-header {
     padding-top: env(safe-area-inset-top, 0px);
@@ -157,38 +155,24 @@ const NAV = [
 </style>
 
 <script>
-  function initHeader() {
-    // A tap on a menu link scrolls to its section; close the popover with it.
-    const menu = document.getElementById('mobileMenu');
-    if (menu && menu.dataset.bound !== '1') {
-      menu.dataset.bound = '1';
-      menu.addEventListener('click', (e) => {
-        if ((e.target as Element).closest('a')) menu.hidePopover();
-      });
-    }
+  // A tap on a menu link scrolls to its section; close the popover with it.
+  const menu = document.getElementById('mobileMenu');
+  menu?.addEventListener('click', (e) => {
+    if ((e.target as Element).closest('a')) menu.hidePopover();
+  });
 
-    // scroll-spy: highlight the section currently in view (home page only)
-    const links = Array.from(document.querySelectorAll('[data-nav]')) as HTMLAnchorElement[];
-    const sections = ['hizmetler', 'kadromuz', 'merkezimiz', 'iletisim']
-      .map((id) => document.getElementById(id))
-      .filter((el): el is HTMLElement => el !== null);
-    if (!sections.length || !links.length) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          links.forEach((l) => {
-            l.toggleAttribute('data-active', l.getAttribute('href') === `/#${entry.target.id}`);
-          });
-        });
-      },
-      { rootMargin: '-45% 0px -50% 0px' }
-    );
-    sections.forEach((s) => observer.observe(s));
+  // Scroll-spy (home page only): highlight the nav link whose section is in view.
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('.nav-link'));
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) links.forEach((l) => l.toggleAttribute('data-active', l.hash === `#${entry.target.id}`));
+      }
+    },
+    { rootMargin: '-45% 0px -50% 0px' },
+  );
+  for (const link of links) {
+    const section = document.getElementById(link.hash.slice(1));
+    if (section) observer.observe(section);
   }
-
-  // Native cross-document navigation reloads the document each time, so this
-  // module runs on every page load; the dataset guard keeps it idempotent.
-  initHeader();
 </script>
