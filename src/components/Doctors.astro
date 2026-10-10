@@ -2,13 +2,13 @@
 import { Image } from 'astro:assets';
 import Img from './Img.astro';
 import Icon from './Icon.astro';
-import { DOCTORS, telHref } from '../../lib/staff';
+import { DOCTORS, telHref } from '../lib/staff';
 
-const photos = import.meta.glob<{ default: ImageMetadata }>('../../assets/images/asm/doctors/*.{webp,avif}', { eager: true });
-const schedules = import.meta.glob<{ default: ImageMetadata }>('../../assets/images/asm/schedules/*.webp', { eager: true });
+const photos = import.meta.glob<{ default: ImageMetadata }>('../assets/images/asm/doctors/*.{webp,avif}', { eager: true });
+const schedules = import.meta.glob<{ default: ImageMetadata }>('../assets/images/asm/schedules/*.webp', { eager: true });
 
-const photo = (slug: string) => photos[`../../assets/images/asm/doctors/${slug}.webp`].default;
-const schedule = (slug: string) => schedules[`../../assets/images/asm/schedules/${slug}_schedule.webp`].default;
+const photo = (slug: string) => photos[`../assets/images/asm/doctors/${slug}.webp`].default;
+const schedule = (slug: string) => schedules[`../assets/images/asm/schedules/${slug}_schedule.webp`].default;
 
 // Screen-reader summary for each weekly schedule image (WCAG 1.1.1). The images
 // are dense scanned grids, so a faithful summary alongside the image is the
@@ -24,8 +24,8 @@ const scheduleWindow: Record<string, string> = {
 };
 
 const TEAM = [
-  { name: 'Acil Hemşireleri', img: photos['../../assets/images/asm/doctors/nurses_v2.avif'].default, role: 'Acil müdahale ve bakım' },
-  { name: 'Hizmetliler', img: photos['../../assets/images/asm/doctors/support_staff.webp'].default, role: 'Destek ve temizlik ekibi' },
+  { name: 'Acil Hemşireleri', img: photos['../assets/images/asm/doctors/nurses_v2.avif'].default, role: 'Acil müdahale ve bakım' },
+  { name: 'Hizmetliler', img: photos['../assets/images/asm/doctors/support_staff.webp'].default, role: 'Destek ve temizlik ekibi' },
 ];
 ---
 

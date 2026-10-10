@@ -8,7 +8,7 @@
  * what and links to /kvkk#harita, so the click counts as informed consent.
  * Uses the modern AdvancedMarkerElement API.
  */
-import { MAPS_LINK } from '../../lib/const.astro';
+import { MAPS_LINK } from '../lib/const.astro';
 import Icon from './Icon.astro';
 const zoom = 17;
 const lat = 38.47771;
@@ -32,7 +32,7 @@ const lng = 27.35559;
 </div>
 
 <style>
-  @reference '../../styles/global.css';
+  @reference '../styles/global.css';
 
   /* A quiet dot grid stands in for the map until the visitor opts in. */
   .map-facade {
