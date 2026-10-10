@@ -1,6 +1,6 @@
 ---
 interface Props {
-  name: 'map-pin' | 'link' | 'phone' | 'arrow' | 'clock' | 'external' | 'chevron' | 'menu' | 'close' | 'seal';
+  name: 'map-pin' | 'link' | 'phone' | 'arrow' | 'clock' | 'external' | 'chevron' | 'menu' | 'close' | 'seal' | 'calendar' | 'expand';
   class?: string;
 }
 
@@ -26,3 +26,7 @@ const { name, class: className = '' } = Astro.props;
 {name === 'close' && <svg class={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" /></svg>}
 
 {name === 'seal' && <svg class={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 1l2.9 2.03 3.5-.5 1.02 3.39 3.06 1.75-1.2 3.34 1.2 3.34-3.06 1.75-1.02 3.39-3.5-.5L12 23l-2.9-2.03-3.5.5-1.02-3.39L1.52 16.34l1.2-3.34-1.2-3.34 3.06-1.75L5.6 4.53l3.5.5L12 1z" /></svg>}
+
+{name === 'calendar' && <svg class={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5" /><path d="M3.5 10h17M8 3v4M16 3v4" /></svg>}
+
+{name === 'expand' && <svg class={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 4h5v5M9 20H4v-5M20 4l-6 6M4 20l6-6" /></svg>}

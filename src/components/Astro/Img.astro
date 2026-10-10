@@ -1,14 +1,21 @@
 ---
 /**
  * Image with a zoomable lightbox (vanilla JS, no framework).
- * Tap the thumbnail to open full-screen; tap the image to zoom in/out and
+ * Tap the trigger to open full-screen; tap the image to zoom in/out and
  * pan by dragging/scrolling. Used for document-like images (schedules, calendars).
+ *
+ * `label` switches the trigger from a full-width thumbnail to a compact row
+ * (small thumbnail + label), for places where the scan itself is too dense
+ * to read inline — e.g. a doctor's weekly schedule.
  */
 import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
 
 interface Props {
   src: ImageMetadata;
   alt: string;
+  label?: string;
+  hint?: string;
   widths?: number[];
   sizes?: string;
   width?: number;
@@ -18,31 +25,72 @@ interface Props {
   fetchpriority?: 'high' | 'low' | 'auto';
 }
 
-const { src, alt, ...imageProps } = Astro.props;
+const { src, alt, label, hint, ...imageProps } = Astro.props;
 const imageId = `img-${Math.random().toString(36).substring(2, 9)}`;
 ---
 
-<button class="thumbnail" data-lightbox-trigger={imageId} aria-label={`${alt} görselini büyüt`}>
-  <Image src={src} alt={alt} {...imageProps} />
-  <span class="thumb-badge" aria-hidden="true">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3"></path><path d="M11 8v6M8 11h6"></path>
-    </svg>
-    Büyüt
-  </span>
-</button>
+{
+  label ? (
+    <button type="button" class="row-trigger" data-lightbox-trigger={imageId}>
+      <span class="row-thumb">
+        <Image src={src} alt="" widths={[96, 144]} sizes="72px" loading="lazy" decoding="async" />
+      </span>
+      <span class="flex min-w-0 flex-1 flex-col text-left">
+        <span class="text-[15px] font-medium text-ink">{label}</span>
+        {hint && <span class="text-[13px] text-ink-2">{hint}</span>}
+      </span>
+      <Icon name="expand" class="h-4 w-4 shrink-0 text-ink-3" />
+      <span class="sr-only">{alt}</span>
+    </button>
+  ) : (
+    <button type="button" class="thumbnail" data-lightbox-trigger={imageId} aria-label={`${alt} görselini büyüt`}>
+      <Image src={src} alt={alt} {...imageProps} />
+      <span class="thumb-badge" aria-hidden="true">
+        <Icon name="expand" class="h-3.5 w-3.5" />
+        Büyüt
+      </span>
+    </button>
+  )
+}
 
-<dialog id={`dialog-${imageId}`} class="lightbox">
+<dialog id={`dialog-${imageId}`} class="lightbox" aria-label={alt}>
   <div class="lb-scroll" data-lb-scroll>
     <Image class="lb-img" src={src} alt={alt} {...imageProps} sizes="100vw" />
   </div>
-  <button class="lb-close" aria-label="Kapat">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+  <button type="button" class="lb-close" aria-label="Kapat">
+    <Icon name="close" class="h-5 w-5" />
   </button>
   <p class="lb-hint" data-lb-hint>Yakınlaştırmak için görsele dokunun</p>
 </dialog>
 
 <style>
+  @reference '../../styles/global.css';
+
+  /* compact row trigger */
+  .row-trigger {
+    @apply flex w-full items-center gap-3 rounded-[12px] bg-surface-2 p-2 pr-4 select-none;
+    cursor: zoom-in;
+    transition:
+      transform 160ms var(--ease-out),
+      background-color 150ms ease;
+  }
+  .row-trigger:active {
+    transform: scale(0.98);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .row-trigger:hover {
+      background-color: color-mix(in oklab, var(--color-surface-2), var(--color-ink) 4%);
+    }
+  }
+  .row-thumb {
+    @apply block h-12 w-[4.5rem] shrink-0 overflow-hidden rounded-[6px] bg-surface;
+    box-shadow: 0 0 0 1px var(--color-hairline);
+  }
+  .row-thumb img {
+    @apply h-full w-full object-cover object-top;
+  }
+
+  /* full-width thumbnail trigger */
   .thumbnail {
     position: relative;
     display: block;
@@ -58,44 +106,56 @@ const imageId = `img-${Math.random().toString(36).substring(2, 9)}`;
     display: block;
   }
   .thumb-badge {
-    position: absolute;
-    right: 0.5rem;
-    bottom: 0.5rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    background: rgba(12, 49, 37, 0.9);
-    color: #f5f2e9;
-    padding: 0.35rem 0.6rem;
-    font-family: 'JetBrains Mono', ui-monospace, monospace;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+    @apply absolute right-2 bottom-2 inline-flex h-7 items-center gap-1.5 rounded-full px-2.5 text-xs font-medium text-white;
+    background: rgb(12 16 14 / 0.72);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     pointer-events: none;
   }
-  .thumb-badge svg {
-    width: 14px;
-    height: 14px;
-  }
 
+  /* Lightbox: a modal, so it stays centred (no trigger origin). Fades in with
+     the image settling from 0.96; exits faster than it enters. */
   .lightbox {
     position: fixed;
     inset: 0;
     width: 100%;
-    height: 100%;
+    height: 100dvh;
     max-width: 100vw;
-    max-height: 100vh;
+    max-height: 100dvh;
     margin: 0;
     padding: 0;
     border: none;
     background: transparent;
     overscroll-behavior: contain;
+    opacity: 0;
+    transition:
+      opacity 150ms var(--ease-out),
+      overlay 150ms allow-discrete,
+      display 150ms allow-discrete;
+  }
+  .lightbox[open] {
+    opacity: 1;
+    transition-duration: 220ms;
+  }
+  @starting-style {
+    .lightbox[open] {
+      opacity: 0;
+    }
   }
   .lightbox::backdrop {
-    background: rgba(8, 20, 15, 0.92);
+    background: rgb(6 9 8 / 0);
+    transition:
+      background-color 150ms ease,
+      overlay 150ms allow-discrete,
+      display 150ms allow-discrete;
   }
-  .lightbox:not([open]) {
-    display: none;
+  .lightbox[open]::backdrop {
+    background: rgb(6 9 8 / 0.9);
+  }
+  @starting-style {
+    .lightbox[open]::backdrop {
+      background: rgb(6 9 8 / 0);
+    }
   }
 
   .lb-scroll {
@@ -111,10 +171,20 @@ const imageId = `img-${Math.random().toString(36).substring(2, 9)}`;
     display: block;
     margin: auto;
     max-width: 100%;
-    max-height: 100vh;
+    max-height: 100dvh;
     object-fit: contain;
     cursor: zoom-in;
     user-select: none;
+    transform: scale(0.96);
+    transition: transform 220ms var(--ease-out);
+  }
+  .lightbox[open] .lb-img {
+    transform: none;
+  }
+  @starting-style {
+    .lightbox[open] .lb-img {
+      transform: scale(0.96);
+    }
   }
   .lb-img.is-zoomed {
     max-width: none;
@@ -125,49 +195,50 @@ const imageId = `img-${Math.random().toString(36).substring(2, 9)}`;
   }
 
   .lb-close {
-    position: fixed;
-    top: 0.75rem;
-    right: 0.75rem;
-    z-index: 2;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.75rem;
-    height: 2.75rem;
-    color: #f5f2e9;
-    background: rgba(12, 49, 37, 0.9);
-    border: 1px solid rgba(226, 232, 221, 0.25);
-    cursor: pointer;
+    @apply fixed z-[2] inline-flex size-11 items-center justify-center rounded-full text-white;
+    top: calc(env(safe-area-inset-top, 0px) + 0.75rem);
+    right: calc(env(safe-area-inset-right, 0px) + 0.75rem);
+    background: rgb(255 255 255 / 0.12);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition:
+      transform 160ms var(--ease-out),
+      background-color 150ms ease;
   }
-  .lb-close svg {
-    width: 1.5rem;
-    height: 1.5rem;
+  .lb-close:active {
+    transform: scale(0.94);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .lb-close:hover {
+      background: rgb(255 255 255 / 0.2);
+    }
   }
 
   .lb-hint {
-    position: fixed;
-    bottom: 1rem;
-    left: 50%;
+    @apply fixed left-1/2 z-[2] m-0 rounded-full px-3 py-1.5 text-[13px] whitespace-nowrap text-white/90;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 1rem);
     transform: translateX(-50%);
-    z-index: 2;
-    margin: 0;
-    padding: 0.4rem 0.8rem;
-    background: rgba(12, 49, 37, 0.9);
-    color: #e2e8dd;
-    font-family: 'JetBrains Mono', ui-monospace, monospace;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
+    background: rgb(255 255 255 / 0.12);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     pointer-events: none;
-    transition: opacity 0.2s ease;
+    transition: opacity 200ms ease;
   }
   .lb-hint.is-hidden {
     opacity: 0;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .lb-hint {
-      transition: none;
+    .row-trigger:active,
+    .lb-close:active,
+    .lb-img,
+    .lightbox[open] .lb-img {
+      transform: none;
+    }
+    @starting-style {
+      .lightbox[open] .lb-img {
+        transform: none;
+      }
     }
   }
 </style>
@@ -217,7 +288,8 @@ const imageId = `img-${Math.random().toString(36).substring(2, 9)}`;
       // tap outside the image closes
       scroll.addEventListener('click', () => dialog.close());
       closeBtn?.addEventListener('click', () => dialog.close());
-      dialog.addEventListener('close', reset); // also fires on Escape
+      // zoom state resets on the next open, not on close, so the image
+      // doesn't snap back to fit while the dialog is still fading out
     });
   }
 

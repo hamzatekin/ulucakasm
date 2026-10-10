@@ -29,64 +29,71 @@ const TEAM = [
 ];
 ---
 
-<section id="kadromuz" class="scroll-mt-24 bg-paper-2 py-20 md:py-28">
+<section id="kadromuz" class="scroll-mt-20 py-14 md:py-20">
   <div class="wrap">
-    <header class="max-w-2xl">
-      <p class="eyebrow">Kadromuz</p>
-      <h2 class="mt-4 font-display text-4xl font-bold tracking-tight text-ink md:text-5xl">Aile hekimleriniz</h2>
-      <p class="mt-5 text-lg leading-relaxed text-ink-soft">
-        Size kayıtlı birimi seçin. Hekiminizi, aile sağlığı çalışanınızı ve çalışma saatlerini görün.
-      </p>
-    </header>
+    <h2 class="max-w-[46rem] text-title text-ink">
+      Aile hekimleriniz. <span class="text-ink-3">Size kayıtlı birimi bulun.</span>
+    </h2>
 
-    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <!-- jump straight to a doctor's card; the card briefly rings on arrival (CSS :target, no JS) -->
+    <nav class="mt-6 flex flex-wrap gap-2" aria-label="Hekim listesi">
       {
         DOCTORS.map((d) => (
-          <article class="flex flex-col border border-line bg-paper">
-            <div class="relative aspect-[4/5] overflow-hidden bg-sage">
+          <a href={`#hekim-${d.slug}`} class="btn-secondary min-h-9 rounded-full px-3.5 text-sm">
+            {d.name}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        DOCTORS.map((d) => (
+          <article id={`hekim-${d.slug}`} class="doctor card flex scroll-mt-24 flex-col p-2">
+            <div class="relative overflow-hidden rounded-[12px] bg-surface-2">
               <Image
                 src={photo(d.slug)}
                 alt={d.name}
-                class="h-full w-full object-cover object-top"
-                widths={[320, 480, 640]}
-                sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, 90vw"
+                class="aspect-[4/3] w-full object-cover object-[center_22%]"
+                widths={[320, 480, 640, 760]}
+                sizes="(min-width: 1024px) 360px, (min-width: 640px) 45vw, 92vw"
                 loading="lazy"
                 decoding="async"
               />
-              <span class="unit-code absolute left-0 top-0 bg-pine-deep px-3 py-2 text-paper">Birim {d.code}</span>
+              <span class="chip absolute top-2.5 left-2.5 bg-surface/85 text-ink backdrop-blur-md">
+                <span class="text-ink-2">Birim</span> {d.code}
+              </span>
             </div>
 
-            <div class="flex flex-1 flex-col p-6">
-              <h3 class="font-display text-xl font-semibold leading-tight text-ink">{d.name}</h3>
+            <div class="flex flex-1 flex-col px-3 pt-4 pb-1">
+              <h3 class="text-lg font-semibold tracking-[-0.01em] text-ink">{d.name}</h3>
+              <p class="mt-1 text-sm text-ink-2">
+                <span class="text-ink-3">Aile sağlığı çalışanı:</span> {d.assistant}
+              </p>
+            </div>
 
-              <dl class="mt-5 space-y-3 text-sm">
-                <div class="flex flex-col gap-0.5">
-                  <dt class="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft">Aile Sağlığı Çalışanı</dt>
-                  <dd class="text-ink">{d.assistant}</dd>
-                </div>
-              </dl>
-
-              <div class="mt-auto pt-6">
-                <a href={telHref(d.phone)} class="flex items-center justify-between border border-line-ink/25 px-4 py-3 transition-colors hover:border-pine hover:bg-sage">
-                  <span class="font-mono text-sm tracking-wide text-ink">{d.phone}</span>
-                  <Icon name="phone" class="h-4 w-4 text-pine" />
-                </a>
-
-                <div class="mt-5">
-                  <p class="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-pine-bright">
-                    <Icon name="clock" class="h-4 w-4" />
-                    Çalışma saatleri
-                  </p>
-                  <div class="mt-3 border border-line p-2">
-                    <Img src={schedule(d.slug)} alt={`${d.name} haftalık çalışma programı görseli; metin özeti aşağıdadır.`} widths={[420, 720, 1080]} sizes="(min-width: 640px) 360px, 90vw" loading="lazy" decoding="async" />
-                  </div>
-                  <p class="sr-only">
-                    {d.name} çalışma programı: Hafta içi Pazartesi–Cuma, yaklaşık {scheduleWindow[d.slug]} saatleri arasında aile hekimliği hizmeti verilir. Gün içinde
-                    bir saat öğle tatili vardır ve belirli saatlerde ev ziyareti yapılır. Cumartesi ve Pazar kapalıdır. Kesin saatler için görseli büyütebilir veya
-                    birimi arayabilirsiniz.
-                  </p>
-                </div>
-              </div>
+            <div class="mt-4 grid gap-2">
+              <a href={telHref(d.phone)} class="btn-secondary w-full justify-between rounded-[12px] px-3.5 tabular-nums">
+                <span class="flex items-center gap-2.5">
+                  <Icon name="phone" class="h-4 w-4 text-accent" />
+                  {d.phone}
+                </span>
+                <span class="text-sm text-ink-3">Ara</span>
+              </a>
+              <Img
+                src={schedule(d.slug)}
+                label="Haftalık çalışma programı"
+                hint="Büyütmek için dokunun"
+                alt={`${d.name} haftalık çalışma programı görseli`}
+                widths={[720, 1080, 1600]}
+                loading="lazy"
+                decoding="async"
+              />
+              <p class="sr-only">
+                {d.name} çalışma programı: Hafta içi Pazartesi–Cuma, yaklaşık {scheduleWindow[d.slug]} saatleri arasında aile hekimliği hizmeti verilir. Gün içinde
+                bir saat öğle tatili vardır ve belirli saatlerde ev ziyareti yapılır. Cumartesi ve Pazar kapalıdır. Kesin saatler için görseli büyütebilir veya
+                birimi arayabilirsiniz.
+              </p>
             </div>
           </article>
         ))
@@ -94,31 +101,43 @@ const TEAM = [
     </div>
 
     <!-- support team -->
-    <div class="mt-16 border-t border-line pt-12">
-      <p class="eyebrow">Destek ekibimiz</p>
-      <div class="mt-6 flex flex-wrap justify-center gap-6">
-        {
-          TEAM.map((t) => (
-            <article class="flex w-full flex-col border border-line bg-paper sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]">
-              <div class="aspect-[4/5] overflow-hidden bg-sage">
-                <Image
-                  src={t.img}
-                  alt={t.name}
-                  class="h-full w-full object-cover object-top"
-                  widths={[320, 480, 640]}
-                  sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, 90vw"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div class="p-6">
-                <h3 class="font-display text-xl font-semibold text-ink">{t.name}</h3>
-                <p class="mt-1 text-sm text-ink-soft">{t.role}</p>
-              </div>
-            </article>
-          ))
-        }
-      </div>
+    <h3 class="mt-16 text-lg font-semibold tracking-[-0.01em] text-ink">Destek ekibimiz</h3>
+    <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        TEAM.map((t) => (
+          <article class="card p-2">
+            <div class="overflow-hidden rounded-[12px] bg-surface-2">
+              <Image
+                src={t.img}
+                alt={t.name}
+                class="aspect-[4/3] w-full object-cover object-[center_30%]"
+                widths={[320, 480, 640, 760]}
+                sizes="(min-width: 1024px) 360px, (min-width: 640px) 45vw, 92vw"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div class="px-3 pt-4 pb-3">
+              <h4 class="text-lg font-semibold tracking-[-0.01em] text-ink">{t.name}</h4>
+              <p class="mt-1 text-sm text-ink-2">{t.role}</p>
+            </div>
+          </article>
+        ))
+      }
     </div>
   </div>
 </section>
+
+<style>
+  /* Arriving from the list above: a ring that fades out, so the eye lands on the right card. */
+  .doctor:target {
+    animation: arrive 1400ms var(--ease-out);
+  }
+  @keyframes arrive {
+    from {
+      box-shadow:
+        0 0 0 3px var(--color-accent),
+        var(--elev-2);
+    }
+  }
+</style>

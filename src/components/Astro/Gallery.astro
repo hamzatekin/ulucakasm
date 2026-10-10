@@ -18,35 +18,30 @@ const images = [
 ];
 ---
 
-<section id="merkezimiz" class="scroll-mt-24 bg-paper py-20 md:py-28">
+<section id="merkezimiz" class="scroll-mt-20 py-14 md:py-20">
   <div class="wrap">
-    <header class="max-w-2xl">
-      <p class="eyebrow">Merkezimiz</p>
-      <h2 class="mt-4 font-display text-4xl font-bold tracking-tight text-ink md:text-5xl">Yeni binamız</h2>
-      <p class="mt-5 text-lg leading-relaxed text-ink-soft">Ulucak'taki modern, kolay ulaşılabilir merkezimizden kareler.</p>
-    </header>
+    <h2 class="max-w-[46rem] text-title text-ink">
+      Yeni binamız. <span class="text-ink-3">Ulucak'ta, modern ve kolay ulaşılabilir.</span>
+    </h2>
 
-    <div class="mt-12 grid grid-cols-2 gap-4 lg:grid-cols-3">
+    <div class="mt-10 grid grid-cols-2 gap-2 md:gap-3 lg:grid-cols-3">
       {
         images.map((image, index) => (
           <button
             type="button"
-            class={`group relative block overflow-hidden border border-line ${index === 0 ? 'col-span-2 lg:col-span-2 lg:row-span-2' : ''}`}
+            class={`gallery-item relative block overflow-hidden rounded-[14px] bg-surface-2 ${index === 0 ? 'col-span-2 lg:row-span-2' : ''}`}
             onclick={`openLightbox('${image.src.src}', '${image.alt}')`}
             aria-label={`${image.caption} görselini büyüt`}
           >
             <Image
               src={image.src}
               alt={image.alt}
-              class={`w-full object-cover transition-transform duration-700 group-hover:scale-105 ${index === 0 ? 'aspect-[4/3] lg:aspect-[16/11]' : 'aspect-[4/3]'}`}
-              sizes="(min-width: 1024px) 33vw, 50vw"
+              class="aspect-[4/3] h-full w-full object-cover"
+              sizes={index === 0 ? '(min-width: 1152px) 760px, (min-width: 1024px) 66vw, 100vw' : '(min-width: 1152px) 380px, (min-width: 1024px) 33vw, 50vw'}
               widths={[360, 540, 720, 960]}
               loading="lazy"
               decoding="async"
             />
-            <span class="absolute bottom-0 left-0 bg-pine-deep/85 px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-paper opacity-0 transition-opacity group-hover:opacity-100">
-              {image.caption}
-            </span>
           </button>
         ))
       }
@@ -54,3 +49,36 @@ const images = [
   </div>
   <LightboxModal />
 </section>
+
+<style>
+  .gallery-item {
+    cursor: zoom-in;
+    transition: transform 160ms var(--ease-out);
+  }
+  /* hairline edge drawn above the photo so light walls don't bleed into the page */
+  .gallery-item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px var(--color-hairline);
+    pointer-events: none;
+  }
+  .gallery-item img {
+    transition: transform 400ms ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .gallery-item:hover img {
+      transform: scale(1.03);
+    }
+  }
+  .gallery-item:active {
+    transform: scale(0.985);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .gallery-item:active,
+    .gallery-item:hover img {
+      transform: none;
+    }
+  }
+</style>

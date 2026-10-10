@@ -20,9 +20,6 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",
-    "@fontsource-variable/bricolage-grotesque": "^5.2.10",
-    "@fontsource-variable/instrument-sans": "^5.2.8",
-    "@fontsource-variable/jetbrains-mono": "^5.2.8",
     "sharp": "^0.35.3",
     "tailwindcss": "^4.3.2",
     "typescript": "^5.9.3"
