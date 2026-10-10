@@ -27,7 +27,7 @@ There is no lint or test command. Run `pnpm typecheck` to validate changes.
 
 ## Architecture
 
-- **`src/pages/`** — one `.astro` file per route: `index.astro` (home), `bagisiklama.astro` (vaccination schedule), `beslenme.astro` (nutrition). Pages compose components and wrap them in `Layout`.
+- **`src/pages/`** — one `.astro` file per route: `index.astro` (home), `bagisiklama.astro` (vaccination schedule), `beslenme.astro` (nutrition), `erisilebilirlik.astro` (accessibility statement), `kvkk.astro` (KVKK aydınlatma metni). Pages compose components and wrap them in `Layout`. `kvkk.astro` lists every third-party request the site makes (Cloudflare, Umami, Google Maps on click) — update it whenever you add or remove one.
 - **`src/layouts/Layout.astro`** — the single HTML shell: `<head>` (viewport with `viewport-fit=cover`, per-scheme `theme-color`, favicons), native cross-document view transitions (declared in `global.css`), and Umami analytics (injected **only in prod** via `import.meta.env.PROD`). Default `title`/`description` are set here and overridable via props.
 - **`src/components/Astro/`** — presentational section components (`Hero`, `Services`, `Doctors`, `Contact`, `Gallery`, `Header`, `Footer`, `Maps`, etc.). The home page is assembled by stacking these. Inner pages open with `PageIntro` (back link, section name, h1, optional lead slot).
 - **`src/lib/const.astro`** — shared constants (`TITLE`, `MAPS_LINK`). Note this is a frontmatter-only `.astro` module, imported as `../lib/const.astro`.

@@ -1,0 +1,128 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Astro/Header.astro';
+import Footer from '../components/Astro/Footer.astro';
+import PageIntro from '../components/Astro/PageIntro.astro';
+
+// Bump when the text changes. Keep the processors below in sync with every third-party request the site makes.
+const UPDATED = '10 Ekim 2026';
+
+const PROCESSORS = [
+  {
+    id: 'barindirma',
+    title: 'Barındırma ve güvenlik',
+    who: 'Cloudflare, Inc. (ABD)',
+    text: 'Siteyi size iletebilmek ve kötüye kullanıma karşı korumak için tarayıcınızın gönderdiği IP adresi, tarayıcı ve cihaz bilgisi ile istenen sayfa adresi işlenir. Cloudflare’in sunucuları yurt dışında bulunabilir.',
+    basis: 'KVKK m. 5/2-f (meşru menfaat)',
+  },
+  {
+    id: 'istatistik',
+    title: 'Ziyaret istatistikleri',
+    who: 'Umami, Hetzner Online GmbH sunucusu (Finlandiya)',
+    text: 'Hangi sayfaların ne sıklıkla ziyaret edildiğini görmek için çerezsiz bir istatistik aracı kullanılır. Araç IP adresinizi kaydetmez; yalnızca ülke ve şehir tahmini ile tekil ziyaret sayımı için anlık olarak kullanır. Farklı siteler arasında takip yapılmaz.',
+    basis: 'KVKK m. 5/2-f (meşru menfaat)',
+  },
+];
+
+const RIGHTS = [
+  'Kişisel verilerinizin işlenip işlenmediğini öğrenme,',
+  'İşlenmişse buna ilişkin bilgi talep etme,',
+  'İşlenme amacını ve amacına uygun kullanılıp kullanılmadığını öğrenme,',
+  'Yurt içinde veya yurt dışında aktarıldığı üçüncü kişileri bilme,',
+  'Eksik veya yanlış işlenmişse düzeltilmesini isteme,',
+  'Kanun’un 7. maddesindeki şartlar çerçevesinde silinmesini veya yok edilmesini isteme,',
+  'Düzeltme, silme ve yok etme işlemlerinin verilerin aktarıldığı üçüncü kişilere bildirilmesini isteme,',
+  'Münhasıran otomatik sistemlerle analiz edilmesi sonucu aleyhinize bir sonuç çıkmasına itiraz etme,',
+  'Kanun’a aykırı işleme nedeniyle zarara uğramanız hâlinde zararın giderilmesini talep etme.',
+];
+---
+
+<Layout
+  title="Kişisel Verilerin Korunması | İbrahim-Hüsniye Özdurakoğlu Aile Sağlığı Merkezi"
+  description="İbrahim-Hüsniye Özdurakoğlu Aile Sağlığı Merkezi web sitesi KVKK aydınlatma metni: ziyaret sırasında işlenen veriler, amaçlar, aktarımlar ve haklarınız."
+>
+  <Header>
+    <PageIntro section="Bilgilendirme" title="Kişisel Verilerin Korunması">
+      6698 sayılı Kişisel Verilerin Korunması Kanunu’nun 10. maddesi uyarınca, bu web sitesini ziyaret ettiğinizde hangi verilerin neden
+      işlendiğini açıklıyoruz.
+    </PageIntro>
+
+    <!-- content -->
+    <section class="pb-16 md:pb-24">
+      <div class="wrap-tight space-y-12">
+        <div>
+          <h2 class="text-2xl font-semibold tracking-[-0.02em] text-ink">Kısaca</h2>
+          <ul class="mt-3 max-w-[65ch] list-disc space-y-2 pl-5 text-lead text-ink-2 marker:text-ink-3">
+            <li>Sitede form, üyelik veya randevu alanı yoktur; adınız, T.C. kimlik numaranız veya sağlık bilgileriniz bu site üzerinden toplanmaz.</li>
+            <li>Çerez kullanılmaz; bu nedenle çerez onayı istenmez.</li>
+            <li>Google Haritalar yalnızca siz “Haritayı göster” düğmesine tıkladığınızda yüklenir.</li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-semibold tracking-[-0.02em] text-ink">Veri sorumlusu</h2>
+          <p class="mt-3 max-w-[65ch] text-lead text-ink-2">
+            Kemalpaşa İbrahim-Hüsniye Özdurakoğlu Aile Sağlığı Merkezi, Mustafa Kemal Atatürk Mah. 9247 Sok. No:3, Ulucak, Kemalpaşa / İzmir.
+          </p>
+          <p class="mt-2 max-w-[65ch] text-lead text-ink-2">
+            Telefon: <a class="ulink tabular-nums" href="tel:+902328734074">+90 (232) 873 40 74</a> · <a class="ulink tabular-nums" href="tel:+902328734081">+90 (232) 873 40 81</a>
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-semibold tracking-[-0.02em] text-ink">İşlenen veriler, amaçlar ve aktarımlar</h2>
+          <p class="mt-3 max-w-[65ch] text-lead text-ink-2">
+            Aşağıdaki veriler, siteyi ziyaret ettiğinizde tarayıcınızın gönderdiği istekler aracılığıyla otomatik yollarla toplanır.
+          </p>
+          <div class="mt-6 space-y-8">
+            {
+              PROCESSORS.map((p) => (
+                <div id={p.id}>
+                  <h3 class="text-lg font-semibold text-ink">{p.title}</h3>
+                  <p class="mt-1 text-sm text-ink-3">{p.who}</p>
+                  <p class="mt-2 max-w-[65ch] text-lead text-ink-2">{p.text}</p>
+                  <p class="mt-2 text-sm text-ink-2">Hukuki sebep: {p.basis}</p>
+                </div>
+              ))
+            }
+            <div id="harita">
+              <h3 class="text-lg font-semibold text-ink">Harita</h3>
+              <p class="mt-1 text-sm text-ink-3">Google LLC (ABD), yalnızca tıklarsanız</p>
+              <p class="mt-2 max-w-[65ch] text-lead text-ink-2">
+                “Haritayı göster” düğmesine tıkladığınızda harita Google’ın sunucularından yüklenir; bu sırada IP adresiniz ve tarayıcı bilgileriniz
+                Google LLC’ye iletilir ve Google kendi çerezlerini kullanabilir. Verileriniz, Kişisel Verileri Koruma Kurulu’nun yeterlilik kararı
+                bulunmayan bir ülkede,
+                Google’ın <a class="ulink" href="https://policies.google.com/privacy?hl=tr" target="_blank" rel="noopener noreferrer">gizlilik politikası</a> kapsamında
+                işlenir; bu ülkede Türkiye’dekiyle aynı düzeyde koruma bulunmayabilir. Tıklamazsanız Google’a hiçbir veri gönderilmez;
+                konuma “Yol tarifi al” bağlantısıyla da ulaşabilirsiniz.
+              </p>
+              <p class="mt-2 text-sm text-ink-2">Hukuki sebep: tıklamanızla verdiğiniz açık rıza (KVKK m. 9/6-a)</p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-semibold tracking-[-0.02em] text-ink">Haklarınız</h2>
+          <p class="mt-3 max-w-[65ch] text-lead text-ink-2">KVKK’nın 11. maddesi uyarınca veri sorumlusuna başvurarak:</p>
+          <ul class="mt-3 max-w-[65ch] list-disc space-y-2 pl-5 text-lead text-ink-2 marker:text-ink-3">
+            {RIGHTS.map((r) => <li>{r}</li>)}
+          </ul>
+          <p class="mt-3 max-w-[65ch] text-lead text-ink-2">haklarına sahipsiniz.</p>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-semibold tracking-[-0.02em] text-ink">Başvuru</h2>
+          <p class="mt-3 max-w-[65ch] text-lead text-ink-2">
+            Bu haklarınızı kullanmak için başvurunuzu, Veri Sorumlusuna Başvuru Usul ve Esasları Hakkında Tebliğ’e uygun olarak yazılı şekilde
+            yukarıdaki merkez adresine iletebilirsiniz. Başvurunuz en geç otuz gün içinde, kural olarak ücretsiz sonuçlandırılır.
+          </p>
+        </div>
+
+        <p class="border-t border-hairline pt-6 text-[13px] text-ink-3">
+          Son güncelleme: {UPDATED}
+        </p>
+      </div>
+    </section>
+  </Header>
+  <Footer />
+</Layout>
