@@ -324,21 +324,18 @@
     left: 1rem;
   }
 
-  /* Scroll reveal for the home sections: a block fades in and rises 16px while
-     it crosses the bottom fifth of the viewport. Scroll-driven, so zero JS and
-     tied to position, not time: content in the reading area is always at rest,
-     anchor jumps land on settled content, and nothing replays on a timer.
-     The scroll is already the clock, so the curve is the plain `ease-out`;
-     --ease-out would finish the reveal within the first few pixels.
-     `translate` (not `transform`) keeps the :active press scale working.
-     Browsers without view timelines simply show everything static. */
-  @supports (animation-timeline: view()) {
-    .reveal {
-      animation-name: reveal;
-      animation-fill-mode: both;
-      animation-timing-function: ease-out;
-      animation-timeline: view();
-      animation-range: entry 0% entry 20vh;
+  /* Scroll reveal for the home sections. Blocks below the fold start hidden and
+     play a one-off entrance when they come into view (Kowalski's recipe: fire
+     once, never replay on scroll-by). The script in Layout.astro sets
+     data-reveal and staggers a row entering together by 60ms. Without JS, or
+     in print, nothing is hidden. `translate` (not `transform`) keeps the
+     :active press scale working. */
+  @media screen {
+    .reveal[data-reveal='hidden'] {
+      opacity: 0;
+    }
+    .reveal[data-reveal='in'] {
+      animation: reveal 600ms var(--ease-out) var(--reveal-delay, 0ms) backwards;
     }
   }
 }
@@ -350,7 +347,7 @@
   /* Gentler, not zero: keep the fades, drop the movement. */
   .animate-enter,
   .animate-enter-image,
-  .reveal {
+  .reveal[data-reveal='in'] {
     animation-name: fade-in;
   }
   .card-link:active,
@@ -371,6 +368,6 @@
 @keyframes reveal {
   from {
     opacity: 0;
-    translate: 0 16px;
+    translate: 0 24px;
   }
 }

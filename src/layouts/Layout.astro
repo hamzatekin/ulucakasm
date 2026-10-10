@@ -44,5 +44,41 @@ const { title, description } = Astro.props;
       <slot />
     </main>
     <Footer />
+
+    <script>
+      // Scroll reveal (.reveal in global.css): blocks still below the fold are hidden
+      // and play their entrance once as they come into view. Whatever is already on
+      // screen is left alone, so the hero stays the only page-load animation.
+      const pending = [...document.querySelectorAll<HTMLElement>('.reveal')].filter((el) => el.getBoundingClientRect().top > innerHeight);
+
+      if (pending.length && 'IntersectionObserver' in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries
+              .filter((e) => e.isIntersecting)
+              .forEach((e, i) => {
+                const el = e.target as HTMLElement;
+                io.unobserve(el);
+                // a row arriving together cascades left to right, 60ms apart
+                el.style.setProperty('--reveal-delay', `${Math.min(i, 4) * 60}ms`);
+                // once it has played, drop the attribute so it can never replay
+                const settle = (ev: AnimationEvent) => {
+                  if (ev.target !== el) return;
+                  el.removeAttribute('data-reveal');
+                  el.removeEventListener('animationend', settle);
+                };
+                el.addEventListener('animationend', settle);
+                el.dataset.reveal = 'in';
+              });
+          },
+          // fire once the top edge is a little way up from the bottom of the screen
+          { rootMargin: '0px 0px -10% 0px' },
+        );
+        for (const el of pending) {
+          el.dataset.reveal = 'hidden';
+          io.observe(el);
+        }
+      }
+    </script>
   </body>
 </html>
