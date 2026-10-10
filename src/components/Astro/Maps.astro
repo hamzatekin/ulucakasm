@@ -3,8 +3,10 @@
  * Google Maps component — privacy façade / click-to-load.
  * Nothing is requested from Google (no script, no cookies, no visitor IP)
  * until the visitor explicitly clicks "Haritayı göster". This keeps the
- * default page load free of any third-party call, so no çerez/KVKK notice
- * is triggered by the map. Uses the modern AdvancedMarkerElement API.
+ * default page load free of any third-party call. The facade text is the
+ * KVKK m. 9/6-a notice for the transfer to Google (ABD): it names who gets
+ * what and links to /kvkk#harita, so the click counts as informed consent.
+ * Uses the modern AdvancedMarkerElement API.
  */
 import { MAPS_LINK } from '../../lib/const.astro';
 import Icon from './Icon.astro';
@@ -14,13 +16,18 @@ const lng = 27.35559;
 ---
 
 <div class="relative h-[360px] w-full md:h-[480px] lg:h-full lg:min-h-[480px]">
-  <button type="button" id="map-load" class="map-facade absolute inset-0 z-10 flex cursor-pointer flex-col items-center justify-center gap-3 px-6 text-ink">
-    <span class="map-pin flex size-12 items-center justify-center rounded-full bg-surface text-seal">
-      <Icon name="map-pin" class="h-6 w-6" />
-    </span>
-    <span class="text-[17px] font-semibold tracking-[-0.01em]">Haritayı göster</span>
-    <span class="max-w-xs text-center text-sm text-ink-2">Tıkladığınızda konumu göstermek için Google Haritalar yüklenir.</span>
-  </button>
+  <div id="map-facade" class="map-facade absolute inset-0 z-10">
+    <button type="button" id="map-load" class="map-load flex h-full w-full cursor-pointer flex-col items-center justify-center gap-3 px-6 pb-8 text-ink">
+      <span class="map-pin flex size-12 items-center justify-center rounded-full bg-surface text-seal">
+        <Icon name="map-pin" class="h-6 w-6" />
+      </span>
+      <span class="text-[17px] font-semibold tracking-[-0.01em]">Haritayı göster</span>
+      <span class="max-w-xs text-center text-sm text-ink-2">
+        Tıkladığınızda harita Google Haritalar’dan yüklenir; IP adresiniz ve tarayıcı bilgileriniz Google LLC’ye (ABD) iletilir.
+      </span>
+    </button>
+    <a href="/kvkk#harita" class="ulink absolute inset-x-0 bottom-4 mx-auto w-fit text-[13px] text-ink-2">Kişisel verileriniz hakkında</a>
+  </div>
   <div id="map-container" class="h-full w-full" data-zoom={zoom} data-lat={lat} data-lng={lng}></div>
 </div>
 
@@ -38,16 +45,16 @@ const lng = 27.35559;
     transition: transform 160ms var(--ease-out);
   }
   @media (hover: hover) and (pointer: fine) {
-    .map-facade:hover .map-pin {
+    .map-load:hover .map-pin {
       transform: translateY(-2px);
     }
   }
-  .map-facade:active .map-pin {
+  .map-load:active .map-pin {
     transform: scale(0.94);
   }
   @media (prefers-reduced-motion: reduce) {
-    .map-facade:active .map-pin,
-    .map-facade:hover .map-pin {
+    .map-load:active .map-pin,
+    .map-load:hover .map-pin {
       transform: none;
     }
   }
@@ -105,7 +112,7 @@ const lng = 27.35559;
   const btn = document.getElementById('map-load');
   if (btn) {
     btn.addEventListener('click', () => {
-      btn.remove();
+      document.getElementById('map-facade')?.remove();
       if (window.google?.maps && typeof google.maps.importLibrary === 'function') {
         initMap();
       } else {
