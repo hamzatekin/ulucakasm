@@ -33,7 +33,14 @@ export const DOCTORS: Doctor[] = [
     assistant: 'Ebe Hatice Marangoz',
     hours: '07.00–17.00',
   },
-  { slug: 'ilkay_taze', name: 'Dr. İlkay Taze', code: '3516035', phone: '+90 (232) 873 40 74', assistant: 'Fatma Doğru', hours: '07.00–18.00' },
+  {
+    slug: 'ilkay_taze',
+    name: 'Dr. İlkay Taze',
+    code: '3516035',
+    phone: '+90 (232) 873 40 74',
+    assistant: 'Fatma Doğru',
+    hours: '07.00–18.00',
+  },
   {
     slug: 'ahmet_serhan_sunbul',
     name: 'Dr. Ahmet Serhan Sünbül',

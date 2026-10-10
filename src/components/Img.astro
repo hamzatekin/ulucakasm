@@ -25,29 +25,27 @@ const { src, alt, label, hint, ...imageProps } = Astro.props;
 const imageId = `img-${Math.random().toString(36).substring(2, 9)}`;
 ---
 
-{
-  label ? (
-    <button type="button" class="row-trigger" data-lightbox-trigger={imageId}>
-      <span class="row-thumb">
-        <Image src={src} alt="" widths={[96, 144]} sizes="72px" />
-      </span>
-      <span class="flex min-w-0 flex-1 flex-col text-left">
-        <span class="text-[15px] font-medium text-ink">{label}</span>
-        {hint && <span class="text-[13px] text-ink-2">{hint}</span>}
-      </span>
-      <Icon name="expand" class="h-4 w-4 shrink-0 text-ink-3" />
-      <span class="sr-only">{alt}</span>
-    </button>
-  ) : (
-    <button type="button" class="thumbnail" data-lightbox-trigger={imageId} aria-label={`${alt} görselini büyüt`}>
-      <Image src={src} alt={alt} {...imageProps} />
-      <span class="thumb-badge" aria-hidden="true">
-        <Icon name="expand" class="h-3.5 w-3.5" />
-        Büyüt
-      </span>
-    </button>
-  )
-}
+{label ? (
+  <button type="button" class="row-trigger" data-lightbox-trigger={imageId}>
+    <span class="row-thumb">
+      <Image src={src} alt="" widths={[96, 144]} sizes="72px" />
+    </span>
+    <span class="flex min-w-0 flex-1 flex-col text-left">
+      <span class="text-[15px] font-medium text-ink">{label}</span>
+      {hint && <span class="text-[13px] text-ink-2">{hint}</span>}
+    </span>
+    <Icon name="expand" class="h-4 w-4 shrink-0 text-ink-3" />
+    <span class="sr-only">{alt}</span>
+  </button>
+) : (
+  <button type="button" class="thumbnail" data-lightbox-trigger={imageId} aria-label={`${alt} görselini büyüt`}>
+    <Image src={src} alt={alt} {...imageProps} />
+    <span class="thumb-badge" aria-hidden="true">
+      <Icon name="expand" class="h-3.5 w-3.5" />
+      Büyüt
+    </span>
+  </button>
+)}
 
 <dialog id={`dialog-${imageId}`} class="lightbox" aria-label={alt}>
   <div class="lb-scroll" data-lb-scroll>
@@ -56,7 +54,9 @@ const imageId = `img-${Math.random().toString(36).substring(2, 9)}`;
   <button type="button" class="lightbox-close" aria-label="Kapat">
     <Icon name="close" class="h-5 w-5" />
   </button>
-  <p class="lb-hint" data-lb-hint>Yakınlaştırmak için görsele dokunun</p>
+  <p class="lb-hint" data-lb-hint>
+    Yakınlaştırmak için görsele dokunun
+  </p>
 </dialog>
 
 <style>

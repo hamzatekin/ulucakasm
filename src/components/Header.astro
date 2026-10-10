@@ -11,7 +11,9 @@ const NAV = [
 ];
 ---
 
-<a href="#main-content" class="skip-link">İçeriğe geç</a>
+<a href="#main-content" class="skip-link">
+  İçeriğe geç
+</a>
 
 <header class="site-header sticky top-0 z-40 bg-canvas">
   <div class="wrap flex h-16 items-center justify-between gap-4">
@@ -24,14 +26,14 @@ const NAV = [
     </a>
 
     <nav class="hidden items-center gap-1 lg:flex" aria-label="Ana menü">
-      {
-        NAV.map((item) => (
-          <a href={item.href} class="nav-link rounded-full px-3 py-2 text-sm text-ink-2 hover:text-ink">
-            {item.label}
-          </a>
-        ))
-      }
-      <a href="/#kadromuz" class="btn-primary ml-3 min-h-9 px-3.5 text-sm">Hekiminizi bulun</a>
+      {NAV.map((item) => (
+        <a href={item.href} class="nav-link rounded-full px-3 py-2 text-sm text-ink-2 hover:text-ink">
+          {item.label}
+        </a>
+      ))}
+      <a href="/#kadromuz" class="btn-primary ml-3 min-h-9 px-3.5 text-sm">
+        Hekiminizi bulun
+      </a>
     </nav>
 
     <button type="button" popovertarget="mobileMenu" class="menu-button btn-ghost -mr-2 size-11 p-0 text-ink lg:hidden" aria-label="Menü">
@@ -43,14 +45,14 @@ const NAV = [
   <!-- mobile menu: native popover — light-dismiss, Esc and focus return come from the browser -->
   <div id="mobileMenu" popover class="menu-panel lg:hidden">
     <nav class="flex flex-col" aria-label="Mobil menü">
-      {
-        NAV.map((item) => (
-          <a href={item.href} class="menu-row">
-            {item.label}
-          </a>
-        ))
-      }
-      <a href="/#kadromuz" class="btn-primary mt-2 min-h-12 text-base">Hekiminizi bulun</a>
+      {NAV.map((item) => (
+        <a href={item.href} class="menu-row">
+          {item.label}
+        </a>
+      ))}
+      <a href="/#kadromuz" class="btn-primary mt-2 min-h-12 text-base">
+        Hekiminizi bulun
+      </a>
     </nav>
   </div>
 </header>
@@ -167,7 +169,7 @@ const NAV = [
         if (entry.isIntersecting) links.forEach((l) => l.toggleAttribute('data-active', l.hash === `#${entry.target.id}`));
       }
     },
-    { rootMargin: '-45% 0px -50% 0px' }
+    { rootMargin: '-45% 0px -50% 0px' },
   );
   for (const link of links) {
     const section = document.getElementById(link.hash.slice(1));

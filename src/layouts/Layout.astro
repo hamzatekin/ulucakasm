@@ -28,14 +28,12 @@ const { title, description } = Astro.props;
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0e6b4c" />
-    {
-      import.meta.env.PROD && (
-        <>
-          <link rel="preconnect" href="https://umami.hamzatekin.dev" crossorigin />
-          <script is:inline async src="https://umami.hamzatekin.dev/script.js" data-website-id="99271bcb-9ff5-49e9-99e8-84ee910a58b4" />
-        </>
-      )
-    }
+    {import.meta.env.PROD && (
+      <>
+        <link rel="preconnect" href="https://umami.hamzatekin.dev" crossorigin />
+        <script is:inline async src="https://umami.hamzatekin.dev/script.js" data-website-id="99271bcb-9ff5-49e9-99e8-84ee910a58b4" />
+      </>
+    )}
     <title>{title ? `${title} | ${SHORT_NAME}` : NAME}</title>
     <meta name="description" content={description} />
   </head>

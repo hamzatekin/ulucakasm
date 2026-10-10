@@ -16,7 +16,11 @@ const MAPS_LINK = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env
 
 <div class="relative h-[360px] w-full md:h-[480px] lg:h-full lg:min-h-[480px]">
   <div id="map-facade" class="map-facade absolute inset-0 z-10">
-    <button type="button" id="map-load" class="map-load flex h-full w-full cursor-pointer flex-col items-center justify-center gap-3 px-6 pb-8 text-ink">
+    <button
+      type="button"
+      id="map-load"
+      class="map-load flex h-full w-full cursor-pointer flex-col items-center justify-center gap-3 px-6 pb-8 text-ink"
+    >
       <span class="map-pin flex size-12 items-center justify-center rounded-full bg-surface text-seal">
         <Icon name="map-pin" class="h-6 w-6" />
       </span>
@@ -25,7 +29,9 @@ const MAPS_LINK = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env
         Tıkladığınızda harita Google Haritalar’dan yüklenir; IP adresiniz ve tarayıcı bilgileriniz Google LLC’ye (ABD) iletilir.
       </span>
     </button>
-    <a href="/kvkk#harita" class="ulink absolute inset-x-0 bottom-4 mx-auto w-fit text-[13px] text-ink-2">Kişisel verileriniz hakkında</a>
+    <a href="/kvkk#harita" class="ulink absolute inset-x-0 bottom-4 mx-auto w-fit text-[13px] text-ink-2">
+      Kişisel verileriniz hakkında
+    </a>
   </div>
   <div id="map-container" class="h-full w-full"></div>
 </div>

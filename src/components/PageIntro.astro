@@ -18,12 +18,10 @@ const { section, title } = Astro.props;
     </a>
     <p class="mt-8 text-sm text-ink-2">{section}</p>
     <h1 class="mt-2 text-display text-ink">{title}</h1>
-    {
-      Astro.slots.has('default') && (
-        <div class="mt-5 max-w-[60ch] text-lead text-ink-2">
-          <slot />
-        </div>
-      )
-    }
+    {Astro.slots.has('default') && (
+      <div class="mt-5 max-w-[60ch] text-lead text-ink-2">
+        <slot />
+      </div>
+    )}
   </div>
 </section>

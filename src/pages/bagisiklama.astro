@@ -6,10 +6,7 @@ import Img from '../components/Img.astro';
 import PageIntro from '../components/PageIntro.astro';
 ---
 
-<Layout
-  title="Aşı Takvimi"
-  description="Sağlık Bakanlığı güncel bağışıklama programı; bebek, çocuk ve erişkin aşı takvimi."
->
+<Layout title="Aşı Takvimi" description="Sağlık Bakanlığı güncel bağışıklama programı; bebek, çocuk ve erişkin aşı takvimi.">
   <PageIntro section="Bağışıklama" title="Aşı Takvimi">
     Aşılar, çocukları ve erişkinleri ciddi bulaşıcı hastalıklardan korumanın en etkili yoludur.
   </PageIntro>
@@ -18,8 +15,8 @@ import PageIntro from '../components/PageIntro.astro';
   <section class="pb-16 md:pb-24">
     <div class="wrap-tight">
       <p class="max-w-[65ch] text-lead text-ink-2">
-        Aşağıdaki takvim, T.C. Sağlık Bakanlığı'nın güncel bağışıklama programını gösterir. Bebeğinizin veya kendinizin aşı durumu için
-        size kayıtlı aile hekiminize başvurabilirsiniz.
+        Aşağıdaki takvim, T.C. Sağlık Bakanlığı'nın güncel bağışıklama programını gösterir. Bebeğinizin veya kendinizin aşı durumu için size
+        kayıtlı aile hekiminize başvurabilirsiniz.
       </p>
 
       <figure class="card mt-8 p-2 [&_img]:rounded-[12px]">
@@ -40,8 +37,9 @@ import PageIntro from '../components/PageIntro.astro';
           target="_blank"
           rel="noopener noreferrer"
         >
-          T.C. Sağlık Bakanlığı Aşı Portalı</a
-        > · Son kontrol: Temmuz 2026
+          T.C. Sağlık Bakanlığı Aşı Portalı
+        </a>{' '}
+        · Son kontrol: Temmuz 2026
       </p>
 
       {/* Screen-reader-only text equivalent of the schedule image (WCAG 1.1.1). Keep in sync with asitakvimi.png. */}
@@ -51,8 +49,13 @@ import PageIntro from '../components/PageIntro.astro';
         <ul>
           <li>Hep-B (Hepatit B Aşısı): doğumda birinci doz, 1. ayın sonu ikinci doz, 6. ayın sonu üçüncü doz.</li>
           <li>BCG (Verem Aşısı): 2. ayın sonu birinci doz.</li>
-          <li>DaBT-İPA-Hib (Beşli Karma Aşı — Difteri, Boğmaca, Tetanos, İnaktif Polio, Hemofilus influenza Tip B): 2. ayın sonu birinci doz, 4. ayın sonu ikinci doz, 6. ayın sonu üçüncü doz, 18. ayın sonu rapel.</li>
-          <li>KPA (Konjuge Pnömokok Aşısı): 2. ayın sonu birinci doz, 4. ayın sonu ikinci doz, 6. ayın sonu üçüncü doz, 12. ayın sonu rapel.</li>
+          <li>
+            DaBT-İPA-Hib (Beşli Karma Aşı — Difteri, Boğmaca, Tetanos, İnaktif Polio, Hemofilus influenza Tip B): 2. ayın sonu birinci doz,
+            4. ayın sonu ikinci doz, 6. ayın sonu üçüncü doz, 18. ayın sonu rapel.
+          </li>
+          <li>
+            KPA (Konjuge Pnömokok Aşısı): 2. ayın sonu birinci doz, 4. ayın sonu ikinci doz, 6. ayın sonu üçüncü doz, 12. ayın sonu rapel.
+          </li>
           <li>KKK (Kızamık, Kızamıkçık, Kabakulak Aşısı): 12. ayın sonu birinci doz, ilköğretim 1. sınıfta rapel.</li>
           <li>DaBT-İPA (Dörtlü Karma Aşı — Difteri, Boğmaca, Tetanos, İnaktif Polio): ilköğretim 1. sınıfta rapel.</li>
           <li>OPA (Oral Polio — Çocuk Felci Aşısı): 6. ayın sonu ve 18. ayın sonu.</li>

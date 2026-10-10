@@ -2,10 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout
-  title="Sayfa bulunamadı"
-  description="Aradığınız sayfa bulunamadı. Ana sayfaya dönebilir veya bizimle iletişime geçebilirsiniz."
->
+<Layout title="Sayfa bulunamadı" description="Aradığınız sayfa bulunamadı. Ana sayfaya dönebilir veya bizimle iletişime geçebilirsiniz.">
   <section class="flex min-h-[60svh] items-center py-16 md:py-24">
     <div class="wrap-tight">
       <span class="chip bg-surface-2 text-ink-2">404</span>
@@ -14,8 +11,12 @@ import Layout from '../layouts/Layout.astro';
         Aradığınız sayfa taşınmış, adı değişmiş veya hiç var olmamış olabilir. Aşağıdaki bağlantılardan devam edebilirsiniz.
       </p>
       <div class="mt-8 flex flex-wrap items-center gap-3">
-        <a href="/" class="btn-primary">Ana sayfaya dön</a>
-        <a href="/#iletisim" class="btn-secondary">İletişime geç</a>
+        <a href="/" class="btn-primary">
+          Ana sayfaya dön
+        </a>
+        <a href="/#iletisim" class="btn-secondary">
+          İletişime geç
+        </a>
       </div>
     </div>
   </section>

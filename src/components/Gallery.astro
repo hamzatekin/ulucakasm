@@ -25,25 +25,30 @@ const images = [
     </h2>
 
     <div class="mt-10 grid grid-cols-2 gap-2 md:gap-3 lg:grid-cols-3">
-      {
-        images.map((image, index) => (
-          <button
-            type="button"
-            class:list={['gallery-item relative block overflow-hidden rounded-[14px] bg-surface-2', index === 0 && 'col-span-2 lg:row-span-2']}
-            data-src={image.src.src}
-            data-alt={image.alt}
-            aria-label={`${image.caption} görselini büyüt`}
-          >
-            <Image
-              src={image.src}
-              alt={image.alt}
-              class="aspect-[4/3] h-full w-full object-cover"
-              sizes={index === 0 ? '(min-width: 1152px) 760px, (min-width: 1024px) 66vw, 100vw' : '(min-width: 1152px) 380px, (min-width: 1024px) 33vw, 50vw'}
-              widths={[360, 540, 720, 960]}
-            />
-          </button>
-        ))
-      }
+      {images.map((image, index) => (
+        <button
+          type="button"
+          class:list={[
+            'gallery-item relative block overflow-hidden rounded-[14px] bg-surface-2',
+            index === 0 && 'col-span-2 lg:row-span-2',
+          ]}
+          data-src={image.src.src}
+          data-alt={image.alt}
+          aria-label={`${image.caption} görselini büyüt`}
+        >
+          <Image
+            src={image.src}
+            alt={image.alt}
+            class="aspect-[4/3] h-full w-full object-cover"
+            sizes={
+              index === 0
+                ? '(min-width: 1152px) 760px, (min-width: 1024px) 66vw, 100vw'
+                : '(min-width: 1152px) 380px, (min-width: 1024px) 33vw, 50vw'
+            }
+            widths={[360, 540, 720, 960]}
+          />
+        </button>
+      ))}
     </div>
   </div>
 
