@@ -17,13 +17,18 @@ pnpm build      # production build to ./dist
 pnpm preview    # preview the production build
 pnpm typecheck  # astro check (type + template diagnostics)
 pnpm pretty     # prettier (with the Astro plugin) --write over src
+pnpm wrangler dev  # after `pnpm build`: serve ./dist the way Cloudflare Workers does (headers, 404, redirects)
 ```
 
 There is no lint or test command. Run `pnpm typecheck` to validate changes.
 
 ## Environment
 
-`MAPS_API_KEY` (Google Maps JS API) is required for the map to render — see `.env.example`. It is read via `import.meta.env.MAPS_API_KEY` in `src/components/Maps.astro` (`MAPS_LINK`) and baked into the static output at build time.
+`MAPS_API_KEY` (Google Maps JS API) is required for the map to render — see `.env.example`. It is read via `import.meta.env.MAPS_API_KEY` in `src/components/Maps.astro` (`MAPS_LINK`) and baked into the static output at build time. On Cloudflare it is a Workers Builds **build** variable (Worker > Settings > Build), not a runtime variable, and it reaches preview builds too.
+
+## Deployment
+
+Hosted on **Cloudflare Workers with static assets** (no Worker script). `wrangler.jsonc` points `assets.directory` at `./dist`, sets the custom 404 (`not_found_handling: "404-page"`) and the default trailing-slash handling, and enables `workers.dev` Preview URLs. Workers Builds is connected to the repo: build command `pnpm build`; pushes to `main` run `npx wrangler deploy` (production), other branches run `npx wrangler preview`, which posts a Preview URL (`<branch>-ulucakasm.<account>.workers.dev`) on the PR. The custom domains (`ulucakasm.com`, `www`) are attached in the dashboard, so `wrangler.jsonc` has no `routes` key; adding one would make every deploy rewrite them. Response headers live in `public/_headers` (Workers sends none of Pages' old defaults on its own).
 
 ## Architecture
 
