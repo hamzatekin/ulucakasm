@@ -8,11 +8,10 @@
  * what and links to /kvkk#harita, so the click counts as informed consent.
  * Uses the modern AdvancedMarkerElement API.
  */
-import { MAPS_LINK } from '../lib/const.astro';
 import Icon from './Icon.astro';
-const zoom = 17;
-const lat = 38.47771;
-const lng = 27.35559;
+import { LOCATION, NAME } from '../lib/clinic';
+
+const MAPS_LINK = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.MAPS_API_KEY}&loading=async&libraries=marker`;
 ---
 
 <div class="relative h-[360px] w-full md:h-[480px] lg:h-full lg:min-h-[480px]">
@@ -28,7 +27,7 @@ const lng = 27.35559;
     </button>
     <a href="/kvkk#harita" class="ulink absolute inset-x-0 bottom-4 mx-auto w-fit text-[13px] text-ink-2">Kişisel verileriniz hakkında</a>
   </div>
-  <div id="map-container" class="h-full w-full" data-zoom={zoom} data-lat={lat} data-lng={lng}></div>
+  <div id="map-container" class="h-full w-full"></div>
 </div>
 
 <style>
@@ -60,64 +59,25 @@ const lng = 27.35559;
   }
 </style>
 
-<script define:vars={{ MAPS_LINK }}>
-  const MAPS_SCRIPT_ID = 'google-maps-js';
-  let mapInitialized = false;
-
-  async function initMap() {
-    const container = document.getElementById('map-container');
-    if (!container || mapInitialized) return;
-    if (!window.google?.maps || typeof google.maps.importLibrary !== 'function') return;
-    mapInitialized = true;
-
-    const zoom = parseInt(container.dataset.zoom || '17');
-    const center = {
-      lat: parseFloat(container.dataset.lat || '38.47771'),
-      lng: parseFloat(container.dataset.lng || '27.35559'),
-    };
-
+<script is:inline define:vars={{ MAPS_LINK, LOCATION, NAME }}>
+  // The Maps loader calls this (callback=initMap) once the API is ready.
+  window.initMap = async () => {
     const { Map } = await google.maps.importLibrary('maps');
     const { AdvancedMarkerElement } = await google.maps.importLibrary('marker');
-
-    const map = new Map(container, {
-      zoom,
-      center,
-      mapId: 'ulucak-asm-map', // Required for AdvancedMarkerElement
+    const map = new Map(document.getElementById('map-container'), {
+      zoom: 17,
+      center: LOCATION,
+      mapId: 'ulucak-asm-map', // required for AdvancedMarkerElement
     });
+    new AdvancedMarkerElement({ position: LOCATION, map, title: NAME });
+  };
 
-    new AdvancedMarkerElement({
-      position: center,
-      map,
-      title: 'Kemalpaşa İbrahim-Hüsniye Özdurakoğlu Aile Sağlığı Merkezi',
-    });
-  }
-
-  function loadMapsScript() {
-    if (document.getElementById(MAPS_SCRIPT_ID)) return;
+  // The facade (and this button) goes away on the first click, so the script loads once.
+  document.getElementById('map-load').addEventListener('click', () => {
+    document.getElementById('map-facade').remove();
     const script = document.createElement('script');
-    script.id = MAPS_SCRIPT_ID;
     script.src = `${MAPS_LINK}&callback=initMap`;
     script.async = true;
-    script.defer = true;
-    script.onerror = () => {
-      mapInitialized = false;
-      console.error('Failed to load Google Maps JS API');
-    };
-    document.head.appendChild(script);
-  }
-
-  // Expose the callback for the Google Maps loader; only fires after a click.
-  window.initMap = initMap;
-
-  const btn = document.getElementById('map-load');
-  if (btn) {
-    btn.addEventListener('click', () => {
-      document.getElementById('map-facade')?.remove();
-      if (window.google?.maps && typeof google.maps.importLibrary === 'function') {
-        initMap();
-      } else {
-        loadMapsScript();
-      }
-    });
-  }
+    document.head.append(script);
+  });
 </script>

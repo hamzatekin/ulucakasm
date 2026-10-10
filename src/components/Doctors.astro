@@ -2,30 +2,19 @@
 import { Image } from 'astro:assets';
 import Img from './Img.astro';
 import Icon from './Icon.astro';
-import { DOCTORS, telHref } from '../lib/staff';
+import { DOCTORS, telHref } from '../lib/clinic';
+import nurses from '../assets/images/asm/doctors/nurses_v2.avif';
+import supportStaff from '../assets/images/asm/doctors/support_staff.webp';
 
-const photos = import.meta.glob<{ default: ImageMetadata }>('../assets/images/asm/doctors/*.{webp,avif}', { eager: true });
+// Doctor photos and schedules are looked up by slug (see lib/clinic.ts).
+const photos = import.meta.glob<{ default: ImageMetadata }>('../assets/images/asm/doctors/*.webp', { eager: true });
 const schedules = import.meta.glob<{ default: ImageMetadata }>('../assets/images/asm/schedules/*.webp', { eager: true });
-
 const photo = (slug: string) => photos[`../assets/images/asm/doctors/${slug}.webp`].default;
 const schedule = (slug: string) => schedules[`../assets/images/asm/schedules/${slug}_schedule.webp`].default;
 
-// Screen-reader summary for each weekly schedule image (WCAG 1.1.1). The images
-// are dense scanned grids, so a faithful summary alongside the image is the
-// accessible equivalent. Window = weekday working hours; keep in sync with the
-// images under assets/images/asm/schedules/.
-const scheduleWindow: Record<string, string> = {
-  murat_tansel_kutluk: '07.00–17.00',
-  ilkay_taze: '07.00–18.00',
-  ahmet_serhan_sunbul: '07.00–17.00',
-  cumhur_citak: '07.00–17.00',
-  gokhan_muglali: '08.00–18.00',
-  seyhmus_kaya: '08.00–18.00',
-};
-
 const TEAM = [
-  { name: 'Acil Hemşireleri', img: photos['../assets/images/asm/doctors/nurses_v2.avif'].default, role: 'Acil müdahale ve bakım' },
-  { name: 'Hizmetliler', img: photos['../assets/images/asm/doctors/support_staff.webp'].default, role: 'Destek ve temizlik ekibi' },
+  { name: 'Acil Hemşireleri', img: nurses, role: 'Acil müdahale ve bakım' },
+  { name: 'Hizmetliler', img: supportStaff, role: 'Destek ve temizlik ekibi' },
 ];
 ---
 
@@ -57,8 +46,6 @@ const TEAM = [
                 class="aspect-[4/3] w-full object-cover object-[center_22%]"
                 widths={[320, 480, 640, 760]}
                 sizes="(min-width: 1024px) 360px, (min-width: 640px) 45vw, 92vw"
-                loading="lazy"
-                decoding="async"
               />
               <span class="chip absolute top-2.5 left-2.5 bg-surface/85 text-ink backdrop-blur-md">
                 <span class="text-ink-2">Birim</span> {d.code}
@@ -86,11 +73,9 @@ const TEAM = [
                 hint="Büyütmek için dokunun"
                 alt={`${d.name} haftalık çalışma programı görseli`}
                 widths={[720, 1080, 1600]}
-                loading="lazy"
-                decoding="async"
               />
               <p class="sr-only">
-                {d.name} çalışma programı: Hafta içi Pazartesi–Cuma, yaklaşık {scheduleWindow[d.slug]} saatleri arasında aile hekimliği hizmeti verilir. Gün içinde
+                {d.name} çalışma programı: Hafta içi Pazartesi–Cuma, yaklaşık {d.hours} saatleri arasında aile hekimliği hizmeti verilir. Gün içinde
                 bir saat öğle tatili vardır ve belirli saatlerde ev ziyareti yapılır. Cumartesi ve Pazar kapalıdır. Kesin saatler için görseli büyütebilir veya
                 birimi arayabilirsiniz.
               </p>
@@ -113,8 +98,6 @@ const TEAM = [
                 class="aspect-[4/3] w-full object-cover object-[center_30%]"
                 widths={[320, 480, 640, 760]}
                 sizes="(min-width: 1024px) 360px, (min-width: 640px) 45vw, 92vw"
-                loading="lazy"
-                decoding="async"
               />
             </div>
             <div class="px-3 pt-4 pb-3">

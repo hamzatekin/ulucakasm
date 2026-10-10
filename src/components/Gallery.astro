@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import LightboxModal from './LightboxModal.astro';
+import Icon from './Icon.astro';
 import frontSide from '../assets/images/asm/front-side.webp';
 import interior1 from '../assets/images/asm/interior-1.webp';
 import interior2 from '../assets/images/asm/interior-2.webp';
@@ -29,8 +29,9 @@ const images = [
         images.map((image, index) => (
           <button
             type="button"
-            class={`gallery-item relative block overflow-hidden rounded-[14px] bg-surface-2 ${index === 0 ? 'col-span-2 lg:row-span-2' : ''}`}
-            onclick={`openLightbox('${image.src.src}', '${image.alt}')`}
+            class:list={['gallery-item relative block overflow-hidden rounded-[14px] bg-surface-2', index === 0 && 'col-span-2 lg:row-span-2']}
+            data-src={image.src.src}
+            data-alt={image.alt}
             aria-label={`${image.caption} görselini büyüt`}
           >
             <Image
@@ -39,15 +40,20 @@ const images = [
               class="aspect-[4/3] h-full w-full object-cover"
               sizes={index === 0 ? '(min-width: 1152px) 760px, (min-width: 1024px) 66vw, 100vw' : '(min-width: 1152px) 380px, (min-width: 1024px) 33vw, 50vw'}
               widths={[360, 540, 720, 960]}
-              loading="lazy"
-              decoding="async"
             />
           </button>
         ))
       }
     </div>
   </div>
-  <LightboxModal />
+
+  <!-- one shared viewer; each tile hands it the full-size original -->
+  <dialog id="gallery-viewer" class="lightbox gallery-viewer" aria-label="Görsel önizleme">
+    <img alt="" />
+    <button type="button" class="lightbox-close" aria-label="Kapat">
+      <Icon name="close" class="h-5 w-5" />
+    </button>
+  </dialog>
 </section>
 
 <style>
@@ -75,10 +81,63 @@ const images = [
   .gallery-item:active {
     transform: scale(0.985);
   }
+
+  .gallery-viewer {
+    padding: 1rem;
+    align-items: center;
+    justify-content: center;
+  }
+  .gallery-viewer[open] {
+    display: flex;
+  }
+  /* the photo settles from 0.96 as the viewer fades in */
+  .gallery-viewer img {
+    max-height: 88dvh;
+    max-width: min(92vw, 1400px);
+    object-fit: contain;
+    border-radius: 12px;
+    transform: scale(0.96);
+    transition: transform 220ms var(--ease-out);
+  }
+  .gallery-viewer[open] img {
+    transform: none;
+  }
+  @starting-style {
+    .gallery-viewer[open] img {
+      transform: scale(0.96);
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .gallery-item:active,
-    .gallery-item:hover img {
+    .gallery-item:hover img,
+    .gallery-viewer img,
+    .gallery-viewer[open] img {
       transform: none;
+    }
+    @starting-style {
+      .gallery-viewer[open] img {
+        transform: none;
+      }
     }
   }
 </style>
+
+<script>
+  const viewer = document.getElementById('gallery-viewer') as HTMLDialogElement;
+  const photo = viewer.querySelector('img')!;
+
+  document.querySelectorAll<HTMLButtonElement>('.gallery-item').forEach((item) => {
+    item.addEventListener('click', () => {
+      photo.src = item.dataset.src!;
+      photo.alt = item.dataset.alt!;
+      viewer.showModal();
+    });
+  });
+
+  viewer.querySelector('.lightbox-close')!.addEventListener('click', () => viewer.close());
+  // a click on the backdrop (outside the photo) closes
+  viewer.addEventListener('click', (e) => {
+    if (e.target === viewer) viewer.close();
+  });
+</script>

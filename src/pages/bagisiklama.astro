@@ -2,71 +2,65 @@
 import asitakvimi from '../assets/images/asm/asitakvimi.png';
 
 import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
 import Img from '../components/Img.astro';
 import PageIntro from '../components/PageIntro.astro';
 ---
 
 <Layout
-  title="Aşı Takvimi | İbrahim-Hüsniye Özdurakoğlu Aile Sağlığı Merkezi"
+  title="Aşı Takvimi"
   description="Sağlık Bakanlığı güncel bağışıklama programı; bebek, çocuk ve erişkin aşı takvimi."
 >
-  <Header>
-    <PageIntro section="Bağışıklama" title="Aşı Takvimi">
-      Aşılar, çocukları ve erişkinleri ciddi bulaşıcı hastalıklardan korumanın en etkili yoludur.
-    </PageIntro>
+  <PageIntro section="Bağışıklama" title="Aşı Takvimi">
+    Aşılar, çocukları ve erişkinleri ciddi bulaşıcı hastalıklardan korumanın en etkili yoludur.
+  </PageIntro>
 
-    <!-- content -->
-    <section class="pb-16 md:pb-24">
-      <div class="wrap-tight">
-        <p class="max-w-[65ch] text-lead text-ink-2">
-          Aşağıdaki takvim, T.C. Sağlık Bakanlığı'nın güncel bağışıklama programını gösterir. Bebeğinizin veya kendinizin aşı durumu için
-          size kayıtlı aile hekiminize başvurabilirsiniz.
-        </p>
+  <!-- content -->
+  <section class="pb-16 md:pb-24">
+    <div class="wrap-tight">
+      <p class="max-w-[65ch] text-lead text-ink-2">
+        Aşağıdaki takvim, T.C. Sağlık Bakanlığı'nın güncel bağışıklama programını gösterir. Bebeğinizin veya kendinizin aşı durumu için
+        size kayıtlı aile hekiminize başvurabilirsiniz.
+      </p>
 
-        <figure class="card mt-8 p-2 [&_img]:rounded-[12px]">
-          <Img
-            src={asitakvimi}
-            alt="T.C. Sağlık Bakanlığı aşı takvimi görseli. Takvimin tam metin karşılığı görselin hemen ardından yer alır."
-            widths={[480, 720, 960]}
-            sizes="(min-width: 768px) 720px, 90vw"
-            loading="eager"
-            decoding="async"
-          />
-        </figure>
-        <p class="mt-3 px-1 text-[13px] text-ink-3">Görseli büyütmek için üzerine dokunun</p>
-        <p class="mt-6 px-1 text-sm leading-relaxed text-ink-2">
-          Kaynak:{' '}
-          <a
-            class="ulink"
-            href="https://asi.saglik.gov.tr/bagisiklama-programi-ve-asi-takvimi/asi-takvimi.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            T.C. Sağlık Bakanlığı Aşı Portalı</a
-          > · Son kontrol: Temmuz 2026
-        </p>
+      <figure class="card mt-8 p-2 [&_img]:rounded-[12px]">
+        <Img
+          src={asitakvimi}
+          alt="T.C. Sağlık Bakanlığı aşı takvimi görseli. Takvimin tam metin karşılığı görselin hemen ardından yer alır."
+          widths={[480, 720, 960]}
+          sizes="(min-width: 768px) 720px, 90vw"
+          loading="eager"
+        />
+      </figure>
+      <p class="mt-3 px-1 text-[13px] text-ink-3">Görseli büyütmek için üzerine dokunun</p>
+      <p class="mt-6 px-1 text-sm leading-relaxed text-ink-2">
+        Kaynak:{' '}
+        <a
+          class="ulink"
+          href="https://asi.saglik.gov.tr/bagisiklama-programi-ve-asi-takvimi/asi-takvimi.html"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          T.C. Sağlık Bakanlığı Aşı Portalı</a
+        > · Son kontrol: Temmuz 2026
+      </p>
 
-        {/* Screen-reader-only text equivalent of the schedule image (WCAG 1.1.1). Keep in sync with asitakvimi.png. */}
-        <div class="sr-only">
-          <h2>Aşı takvimi — metin karşılığı</h2>
-          <p>Doz kısaltmaları: I birinci doz, II ikinci doz, III üçüncü doz, R rapel (pekiştirme dozu).</p>
-          <ul>
-            <li>Hep-B (Hepatit B Aşısı): doğumda birinci doz, 1. ayın sonu ikinci doz, 6. ayın sonu üçüncü doz.</li>
-            <li>BCG (Verem Aşısı): 2. ayın sonu birinci doz.</li>
-            <li>DaBT-İPA-Hib (Beşli Karma Aşı — Difteri, Boğmaca, Tetanos, İnaktif Polio, Hemofilus influenza Tip B): 2. ayın sonu birinci doz, 4. ayın sonu ikinci doz, 6. ayın sonu üçüncü doz, 18. ayın sonu rapel.</li>
-            <li>KPA (Konjuge Pnömokok Aşısı): 2. ayın sonu birinci doz, 4. ayın sonu ikinci doz, 6. ayın sonu üçüncü doz, 12. ayın sonu rapel.</li>
-            <li>KKK (Kızamık, Kızamıkçık, Kabakulak Aşısı): 12. ayın sonu birinci doz, ilköğretim 1. sınıfta rapel.</li>
-            <li>DaBT-İPA (Dörtlü Karma Aşı — Difteri, Boğmaca, Tetanos, İnaktif Polio): ilköğretim 1. sınıfta rapel.</li>
-            <li>OPA (Oral Polio — Çocuk Felci Aşısı): 6. ayın sonu ve 18. ayın sonu.</li>
-            <li>Td (Erişkin Tipi Difteri-Tetanoz Aşısı): ilköğretim 8. sınıfta rapel.</li>
-            <li>Hep-A (Hepatit A Aşısı): 18. ayın sonu birinci doz, 24. ayın sonu ikinci doz.</li>
-            <li>Su Çiçeği (Suçiçeği Aşısı): 12. ayın sonu birinci doz.</li>
-          </ul>
-        </div>
+      {/* Screen-reader-only text equivalent of the schedule image (WCAG 1.1.1). Keep in sync with asitakvimi.png. */}
+      <div class="sr-only">
+        <h2>Aşı takvimi — metin karşılığı</h2>
+        <p>Doz kısaltmaları: I birinci doz, II ikinci doz, III üçüncü doz, R rapel (pekiştirme dozu).</p>
+        <ul>
+          <li>Hep-B (Hepatit B Aşısı): doğumda birinci doz, 1. ayın sonu ikinci doz, 6. ayın sonu üçüncü doz.</li>
+          <li>BCG (Verem Aşısı): 2. ayın sonu birinci doz.</li>
+          <li>DaBT-İPA-Hib (Beşli Karma Aşı — Difteri, Boğmaca, Tetanos, İnaktif Polio, Hemofilus influenza Tip B): 2. ayın sonu birinci doz, 4. ayın sonu ikinci doz, 6. ayın sonu üçüncü doz, 18. ayın sonu rapel.</li>
+          <li>KPA (Konjuge Pnömokok Aşısı): 2. ayın sonu birinci doz, 4. ayın sonu ikinci doz, 6. ayın sonu üçüncü doz, 12. ayın sonu rapel.</li>
+          <li>KKK (Kızamık, Kızamıkçık, Kabakulak Aşısı): 12. ayın sonu birinci doz, ilköğretim 1. sınıfta rapel.</li>
+          <li>DaBT-İPA (Dörtlü Karma Aşı — Difteri, Boğmaca, Tetanos, İnaktif Polio): ilköğretim 1. sınıfta rapel.</li>
+          <li>OPA (Oral Polio — Çocuk Felci Aşısı): 6. ayın sonu ve 18. ayın sonu.</li>
+          <li>Td (Erişkin Tipi Difteri-Tetanoz Aşısı): ilköğretim 8. sınıfta rapel.</li>
+          <li>Hep-A (Hepatit A Aşısı): 18. ayın sonu birinci doz, 24. ayın sonu ikinci doz.</li>
+          <li>Su Çiçeği (Suçiçeği Aşısı): 12. ayın sonu birinci doz.</li>
+        </ul>
       </div>
-    </section>
-  </Header>
-  <Footer />
+    </div>
+  </section>
 </Layout>
