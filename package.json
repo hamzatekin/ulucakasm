@@ -10,22 +10,20 @@
     "start": "astro preview --host",
     "build": "astro build",
     "preview": "astro preview",
-    "pretty": "prettier --write ./src/**/*.{astro,js,jsx,ts,tsx,css,scss,sass,less,html,json,md}",
+    "pretty": "prettier --write src",
     "typecheck": "astro check"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.2",
-    "@types/google.maps": "^3.58.1",
-    "astro": "^7.0.6"
+    "astro": "^7.0.6",
+    "prettier": "^3.9.9",
+    "prettier-plugin-astro": "^1.1.0"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",
     "sharp": "^0.35.3",
     "tailwindcss": "^4.3.2",
     "typescript": "^5.9.3"
-  },
-  "resolutions": {
-    "string-width": "^4.2.3"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
