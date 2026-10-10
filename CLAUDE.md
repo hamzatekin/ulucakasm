@@ -17,18 +17,23 @@ pnpm build      # production build to ./dist
 pnpm preview    # preview the production build
 pnpm typecheck  # astro check (type + template diagnostics)
 pnpm pretty     # prettier (with the Astro plugin) --write over src
+pnpm wrangler dev  # after `pnpm build`: serve ./dist the way Cloudflare Workers does (headers, 404, redirects)
 ```
 
 There is no lint or test command. Run `pnpm typecheck` to validate changes.
 
 ## Environment
 
-`MAPS_API_KEY` (Google Maps JS API) is required for the map to render — see `.env.example`. It is read via `import.meta.env.MAPS_API_KEY` in `src/components/Maps.astro` (`MAPS_LINK`) and baked into the static output at build time.
+`MAPS_API_KEY` (Google Maps JS API) is required for the map to render — see `.env.example`. It is read via `import.meta.env.MAPS_API_KEY` in `src/components/Maps.astro` (`MAPS_LINK`) and baked into the static output at build time. On Cloudflare it is a Workers Builds **build** variable (Worker > Settings > Build), not a runtime variable, and it reaches preview builds too.
+
+## Deployment
+
+Hosted on **Cloudflare Workers with static assets** (no Worker script). `wrangler.jsonc` points `assets.directory` at `./dist`, sets the custom 404 (`not_found_handling: "404-page"`) and the default trailing-slash handling, and enables `workers.dev` Preview URLs. Workers Builds is connected to the repo: build command `pnpm build`; pushes to `main` run `npx wrangler deploy` (production), other branches run `npx wrangler preview`, which posts a Preview URL (`<branch>-ulucakasm.<account>.workers.dev`) on the PR. The custom domains (`ulucakasm.com`, `www`) are attached in the dashboard, so `wrangler.jsonc` has no `routes` key; adding one would make every deploy rewrite them. Response headers live in `public/_headers` (Workers sends none of Pages' old defaults on its own).
 
 ## Architecture
 
-- **`src/pages/`** — one `.astro` file per route: `index.astro` (home), `bagisiklama.astro` (vaccination schedule), `beslenme.astro` (nutrition), `erisilebilirlik.astro` (accessibility statement), `kvkk.astro` (KVKK aydınlatma metni). Pages compose components inside `<Layout title="Page name" description="…">`; Layout supplies the header, `<main>` and footer. `kvkk.astro` lists every third-party request the site makes (Cloudflare, Umami, Google Maps on click) — update it whenever you add or remove one.
-- **`src/layouts/Layout.astro`** — the single HTML shell: `<head>` (viewport with `viewport-fit=cover`, per-scheme `theme-color`, favicons), native cross-document view transitions (declared in `global.css`), Umami analytics (injected **only in prod** via `import.meta.env.PROD`), then `Header`, `<main id="main-content">` and `Footer` around the page. `title` is the page name (the clinic name is appended; omit it on the home page); `description` is required.
+- **`src/pages/`** — one `.astro` file per route: `index.astro` (home), `bagisiklama.astro` (vaccination schedule), `beslenme.astro` (nutrition), `erisilebilirlik.astro` (accessibility statement), `kvkk.astro` (KVKK aydınlatma metni). Pages compose components inside `<Layout title="Page name" description="…">`; Layout supplies the header, `<main>` and footer. `kvkk.astro` lists every third-party request the site makes (Cloudflare, Google Maps on click) — update it whenever you add or remove one.
+- **`src/layouts/Layout.astro`** — the single HTML shell: `<head>` (viewport with `viewport-fit=cover`, per-scheme `theme-color`, favicons), native cross-document view transitions (declared in `global.css`), then `Header`, `<main id="main-content">` and `Footer` around the page. `title` is the page name (the clinic name is appended; omit it on the home page); `description` is required.
 - **`src/components/`** — presentational section components (`Hero`, `Services`, `Doctors`, `Contact`, `Gallery`, `Header`, `Footer`, `Maps`, etc.). The home page is assembled by stacking these. Inner pages open with `PageIntro` (back link, section name, h1, optional lead slot). `Gallery` owns its single photo viewer `<dialog>`.
 - **`src/lib/clinic.ts`** — single source of truth for the clinic's facts: `NAME` / `SHORT_NAME`, `ADDRESS`, `PHONES`, `LOCATION` + `DIRECTIONS` (map link), `telHref`, and the family-doctor roster (`DOCTORS`: slug, name, birim `code`, phone, assistant, weekday `hours` used in each schedule's screen-reader summary). Change a phone or address here, not in components. `slug` must match the image filenames under `assets/images/asm/doctors/<slug>.webp` and `.../schedules/<slug>_schedule.webp`, which `Doctors.astro` resolves via `import.meta.glob`.
 
