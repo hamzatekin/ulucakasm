@@ -323,6 +323,21 @@
     @apply fixed top-4 z-[100] rounded-[10px] bg-accent px-4 py-2 text-sm font-medium text-on-accent;
     left: 1rem;
   }
+
+  /* Scroll reveal for the home sections. Blocks below the fold start hidden and
+     play a one-off entrance when they come into view (Kowalski's recipe: fire
+     once, never replay on scroll-by). The script in Layout.astro sets
+     data-reveal and staggers a row entering together by 60ms. Without JS, or
+     in print, nothing is hidden. `translate` (not `transform`) keeps the
+     :active press scale working. */
+  @media screen {
+    .reveal[data-reveal='hidden'] {
+      opacity: 0;
+    }
+    .reveal[data-reveal='in'] {
+      animation: reveal 600ms var(--ease-out) var(--reveal-delay, 0ms) backwards;
+    }
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -331,7 +346,8 @@
   }
   /* Gentler, not zero: keep the fades, drop the movement. */
   .animate-enter,
-  .animate-enter-image {
+  .animate-enter-image,
+  .reveal[data-reveal='in'] {
     animation-name: fade-in;
   }
   .card-link:active,
@@ -346,5 +362,12 @@
 @keyframes fade-in {
   from {
     opacity: 0;
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    translate: 0 24px;
   }
 }
