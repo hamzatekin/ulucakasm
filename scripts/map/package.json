@@ -1,0 +1,15 @@
+{
+  "name": "ulucakasm-map",
+  "private": true,
+  "type": "module",
+  "description": "Renders the contact section's map image from OpenStreetMap data (Protomaps basemap). Not part of the site build.",
+  "scripts": {
+    "render": "node render.mjs"
+  },
+  "dependencies": {
+    "@protomaps/basemaps": "^5.7.2",
+    "maplibre-gl": "^6.15.0",
+    "playwright-core": "^1.64.1",
+    "pmtiles": "^4.5.0"
+  }
+}

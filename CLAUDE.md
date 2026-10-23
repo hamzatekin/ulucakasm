@@ -22,9 +22,9 @@ pnpm wrangler dev  # after `pnpm build`: serve ./dist the way Cloudflare Workers
 
 There is no lint or test command. Run `pnpm typecheck` to validate changes.
 
-## Environment
+## Map
 
-`MAPS_API_KEY` (Google Maps JS API) is required for the map to render — see `.env.example`. It is read via `import.meta.env.MAPS_API_KEY` in `src/components/Maps.astro` (`MAPS_LINK`) and baked into the static output at build time. On Cloudflare it is a Workers Builds **build** variable (Worker > Settings > Build), not a runtime variable, and it reaches preview builds too.
+The contact map is a static picture, not a map widget: `src/assets/images/map/map-{light,dark}.webp`, a 1120×720 canvas at 2x centred on `LOCATION`. `Maps.astro` shows it at its own size (the box crops it, so labels never shrink), swaps the dark render via `<picture>` + `prefers-color-scheme`, draws the pin on the centre, and carries the `© OpenStreetMap` credit that ODbL requires on the map. No script, no API key, no third-party request. `scripts/map/render.mjs` (its own `package.json`, not part of the site build) renders both images from the latest Protomaps OpenStreetMap build with MapLibre in headless Chromium: `pnpm --dir scripts/map install && pnpm --dir scripts/map render` (uses installed Chrome, or `CHROMIUM_PATH`; behind a proxy add `NODE_USE_ENV_PROXY=1`). Re-run it and commit the images when `LOCATION` changes. Directions go out through the `DIRECTIONS` links (Google, Apple, Yandex), which only send anything once the visitor clicks.
 
 ## Deployment
 
@@ -32,10 +32,10 @@ Hosted on **Cloudflare Workers with static assets** (no Worker script). `wrangle
 
 ## Architecture
 
-- **`src/pages/`** — one `.astro` file per route: `index.astro` (home), `bagisiklama.astro` (vaccination schedule), `beslenme.astro` (nutrition), `erisilebilirlik.astro` (accessibility statement), `kvkk.astro` (KVKK aydınlatma metni). Pages compose components inside `<Layout title="Page name" description="…">`; Layout supplies the header, `<main>` and footer. `kvkk.astro` lists every third-party request the site makes (Cloudflare, Google Maps on click) — update it whenever you add or remove one.
+- **`src/pages/`** — one `.astro` file per route: `index.astro` (home), `bagisiklama.astro` (vaccination schedule), `beslenme.astro` (nutrition), `erisilebilirlik.astro` (accessibility statement), `kvkk.astro` (KVKK aydınlatma metni). Pages compose components inside `<Layout title="Page name" description="…">`; Layout supplies the header, `<main>` and footer. `kvkk.astro` lists every third-party request the site makes (only Cloudflare, the host; the map is a first-party image) — update it whenever you add or remove one.
 - **`src/layouts/Layout.astro`** — the single HTML shell: `<head>` (viewport with `viewport-fit=cover`, per-scheme `theme-color`, favicons), native cross-document view transitions (declared in `global.css`), then `Header`, `<main id="main-content">` and `Footer` around the page. `title` is the page name (the clinic name is appended; omit it on the home page); `description` is required.
 - **`src/components/`** — presentational section components (`Hero`, `Services`, `Doctors`, `Contact`, `Gallery`, `Header`, `Footer`, `Maps`, etc.). The home page is assembled by stacking these. Inner pages open with `PageIntro` (back link, section name, h1, optional lead slot). `Gallery` owns its single photo viewer `<dialog>`.
-- **`src/lib/clinic.ts`** — single source of truth for the clinic's facts: `NAME` / `SHORT_NAME`, `ADDRESS`, `PHONES`, `LOCATION` + `DIRECTIONS` (map link), `telHref`, and the family-doctor roster (`DOCTORS`: slug, name, birim `code`, phone, assistant, weekday `hours` used in each schedule's screen-reader summary). Change a phone or address here, not in components. `slug` must match the image filenames under `assets/images/asm/doctors/<slug>.webp` and `.../schedules/<slug>_schedule.webp`, which `Doctors.astro` resolves via `import.meta.glob`.
+- **`src/lib/clinic.ts`** — single source of truth for the clinic's facts: `NAME` / `SHORT_NAME`, `ADDRESS`, `PHONES`, `LOCATION` (the map image's centre) + `DIRECTIONS` (Google / Apple / Yandex route links), `telHref`, and the family-doctor roster (`DOCTORS`: slug, name, birim `code`, phone, assistant, weekday `hours` used in each schedule's screen-reader summary). Change a phone or address here, not in components. `slug` must match the image filenames under `assets/images/asm/doctors/<slug>.webp` and `.../schedules/<slug>_schedule.webp`, which `Doctors.astro` resolves via `import.meta.glob`.
 
 ### Conventions
 
