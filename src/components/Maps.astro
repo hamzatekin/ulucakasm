@@ -1,87 +1,170 @@
 ---
 /**
- * Google Maps component — privacy façade / click-to-load.
- * Nothing is requested from Google (no script, no cookies, no visitor IP)
- * until the visitor explicitly clicks "Haritayı göster". This keeps the
- * default page load free of any third-party call. The facade links to
- * /kvkk#harita, which explains the transfer to Google LLC (ABD) that the
- * click consents to (KVKK m. 9/6-a).
- * Uses the modern AdvancedMarkerElement API.
+ * A pannable map with nothing third-party in it. scripts/map/render.mjs exports the
+ * OpenStreetMap tiles around the clinic (Protomaps basemap) with their styles, fonts
+ * and icons to public/map, plus a light and a dark picture of the same view. The
+ * picture shows first and stays when JS is off; once the section nears the viewport,
+ * the script below loads MapLibre (bundled, ~440 KB gzipped) and swaps in the live
+ * map. Every request goes to this site, so no map company sees the visitor and no
+ * API key or consent is needed. Directions open in the visitor's own map app through
+ * the DIRECTIONS links in Contact.astro. ODbL asks for the OpenStreetMap credit on
+ * the map itself.
  */
-import Icon from './Icon.astro';
-import { LOCATION, NAME } from '../lib/clinic';
+import { getImage } from 'astro:assets';
+import mapLight from '../assets/images/map/map-light.webp';
+import mapDark from '../assets/images/map/map-dark.webp';
+import { SHORT_NAME } from '../lib/clinic';
 
-const MAPS_LINK = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.MAPS_API_KEY}&loading=async&libraries=marker`;
+// The render is a 1120×720 canvas at 2x. Shown at its own size and centred, the box
+// crops it instead of scaling it, so labels keep their size at every breakpoint.
+const WIDTH = 1120;
+const HEIGHT = 720;
+const options = { width: WIDTH, height: HEIGHT, densities: [1, 2], format: 'webp' as const };
+const [light, dark] = await Promise.all([getImage({ src: mapLight, ...options }), getImage({ src: mapDark, ...options })]);
 ---
 
-<div class="relative h-[360px] w-full md:h-[480px] lg:h-full lg:min-h-[480px]">
-  <div id="map-facade" class="map-facade absolute inset-0 z-10">
-    <button
-      type="button"
-      id="map-load"
-      class="map-load flex h-full w-full cursor-pointer flex-col items-center justify-center gap-3 px-6 pb-8 text-ink"
-    >
-      <span class="map-pin flex size-12 items-center justify-center rounded-full bg-surface text-seal">
-        <Icon name="map-pin" class="h-6 w-6" />
-      </span>
-      <span class="text-[17px] font-semibold tracking-[-0.01em]">Haritayı göster</span>
-      <span class="max-w-xs text-center text-sm text-ink-2">Tıkladığınızda harita Google Haritalar’dan yüklenir.</span>
-    </button>
-    <a href="/kvkk#harita" class="ulink absolute inset-x-0 bottom-4 mx-auto w-fit text-[13px] text-ink-2">
-      Kişisel verileriniz hakkında
-    </a>
+<div data-map class="map group relative h-[360px] w-full overflow-hidden bg-surface-2 md:h-[480px] lg:h-full lg:min-h-[480px]">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset={dark.srcSet.attribute} width={WIDTH} height={HEIGHT} />
+    <img
+      src={light.src}
+      srcset={light.srcSet.attribute}
+      width={WIDTH}
+      height={HEIGHT}
+      alt={`${SHORT_NAME}’nin Ulucak’taki konumunu gösteren harita`}
+      loading="lazy"
+      decoding="async"
+      class="absolute top-1/2 left-1/2 min-h-full max-w-none min-w-full -translate-x-1/2 -translate-y-1/2 object-cover"
+    />
+  </picture>
+
+  <!-- MapLibre's own CSS makes its container position: relative, so it gets a wrapper -->
+  <div class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-200 ease-out group-data-[map=live]:pointer-events-auto group-data-[map=live]:opacity-100">
+    <div data-map-canvas class="h-full w-full"></div>
   </div>
-  <div id="map-container" class="h-full w-full"></div>
+
+  <!-- the pin's tip sits on the picture's centre, which is LOCATION; the live map takes it over as its marker -->
+  <div data-map-pin-slot class="pointer-events-none absolute top-1/2 left-1/2 -translate-x-[18px] -translate-y-full">
+    <div data-map-pin class="pointer-events-none flex items-start gap-2" aria-hidden="true">
+      <svg class="map-pin h-[46px] w-9 text-seal" viewBox="0 0 36 46">
+        <path fill="currentColor" d="M18 45C18 45 34 30.5 34 17.5 34 8 26.8 1 18 1S2 8 2 17.5C2 30.5 18 45 18 45Z" />
+        <circle cx="18" cy="17.5" r="6.5" fill="#fff" />
+      </svg>
+      <span class="map-label mt-1.5 rounded-full bg-surface px-3 py-1 text-[13px] font-semibold whitespace-nowrap text-ink">
+        Özdurakoğlu ASM
+      </span>
+    </div>
+  </div>
+
+  <a
+    href="https://www.openstreetmap.org/copyright"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="absolute right-2 bottom-2 rounded-md bg-surface/85 px-1.5 py-0.5 text-[11px] text-ink-2 hover:text-ink"
+  >
+    © OpenStreetMap
+  </a>
 </div>
 
 <style>
-  @reference '../styles/global.css';
-
-  /* A quiet dot grid stands in for the map until the visitor opts in. */
-  .map-facade {
-    background-color: var(--color-surface-2);
-    background-image: radial-gradient(circle at 1px 1px, color-mix(in oklab, var(--color-ink) 14%, transparent) 1px, transparent 0);
-    background-size: 18px 18px;
-  }
   .map-pin {
+    filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.25)) drop-shadow(0 8px 12px rgb(0 0 0 / 0.15));
+  }
+  .map-label {
     box-shadow: var(--elev-2);
-    transition: transform 160ms var(--ease-out);
   }
-  @media (hover: hover) and (pointer: fine) {
-    .map-load:hover .map-pin {
-      transform: translateY(-2px);
-    }
+
+  /* MapLibre's zoom buttons, restyled to the site's surfaces */
+  .map :global(.maplibregl-ctrl-group) {
+    border-radius: 10px;
+    background: var(--color-surface);
+    box-shadow: var(--elev-btn);
   }
-  .map-load:active .map-pin {
-    transform: scale(0.94);
+  .map :global(.maplibregl-ctrl-group button) {
+    width: 40px;
+    height: 40px;
   }
-  @media (prefers-reduced-motion: reduce) {
-    .map-load:active .map-pin,
-    .map-load:hover .map-pin {
-      transform: none;
+  .map :global(.maplibregl-ctrl-group button + button) {
+    border-top-color: var(--color-hairline);
+  }
+  @media (prefers-color-scheme: dark) {
+    .map :global(.maplibregl-ctrl-icon) {
+      filter: invert(1);
     }
   }
 </style>
 
-<script is:inline define:vars={{ MAPS_LINK, LOCATION, NAME }}>
-  // The Maps loader calls this (callback=initMap) once the API is ready.
-  window.initMap = async () => {
-    const { Map } = await google.maps.importLibrary('maps');
-    const { AdvancedMarkerElement } = await google.maps.importLibrary('marker');
-    const map = new Map(document.getElementById('map-container'), {
-      zoom: 17,
-      center: LOCATION,
-      mapId: 'ulucak-asm-map', // required for AdvancedMarkerElement
-    });
-    new AdvancedMarkerElement({ position: LOCATION, map, title: NAME });
-  };
+<script>
+  import { LOCATION, SHORT_NAME } from '../lib/clinic';
 
-  // The facade (and this button) goes away on the first click, so the script loads once.
-  document.getElementById('map-load').addEventListener('click', () => {
-    document.getElementById('map-facade').remove();
-    const script = document.createElement('script');
-    script.src = `${MAPS_LINK}&callback=initMap`;
-    script.async = true;
-    document.head.append(script);
-  });
+  const box = document.querySelector<HTMLElement>('[data-map]');
+  if (box) {
+    // Load the live map only when the section is close, so the page itself stays as light as before.
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((e) => e.isIntersecting)) return;
+        io.disconnect();
+        mount(box).catch((err) => console.warn('map:', err)); // the picture simply stays
+      },
+      { rootMargin: '400px 0px' },
+    );
+    io.observe(box);
+  }
+
+  async function mount(box: HTMLElement) {
+    const [{ Map: MapLibreMap, Marker, NavigationControl, setWorkerUrl }, { default: workerUrl }, { default: cssUrl }] = await Promise.all([
+      import('maplibre-gl'),
+      import('maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'),
+      // as a URL: a plain CSS import would put a render-blocking <link> in every page's <head>
+      import('maplibre-gl/dist/maplibre-gl.css?url'),
+    ]);
+    setWorkerUrl(workerUrl);
+    document.head.append(Object.assign(document.createElement('link'), { rel: 'stylesheet', href: cssUrl }));
+
+    const dark = matchMedia('(prefers-color-scheme: dark)');
+    // The styles name site-relative files; MapLibre's worker needs absolute URLs.
+    const loadStyle = async () => {
+      const style = await (await fetch(`/map/style-${dark.matches ? 'dark' : 'light'}.json`)).json();
+      style.glyphs = location.origin + style.glyphs;
+      style.sprite = location.origin + style.sprite;
+      style.sources.protomaps.tiles = style.sources.protomaps.tiles.map((t: string) => location.origin + t);
+      return style;
+    };
+    const style = await loadStyle();
+
+    const map = new MapLibreMap({
+      container: box.querySelector<HTMLElement>('[data-map-canvas]')!,
+      style,
+      center: [LOCATION.lng, LOCATION.lat],
+      zoom: 15.6, // the picture's zoom, so the swap doesn't jump
+      minZoom: 12,
+      maxZoom: 18,
+      maxBounds: style.sources.protomaps.bounds, // the exported tiles end there
+      cooperativeGestures: true, // one finger / plain scroll keeps scrolling the page
+      dragRotate: false,
+      pitchWithRotate: false,
+      touchPitch: false,
+      attributionControl: false, // the OpenStreetMap credit is our own link
+      locale: {
+        'Map.Title': 'Harita',
+        'Marker.Title': SHORT_NAME,
+        'NavigationControl.ZoomIn': 'Yakınlaştır',
+        'NavigationControl.ZoomOut': 'Uzaklaştır',
+        'CooperativeGesturesHandler.WindowsHelpText': 'Yakınlaştırmak için Ctrl tuşuna basılı tutarak kaydırın',
+        'CooperativeGesturesHandler.MacHelpText': 'Yakınlaştırmak için ⌘ tuşuna basılı tutarak kaydırın',
+        'CooperativeGesturesHandler.MobileHelpText': 'Haritayı kaydırmak için iki parmağınızı kullanın',
+      },
+    });
+    map.touchZoomRotate.disableRotation();
+    map.keyboard.disableRotation();
+    map.addControl(new NavigationControl({ showCompass: false }), 'top-right');
+
+    map.once('load', () => {
+      const pin = box.querySelector<HTMLElement>('[data-map-pin]')!;
+      new Marker({ element: pin, anchor: 'bottom-left', offset: [-18, 0] }).setLngLat([LOCATION.lng, LOCATION.lat]).addTo(map);
+      box.querySelector('[data-map-pin-slot]')?.remove();
+      box.dataset.map = 'live';
+    });
+    dark.addEventListener('change', async () => map.setStyle(await loadStyle()));
+  }
 </script>

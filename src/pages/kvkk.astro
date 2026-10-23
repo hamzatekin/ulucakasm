@@ -4,7 +4,7 @@ import PageIntro from '../components/PageIntro.astro';
 import { ADDRESS, NAME, PHONES, telHref } from '../lib/clinic';
 
 // Bump when the text changes. Keep the processors below in sync with every third-party request the site makes.
-const UPDATED = '10 Ekim 2026';
+const UPDATED = '23 Ekim 2026';
 
 const PROCESSORS = [
   {
@@ -49,7 +49,7 @@ const RIGHTS = [
             toplanmaz.
           </li>
           <li>Çerez kullanılmaz; bu nedenle çerez onayı istenmez.</li>
-          <li>Google Haritalar yalnızca siz “Haritayı göster” düğmesine tıkladığınızda yüklenir.</li>
+          <li>Sitedeki harita tümüyle bu sitenin kendi sunucusundan yüklenir; Google veya başka bir harita şirketine istek gönderilmez.</li>
         </ul>
       </div>
 
@@ -86,19 +86,22 @@ const RIGHTS = [
             </div>
           ))}
           <div id="harita">
-            <h3 class="text-lg font-semibold text-ink">Harita</h3>
-            <p class="mt-1 text-sm text-ink-3">Google LLC (ABD), yalnızca tıklarsanız</p>
+            <h3 class="text-lg font-semibold text-ink">Harita ve yol tarifi</h3>
+            <p class="mt-1 text-sm text-ink-3">Üçüncü bir tarafa aktarım yok</p>
             <p class="mt-2 max-w-[65ch] text-lead text-ink-2">
-              “Haritayı göster” düğmesine tıkladığınızda harita Google’ın sunucularından yüklenir; bu sırada IP adresiniz ve tarayıcı
-              bilgileriniz Google LLC’ye iletilir ve Google kendi çerezlerini kullanabilir. Verileriniz, Kişisel Verileri Koruma Kurulu’nun
-              yeterlilik kararı bulunmayan bir ülkede, Google’ın{' '}
-              <a class="ulink" href="https://policies.google.com/privacy?hl=tr" target="_blank" rel="noopener noreferrer">
-                gizlilik politikası
+              İletişim bölümündeki harita,{' '}
+              <a class="ulink" href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">
+                OpenStreetMap
               </a>{' '}
-              kapsamında işlenir; bu ülkede Türkiye’dekiyle aynı düzeyde koruma bulunmayabilir. Tıklamazsanız Google’a hiçbir veri
-              gönderilmez; konuma “Yol tarifi al” bağlantısıyla da ulaşabilirsiniz.
+              verilerinden hazırlanmıştır. Haritanın görseli, yazılımı ve harita parçaları sitenin geri kalanı gibi bu sitenin sunucusundan
+              gelir; haritayı görüntülediğinizde, kaydırdığınızda veya yakınlaştırdığınızda hiçbir harita şirketine istek gönderilmez.
             </p>
-            <p class="mt-2 text-sm text-ink-2">Hukuki sebep: tıklamanızla verdiğiniz açık rıza (KVKK m. 9/6-a)</p>
+            <p class="mt-2 max-w-[65ch] text-lead text-ink-2">
+              “Yol tarifi al” altındaki Google, Apple ve Yandex bağlantıları sizi ilgili şirketin sitesine veya uygulamasına götürür. Bu
+              bağlantılar, hangi sayfadan geldiğiniz bilgisi gönderilmeden açılır. Tıkladığınızda o hizmeti kendi tercihinizle kullanırsınız
+              ve verileriniz o şirketin gizlilik politikasına göre işlenir; tıklamadığınız sürece bu şirketlere sitemiz üzerinden hiçbir
+              veri gönderilmez.
+            </p>
           </div>
         </div>
       </div>

@@ -18,11 +18,21 @@ import { ADDRESS, DIRECTIONS, PHONES, telHref } from '../lib/clinic';
             Adres
           </dt>
           <dd class="mt-2 text-lg leading-snug text-ink">{ADDRESS}</dd>
-          <dd class="mt-4">
-            <a href={DIRECTIONS} target="_blank" rel="noopener noreferrer" class="btn-secondary group">
-              Yol tarifi al
-              <Icon name="arrow" class="h-4 w-4 text-ink-2 transition-transform duration-200 ease-out group-hover:translate-x-0.5" />
-            </a>
+          <dd class="mt-5 text-sm text-ink-2">Yol tarifi al</dd>
+          <!-- three equal columns on a phone (text only, so it never wraps); natural widths with the icon from sm up -->
+          <dd class="mt-2 grid grid-cols-3 gap-2 sm:flex sm:flex-wrap">
+            {DIRECTIONS.map((d) => (
+              <a
+                href={d.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-secondary gap-1.5 px-2 sm:px-4"
+                aria-label={`${d.name} ile yol tarifi (yeni sekmede açılır)`}
+              >
+                {d.app}
+                <Icon name="external" class="hidden h-4 w-4 shrink-0 text-ink-2 sm:block" />
+              </a>
+            ))}
           </dd>
         </div>
 

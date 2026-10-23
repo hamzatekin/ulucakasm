@@ -11,6 +11,10 @@
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
 
+# Map tiles, styles, fonts and icons (public/map) only change when scripts/map/render.mjs is re-run.
+/map/*
+  Cache-Control: public, max-age=86400
+
 # Keep the workers.dev copies (production and branch Previews) out of search results.
 https://:worker.:subdomain.workers.dev/*
   X-Robots-Tag: noindex

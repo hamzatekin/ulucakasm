@@ -5,8 +5,17 @@ export const NAME = `Kemalpaşa ${SHORT_NAME}`;
 export const ADDRESS = 'Mustafa Kemal Atatürk Mah. 9247 Sok. No:3, Ulucak, Kemalpaşa / İzmir';
 export const PHONES = ['+90 (232) 873 40 74', '+90 (232) 873 40 81'];
 
+/** the map image (scripts/map/render.mjs) is centred here; re-render it if this changes */
 export const LOCATION = { lat: 38.47771, lng: 27.35559 };
-export const DIRECTIONS = `https://www.google.com/maps/search/?api=1&query=${LOCATION.lat},${LOCATION.lng}`;
+
+const DESTINATION = `${LOCATION.lat},${LOCATION.lng}`;
+/** "Yol tarifi" links: each opens the visitor's own map app (or its website) with a route to the clinic */
+export const DIRECTIONS = [
+  { app: 'Google', name: 'Google Haritalar', href: `https://www.google.com/maps/dir/?api=1&destination=${DESTINATION}` },
+  { app: 'Apple', name: 'Apple Haritalar', href: `https://maps.apple.com/directions?destination=${DESTINATION}` },
+  // Yandex's rtext is "from~to"; an empty "from" starts at the visitor's location
+  { app: 'Yandex', name: 'Yandex Haritalar', href: `https://yandex.com.tr/maps/?rtext=~${DESTINATION}&rtt=auto` },
+];
 
 /** strip everything but digits/plus for tel: links */
 export const telHref = (phone: string) => `tel:${phone.replace(/[^0-9+]/g, '')}`;

@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import frontSide from '../assets/images/asm/front-side.webp';
 import Icon from './Icon.astro';
-import { DIRECTIONS, NAME } from '../lib/clinic';
+import { NAME } from '../lib/clinic';
 ---
 
 <!-- First visit is rare for a patient, so the hero gets the page's one entrance:
@@ -26,7 +26,7 @@ import { DIRECTIONS, NAME } from '../lib/clinic';
           Hekiminizi bulun
           <Icon name="arrow" class="h-4 w-4 transition-transform duration-200 ease-out group-hover:translate-x-0.5" />
         </a>
-        <a href={DIRECTIONS} target="_blank" rel="noopener noreferrer" class="btn-secondary">
+        <a href="#iletisim" class="btn-secondary">
           <Icon name="map-pin" class="h-4 w-4 text-ink-2" />
           Yol tarifi
         </a>

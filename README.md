@@ -12,7 +12,7 @@ Canlı: https://ulucakasm.com
 - Astro 7
 - Tailwind CSS v4
 - TypeScript
-- Google Maps JS API
+- Harita: MapLibre GL JS ve OpenStreetMap verisinden üretilmiş, siteyle birlikte sunulan harita parçaları (`scripts/map`)
 
 ## Performans (Lighthouse)
 - 100 / 100 / 100 / 100 (Performance, Accessibility, Best Practices, SEO)
@@ -27,15 +27,16 @@ pnpm install
 pnpm dev
 ```
 
-## Ortam Değişkenleri
-Google Maps için API anahtarı gereklidir.
+## Harita
+İletişim bölümündeki harita tümüyle bu siteden yüklenir; sayfa hiçbir harita servisine istek göndermez. `scripts/map/render.mjs`, OpenStreetMap verisinden (Protomaps) merkezin çevresindeki harita parçalarını, stilleri, yazı tiplerini ve simgeleri `public/map/` klasörüne, harita yüklenene kadar (ya da JavaScript kapalıyken) gösterilen görseli de `src/assets/images/map/` klasörüne yazar. Konum (`LOCATION`, `src/lib/clinic.ts`) değişirse ya da harita güncellenmek istenirse:
 
 ```bash
-MAPS_API_KEY="YOUR_KEY"
+pnpm --dir scripts/map install
+pnpm --dir scripts/map render   # yüklü Google Chrome'u kullanır; başka bir tarayıcı için CHROMIUM_PATH=...
 ```
 
 ## Yayınlama
-Site, Cloudflare Workers üzerinde statik dosyalar olarak (Workers Static Assets) yayınlanır; ayarlar `wrangler.jsonc` ve `public/_headers` dosyalarındadır. Workers Builds, `main` dalındaki her değişikliği canlıya alır ve diğer dallar için PR'a bir önizleme adresi yazar. `MAPS_API_KEY`, Workers Builds'te build değişkeni olarak tanımlıdır.
+Site, Cloudflare Workers üzerinde statik dosyalar olarak (Workers Static Assets) yayınlanır; ayarlar `wrangler.jsonc` ve `public/_headers` dosyalarındadır. Workers Builds, `main` dalındaki her değişikliği canlıya alır ve diğer dallar için PR'a bir önizleme adresi yazar.
 
 ## Komutlar
 ```bash

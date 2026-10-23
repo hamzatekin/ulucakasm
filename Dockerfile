@@ -3,11 +3,6 @@
 # ---- Build stage ----
 FROM node:22-alpine AS build
 
-# MAPS_API_KEY is read via import.meta.env at build time and baked into the
-# static output, so it must be supplied as a build arg (Coolify: Build Args).
-ARG MAPS_API_KEY
-ENV MAPS_API_KEY=${MAPS_API_KEY}
-
 # Enable pnpm via corepack
 RUN corepack enable
 
