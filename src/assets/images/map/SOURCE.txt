@@ -1,1 +1,1 @@
-Protomaps build 20261023.pmtiles (OpenStreetMap, ODbL). Rendered by scripts/map/render.mjs.
+Protomaps build 20261023.pmtiles (OpenStreetMap, ODbL). Built by scripts/map/render.mjs.

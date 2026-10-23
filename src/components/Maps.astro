@@ -1,11 +1,14 @@
 ---
 /**
- * The map is a picture, not a map widget. scripts/map/render.mjs draws it from
- * OpenStreetMap data (Protomaps basemap), centred on LOCATION, and the site serves
- * it like any other image, so showing it sends nothing to a map company and needs
- * no JS, API key or consent. Directions open in the visitor's own map app through
- * the DIRECTIONS links in Contact.astro. ODbL asks for the OpenStreetMap credit
- * on the map itself.
+ * A pannable map with nothing third-party in it. scripts/map/render.mjs exports the
+ * OpenStreetMap tiles around the clinic (Protomaps basemap) with their styles, fonts
+ * and icons to public/map, plus a light and a dark picture of the same view. The
+ * picture shows first and stays when JS is off; once the section nears the viewport,
+ * the script below loads MapLibre (bundled, ~440 KB gzipped) and swaps in the live
+ * map. Every request goes to this site, so no map company sees the visitor and no
+ * API key or consent is needed. Directions open in the visitor's own map app through
+ * the DIRECTIONS links in Contact.astro. ODbL asks for the OpenStreetMap credit on
+ * the map itself.
  */
 import { getImage } from 'astro:assets';
 import mapLight from '../assets/images/map/map-light.webp';
@@ -20,7 +23,7 @@ const options = { width: WIDTH, height: HEIGHT, densities: [1, 2], format: 'webp
 const [light, dark] = await Promise.all([getImage({ src: mapLight, ...options }), getImage({ src: mapDark, ...options })]);
 ---
 
-<div class="relative h-[360px] w-full overflow-hidden bg-surface-2 md:h-[480px] lg:h-full lg:min-h-[480px]">
+<div data-map class="map group relative h-[360px] w-full overflow-hidden bg-surface-2 md:h-[480px] lg:h-full lg:min-h-[480px]">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset={dark.srcSet.attribute} width={WIDTH} height={HEIGHT} />
     <img
@@ -35,9 +38,14 @@ const [light, dark] = await Promise.all([getImage({ src: mapLight, ...options })
     />
   </picture>
 
-  <!-- the pin's tip sits on the image centre, which is LOCATION -->
-  <div class="pointer-events-none absolute top-1/2 left-1/2 -translate-x-[18px] -translate-y-full" aria-hidden="true">
-    <div class="flex items-start gap-2">
+  <!-- MapLibre's own CSS makes its container position: relative, so it gets a wrapper -->
+  <div class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-200 ease-out group-data-[map=live]:pointer-events-auto group-data-[map=live]:opacity-100">
+    <div data-map-canvas class="h-full w-full"></div>
+  </div>
+
+  <!-- the pin's tip sits on the picture's centre, which is LOCATION; the live map takes it over as its marker -->
+  <div data-map-pin-slot class="pointer-events-none absolute top-1/2 left-1/2 -translate-x-[18px] -translate-y-full">
+    <div data-map-pin class="pointer-events-none flex items-start gap-2" aria-hidden="true">
       <svg class="map-pin h-[46px] w-9 text-seal" viewBox="0 0 36 46">
         <path fill="currentColor" d="M18 45C18 45 34 30.5 34 17.5 34 8 26.8 1 18 1S2 8 2 17.5C2 30.5 18 45 18 45Z" />
         <circle cx="18" cy="17.5" r="6.5" fill="#fff" />
@@ -65,4 +73,98 @@ const [light, dark] = await Promise.all([getImage({ src: mapLight, ...options })
   .map-label {
     box-shadow: var(--elev-2);
   }
+
+  /* MapLibre's zoom buttons, restyled to the site's surfaces */
+  .map :global(.maplibregl-ctrl-group) {
+    border-radius: 10px;
+    background: var(--color-surface);
+    box-shadow: var(--elev-btn);
+  }
+  .map :global(.maplibregl-ctrl-group button) {
+    width: 40px;
+    height: 40px;
+  }
+  .map :global(.maplibregl-ctrl-group button + button) {
+    border-top-color: var(--color-hairline);
+  }
+  @media (prefers-color-scheme: dark) {
+    .map :global(.maplibregl-ctrl-icon) {
+      filter: invert(1);
+    }
+  }
 </style>
+
+<script>
+  import { LOCATION, SHORT_NAME } from '../lib/clinic';
+
+  const box = document.querySelector<HTMLElement>('[data-map]');
+  if (box) {
+    // Load the live map only when the section is close, so the page itself stays as light as before.
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((e) => e.isIntersecting)) return;
+        io.disconnect();
+        mount(box).catch((err) => console.warn('map:', err)); // the picture simply stays
+      },
+      { rootMargin: '400px 0px' },
+    );
+    io.observe(box);
+  }
+
+  async function mount(box: HTMLElement) {
+    const [{ Map: MapLibreMap, Marker, NavigationControl, setWorkerUrl }, { default: workerUrl }, { default: cssUrl }] = await Promise.all([
+      import('maplibre-gl'),
+      import('maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'),
+      // as a URL: a plain CSS import would put a render-blocking <link> in every page's <head>
+      import('maplibre-gl/dist/maplibre-gl.css?url'),
+    ]);
+    setWorkerUrl(workerUrl);
+    document.head.append(Object.assign(document.createElement('link'), { rel: 'stylesheet', href: cssUrl }));
+
+    const dark = matchMedia('(prefers-color-scheme: dark)');
+    // The styles name site-relative files; MapLibre's worker needs absolute URLs.
+    const loadStyle = async () => {
+      const style = await (await fetch(`/map/style-${dark.matches ? 'dark' : 'light'}.json`)).json();
+      style.glyphs = location.origin + style.glyphs;
+      style.sprite = location.origin + style.sprite;
+      style.sources.protomaps.tiles = style.sources.protomaps.tiles.map((t: string) => location.origin + t);
+      return style;
+    };
+    const style = await loadStyle();
+
+    const map = new MapLibreMap({
+      container: box.querySelector<HTMLElement>('[data-map-canvas]')!,
+      style,
+      center: [LOCATION.lng, LOCATION.lat],
+      zoom: 15.6, // the picture's zoom, so the swap doesn't jump
+      minZoom: 12,
+      maxZoom: 18,
+      maxBounds: style.sources.protomaps.bounds, // the exported tiles end there
+      cooperativeGestures: true, // one finger / plain scroll keeps scrolling the page
+      dragRotate: false,
+      pitchWithRotate: false,
+      touchPitch: false,
+      attributionControl: false, // the OpenStreetMap credit is our own link
+      locale: {
+        'Map.Title': 'Harita',
+        'Marker.Title': SHORT_NAME,
+        'NavigationControl.ZoomIn': 'Yakınlaştır',
+        'NavigationControl.ZoomOut': 'Uzaklaştır',
+        'CooperativeGesturesHandler.WindowsHelpText': 'Yakınlaştırmak için Ctrl tuşuna basılı tutarak kaydırın',
+        'CooperativeGesturesHandler.MacHelpText': 'Yakınlaştırmak için ⌘ tuşuna basılı tutarak kaydırın',
+        'CooperativeGesturesHandler.MobileHelpText': 'Haritayı kaydırmak için iki parmağınızı kullanın',
+      },
+    });
+    map.touchZoomRotate.disableRotation();
+    map.keyboard.disableRotation();
+    map.addControl(new NavigationControl({ showCompass: false }), 'top-right');
+
+    map.once('load', () => {
+      const pin = box.querySelector<HTMLElement>('[data-map-pin]')!;
+      new Marker({ element: pin, anchor: 'bottom-left', offset: [-18, 0] }).setLngLat([LOCATION.lng, LOCATION.lat]).addTo(map);
+      box.querySelector('[data-map-pin-slot]')?.remove();
+      box.dataset.map = 'live';
+    });
+    dark.addEventListener('change', async () => map.setStyle(await loadStyle()));
+  }
+</script>

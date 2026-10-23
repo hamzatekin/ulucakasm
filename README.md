@@ -12,7 +12,7 @@ Canlı: https://ulucakasm.com
 - Astro 7
 - Tailwind CSS v4
 - TypeScript
-- Harita: OpenStreetMap verisinden üretilmiş görsel (`scripts/map`)
+- Harita: MapLibre GL JS ve OpenStreetMap verisinden üretilmiş, siteyle birlikte sunulan harita parçaları (`scripts/map`)
 
 ## Performans (Lighthouse)
 - 100 / 100 / 100 / 100 (Performance, Accessibility, Best Practices, SEO)
@@ -28,7 +28,7 @@ pnpm dev
 ```
 
 ## Harita
-İletişim bölümündeki harita bir görseldir (`src/assets/images/map/`); sayfa hiçbir harita servisine istek göndermez. Görseli OpenStreetMap verisinden (Protomaps) `scripts/map/render.mjs` üretir. Konum (`LOCATION`, `src/lib/clinic.ts`) değişirse ya da harita güncellenmek istenirse:
+İletişim bölümündeki harita tümüyle bu siteden yüklenir; sayfa hiçbir harita servisine istek göndermez. `scripts/map/render.mjs`, OpenStreetMap verisinden (Protomaps) merkezin çevresindeki harita parçalarını, stilleri, yazı tiplerini ve simgeleri `public/map/` klasörüne, harita yüklenene kadar (ya da JavaScript kapalıyken) gösterilen görseli de `src/assets/images/map/` klasörüne yazar. Konum (`LOCATION`, `src/lib/clinic.ts`) değişirse ya da harita güncellenmek istenirse:
 
 ```bash
 pnpm --dir scripts/map install
