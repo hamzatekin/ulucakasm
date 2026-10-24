@@ -1,6 +1,8 @@
 {
-  "name": "",
-  "short_name": "",
+  "name": "İbrahim-Hüsniye Özdurakoğlu Aile Sağlığı Merkezi",
+  "short_name": "Özdurakoğlu ASM",
+  "lang": "tr",
+  "start_url": "/",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
