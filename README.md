@@ -20,7 +20,7 @@ Canlı: https://ulucakasm.com
 - Ölçüm: 22 Ocak 2026, Lighthouse 13.0.1, Moto G Power emülasyonu, Yavaş 4G
 
 ## Kurulum
-Gereksinim: Node.js >= 22.12
+Gereksinim: Node.js >= 22.23.4 (ya da 24), pnpm 10
 
 ```bash
 pnpm install
