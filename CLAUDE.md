@@ -8,7 +8,7 @@ Static marketing/information site for a Turkish family health center (Aile Sağl
 
 ## Commands
 
-Package manager is **pnpm** (Node >= 22.12). `.npmrc` sets `shamefully-hoist=true` for Astro deps.
+Package manager is **pnpm** 10, pinned by `packageManager` (Workers Builds installs that version too). Node >= 22.23.4, Astro's floor since the October 2026 Node security release; Workers Builds runs Node 24. Everything is a `devDependency`: nothing ships to a server.
 
 ```bash
 pnpm install
@@ -20,7 +20,7 @@ pnpm pretty     # prettier (with the Astro plugin) --write over src
 pnpm wrangler dev  # after `pnpm build`: serve ./dist the way Cloudflare Workers does (headers, 404, redirects)
 ```
 
-There is no lint or test command. Run `pnpm typecheck` to validate changes.
+There is no lint or test command. Run `pnpm typecheck` to validate changes. TypeScript stays on 6 until `@astrojs/check` supports 7 (its peer range stops at `^6`, and Astro refuses to run the check under 7).
 
 ## Map
 
