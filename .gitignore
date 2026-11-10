@@ -3,6 +3,8 @@ dist/
 .output/
 .vscode
 documents/
+# raw scans, photos and videos; the site only uses the processed copies in src/assets (and R2 for the video)
+downloads/
 
 
 

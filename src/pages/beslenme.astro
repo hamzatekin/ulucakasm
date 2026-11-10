@@ -44,9 +44,10 @@ const dengesiz = [
 
   <section class="pb-16 md:pb-24">
     <div class="wrap-tight">
+      <!-- 5:2 is the photo's own shape (800×318): a taller box cut a child off at each edge and stretched the small source -->
       <div class="card p-2">
         <Image
-          class="aspect-[16/9] w-full rounded-[12px] object-cover"
+          class="aspect-[5/2] w-full rounded-[12px] object-cover"
           src={kids}
           alt="Sağlıklı beslenen çocuklar"
           widths={[480, 720, 960]}

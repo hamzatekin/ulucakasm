@@ -12,9 +12,22 @@ const schedules = import.meta.glob<{ default: ImageMetadata }>('../assets/images
 const photo = (slug: string) => photos[`../assets/images/asm/doctors/${slug}.webp`].default;
 const schedule = (slug: string) => schedules[`../assets/images/asm/schedules/${slug}_schedule.webp`].default;
 
+// Each doctor photo is a 3:4 portrait shown as a 4:3 crop, and the people stand at different heights in each.
+// These move the crop so the highest face sits about a quarter of the way down every card (face positions
+// measured with macOS Vision). A new photo needs its own value.
+const PHOTO_CROP: Record<string, string> = {
+  murat_tansel_kutluk: 'object-[center_37%]',
+  ilkay_taze: 'object-[center_62%]',
+  ahmet_serhan_sunbul: 'object-[center_47%]',
+  cumhur_citak: 'object-[center_40%]',
+  gokhan_muglali: 'object-[center_33%]',
+  seyhmus_kaya: 'object-[center_22%]',
+};
+
+// Both are 9:16 portraits shown as a 4:3 crop; `crop` follows the same quarter-of-the-way-down rule as PHOTO_CROP.
 const TEAM = [
-  { name: 'Acil Hemşireleri', img: nurses, role: 'Acil müdahale ve bakım' },
-  { name: 'Hizmetliler', img: supportStaff, role: 'Destek ve temizlik ekibi' },
+  { name: 'Acil Hemşireleri', img: nurses, role: 'Acil müdahale ve bakım', crop: 'object-[center_30%]' },
+  { name: 'Hizmetliler', img: supportStaff, role: 'Destek ve temizlik ekibi', crop: 'object-[center_50%]' },
 ];
 ---
 
@@ -40,7 +53,7 @@ const TEAM = [
             <Image
               src={photo(d.slug)}
               alt={d.name}
-              class="aspect-[4/3] w-full object-cover object-[center_22%]"
+              class:list={['aspect-[4/3] w-full object-cover', PHOTO_CROP[d.slug] ?? 'object-[center_22%]']}
               widths={[320, 480, 640, 760]}
               sizes="(min-width: 1024px) 360px, (min-width: 640px) 45vw, 92vw"
             />
@@ -90,7 +103,7 @@ const TEAM = [
             <Image
               src={t.img}
               alt={t.name}
-              class="aspect-[4/3] w-full object-cover object-[center_30%]"
+              class:list={['aspect-[4/3] w-full object-cover', t.crop]}
               widths={[320, 480, 640, 760]}
               sizes="(min-width: 1024px) 360px, (min-width: 640px) 45vw, 92vw"
             />

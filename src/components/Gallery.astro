@@ -8,10 +8,47 @@ import interior3 from '../assets/images/asm/interior-3.webp';
 import interior4 from '../assets/images/asm/interior-4.webp';
 import interior5 from '../assets/images/asm/interior-5.webp';
 import tourPoster from '../assets/images/asm/tour-poster.webp';
+import { DOCTORS } from '../lib/clinic';
 
 // Served from the R2 bucket `ulucakasm-media`, not public/: Workers static assets ignore Range requests,
 // and Safari won't play an MP4 without them. The object is cached as immutable, so a new cut needs a new file name.
 const TOUR_VIDEO = 'https://video.ulucakasm.com/asm-tanitim-2026-11.mp4';
+// Captions stay on this site: a same-origin track needs no CORS on the video bucket.
+const TOUR_CAPTIONS = '/video/asm-tanitim-2026-11.tr.vtt';
+
+// The video's rooms in tour order, read off its narration and door signs: the written alternative to watching it.
+// A doctor's door is signed with the last two digits of the birim code ("3516042" → "42 No'lu").
+type Room = { label: string; note?: string; href?: string };
+const doctorRoom = (slug: string): Room => {
+  const d = DOCTORS.find((doc) => doc.slug === slug)!;
+  return { label: d.name, note: `${Number(d.code.slice(-2))} No'lu birim`, href: `#hekim-${d.slug}` };
+};
+const FLOORS: { name: string; rooms: Room[] }[] = [
+  {
+    name: 'Giriş katı',
+    rooms: [
+      { label: 'Tıbbi müdahale odası ve engelli polikliniği' },
+      { label: 'Bekleme alanı' },
+      doctorRoom('seyhmus_kaya'),
+      { label: 'Gebe izlem ve üreme sağlığı odası' },
+      doctorRoom('ahmet_serhan_sunbul'),
+      doctorRoom('cumhur_citak'),
+      { label: 'Kadın, erkek ve engelli WC' },
+    ],
+  },
+  {
+    name: 'Üst kat',
+    rooms: [
+      { label: 'Aşılama ve çocuk izlem odası' },
+      { label: 'Bebek emzirme odası' },
+      { label: 'Bekleme alanı' },
+      doctorRoom('gokhan_muglali'),
+      doctorRoom('murat_tansel_kutluk'),
+      doctorRoom('ilkay_taze'),
+      { label: 'Kadın, erkek ve engelli WC' },
+    ],
+  },
+];
 
 const images = [
   { src: frontSide, alt: 'Ön görünüş', caption: 'Ön görünüş' },
@@ -29,16 +66,50 @@ const images = [
       Yeni binamız. <span class="text-ink-3">Ulucak'ta, modern ve kolay ulaşılabilir.</span>
     </h2>
 
-    <!-- narrated walk-through; preload="none" so nothing downloads until the visitor presses play -->
-    <div class="reveal mt-10 grid items-center gap-6 md:grid-cols-[minmax(0,1fr)_20rem] md:gap-12 lg:grid-cols-[minmax(0,1fr)_22rem]">
+    <!-- narrated walk-through; preload="none" so nothing downloads until the visitor presses play.
+         items-start, not center: a centred column would re-centre and move the toggle when the room list opens -->
+    <div class="reveal mt-10 grid items-start gap-6 md:grid-cols-[minmax(0,1fr)_20rem] md:gap-12 lg:grid-cols-[minmax(0,1fr)_22rem]">
       <div>
         <h3 class="text-xl font-semibold tracking-[-0.015em] text-ink">Binamızı tanıyın</h3>
         <p class="mt-3 max-w-[34rem] text-lead text-ink-2">
           Girişten bekleme alanlarına, aşı odasından aile hekimliği birimlerine kadar hangi odanın nerede olduğunu gelmeden önce görün.
         </p>
         <p class="mt-5 flex items-center gap-2 text-sm text-ink-3">
-          <Icon name="clock" class="h-4 w-4" />3 dakika · sesli anlatım
+          <Icon name="clock" class="h-4 w-4" />3 dakika · sesli anlatım, Türkçe altyazılı
         </p>
+
+        <!-- closed by default so it doesn't push the video down on phones; a native <details> keeps it keyboard and screen-reader reachable -->
+        <details class="group mt-6">
+          <summary class="btn-secondary cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            Hangi oda hangi katta?
+            <Icon
+              name="chevron"
+              class="h-4 w-4 text-ink-3 transition-transform duration-200 ease-out group-open:rotate-180 motion-reduce:transition-none"
+            />
+          </summary>
+          <div class="mt-6 grid gap-6 sm:grid-cols-2">
+            {FLOORS.map((floor) => (
+              <div>
+                <h4 class="text-sm font-semibold text-ink">{floor.name}</h4>
+                <ul class="mt-2 space-y-1.5 text-[15px] text-ink-2">
+                  {floor.rooms.map((room) => (
+                    <li>
+                      {room.href ? (
+                        <a href={room.href} class="ulink">
+                          {room.label}
+                        </a>
+                      ) : (
+                        room.label
+                      )}
+                      {room.note && <span class="text-ink-3 tabular-nums"> · {room.note}</span>}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+          <p class="mt-4 text-sm text-ink-3">İki kat arasında asansör ve merdiven vardır.</p>
+        </details>
       </div>
       <div class="card p-2">
         <video
@@ -49,7 +120,9 @@ const images = [
           playsinline
           preload="none"
           aria-label="ASM tanıtım videosu: binanın içi ve odaların yeri"
-        ></video>
+        >
+          <track kind="captions" srclang="tr" label="Türkçe" src={TOUR_CAPTIONS} default />
+        </video>
       </div>
     </div>
 

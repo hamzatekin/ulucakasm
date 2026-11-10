@@ -140,6 +140,8 @@ const imageId = `img-${Math.random().toString(36).substring(2, 9)}`;
   .lb-img.is-zoomed {
     max-width: none;
     max-height: none;
+    /* .lb-scroll is a flex row: without this the zoomed image shrinks back to the screen width */
+    flex-shrink: 0;
     width: min(1600px, 230vw);
     height: auto;
     cursor: zoom-out;
