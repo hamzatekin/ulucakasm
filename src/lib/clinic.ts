@@ -40,7 +40,7 @@ export const DOCTORS: Doctor[] = [
     code: '3516030',
     phone: '+90 (232) 873 40 81',
     assistant: 'Ebe Hatice Marangoz',
-    hours: '07.00–17.00',
+    hours: '08.00–17.00',
   },
   {
     slug: 'ilkay_taze',
@@ -48,7 +48,7 @@ export const DOCTORS: Doctor[] = [
     code: '3516035',
     phone: '+90 (232) 873 40 74',
     assistant: 'Fatma Doğru',
-    hours: '07.00–18.00',
+    hours: '07.00–17.00',
   },
   {
     slug: 'ahmet_serhan_sunbul',
@@ -56,7 +56,7 @@ export const DOCTORS: Doctor[] = [
     code: '3516015',
     phone: '+90 (232) 873 40 74',
     assistant: 'Ebe Şenay Erdoğdu',
-    hours: '07.00–17.00',
+    hours: '07.00–18.00',
   },
   {
     slug: 'cumhur_citak',
@@ -64,7 +64,7 @@ export const DOCTORS: Doctor[] = [
     code: '3516014',
     phone: '+90 (232) 873 40 81',
     assistant: 'Nesli Çıtak',
-    hours: '07.00–17.00',
+    hours: '08.00–17.00',
   },
   {
     slug: 'gokhan_muglali',
@@ -72,7 +72,7 @@ export const DOCTORS: Doctor[] = [
     code: '3516040',
     phone: '+90 (232) 873 40 81',
     assistant: 'Özgül Bilgin',
-    hours: '08.00–18.00',
+    hours: '07.00–17.00',
   },
   {
     slug: 'seyhmus_kaya',
@@ -80,6 +80,6 @@ export const DOCTORS: Doctor[] = [
     code: '3516042',
     phone: '+90 (232) 873 40 81',
     assistant: 'Nur Akkaya',
-    hours: '08.00–18.00',
+    hours: '08.00–17.00',
   },
 ];
