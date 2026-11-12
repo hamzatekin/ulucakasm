@@ -83,3 +83,6 @@ export const DOCTORS: Doctor[] = [
     hours: '08.00–17.00',
   },
 ];
+
+/** id of a doctor's card on the home page (Doctors.astro); the hekim list and the room guide in Gallery.astro link to it */
+export const doctorId = (slug: string) => `hekim-${slug}`;

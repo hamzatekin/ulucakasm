@@ -49,7 +49,7 @@ const imageId = `img-${Math.random().toString(36).substring(2, 9)}`;
 
 <dialog id={`dialog-${imageId}`} class="lightbox" aria-label={alt}>
   <div class="lb-scroll" data-lb-scroll>
-    <Image class="lb-img" src={src} alt={alt} {...imageProps} sizes="100vw" />
+    <Image class="lb-img" src={src} alt={alt} {...imageProps} sizes="100vw" style={`--zoom-max: ${src.width * 2}px`} />
   </div>
   <button type="button" class="lightbox-close" aria-label="Kapat">
     <Icon name="close" class="h-5 w-5" />
@@ -142,7 +142,8 @@ const imageId = `img-${Math.random().toString(36).substring(2, 9)}`;
     max-height: none;
     /* .lb-scroll is a flex row: without this the zoomed image shrinks back to the screen width */
     flex-shrink: 0;
-    width: min(1600px, 230vw);
+    /* --zoom-max is twice the source's own width, so a small scan doesn't blur past readable */
+    width: min(1600px, 230vw, var(--zoom-max, 1600px));
     height: auto;
     cursor: zoom-out;
   }

@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import Img from './Img.astro';
 import Icon from './Icon.astro';
-import { DOCTORS, telHref } from '../lib/clinic';
+import { DOCTORS, doctorId, telHref } from '../lib/clinic';
 import nurses from '../assets/images/asm/doctors/nurses_v2.avif';
 import supportStaff from '../assets/images/asm/doctors/support_staff.webp';
 
@@ -14,7 +14,7 @@ const schedule = (slug: string) => schedules[`../assets/images/asm/schedules/${s
 
 // Each doctor photo is a 3:4 portrait shown as a 4:3 crop, and the people stand at different heights in each.
 // These move the crop so the highest face sits about a quarter of the way down every card (face positions
-// measured with macOS Vision). A new photo needs its own value.
+// measured with macOS Vision). A new photo needs its own value: the build stops without one.
 const PHOTO_CROP: Record<string, string> = {
   murat_tansel_kutluk: 'object-[center_37%]',
   ilkay_taze: 'object-[center_62%]',
@@ -22,6 +22,11 @@ const PHOTO_CROP: Record<string, string> = {
   cumhur_citak: 'object-[center_40%]',
   gokhan_muglali: 'object-[center_33%]',
   seyhmus_kaya: 'object-[center_22%]',
+};
+const photoCrop = (slug: string) => {
+  const crop = PHOTO_CROP[slug];
+  if (!crop) throw new Error(`Doctors.astro: no PHOTO_CROP entry for "${slug}"`);
+  return crop;
 };
 
 // Both are 9:16 portraits shown as a 4:3 crop; `crop` follows the same quarter-of-the-way-down rule as PHOTO_CROP.
@@ -40,7 +45,7 @@ const TEAM = [
     <!-- jump straight to a doctor's card; the card briefly rings on arrival (CSS :target, no JS) -->
     <nav class="reveal mt-6 flex flex-wrap gap-2" aria-label="Hekim listesi">
       {DOCTORS.map((d) => (
-        <a href={`#hekim-${d.slug}`} class="btn-secondary min-h-9 rounded-full px-3.5 text-sm">
+        <a href={`#${doctorId(d.slug)}`} class="btn-secondary min-h-9 rounded-full px-3.5 text-sm">
           {d.name}
         </a>
       ))}
@@ -48,12 +53,12 @@ const TEAM = [
 
     <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {DOCTORS.map((d) => (
-        <article id={`hekim-${d.slug}`} class="doctor card reveal flex scroll-mt-24 flex-col p-2">
+        <article id={doctorId(d.slug)} class="doctor card reveal flex scroll-mt-24 flex-col p-2">
           <div class="relative overflow-hidden rounded-[12px] bg-surface-2">
             <Image
               src={photo(d.slug)}
               alt={d.name}
-              class:list={['aspect-[4/3] w-full object-cover', PHOTO_CROP[d.slug] ?? 'object-[center_22%]']}
+              class:list={['aspect-[4/3] w-full object-cover', photoCrop(d.slug)]}
               widths={[320, 480, 640, 760]}
               sizes="(min-width: 1024px) 360px, (min-width: 640px) 45vw, 92vw"
             />

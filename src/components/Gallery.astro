@@ -8,32 +8,35 @@ import interior3 from '../assets/images/asm/interior-3.webp';
 import interior4 from '../assets/images/asm/interior-4.webp';
 import interior5 from '../assets/images/asm/interior-5.webp';
 import tourPoster from '../assets/images/asm/tour-poster.webp';
-import { DOCTORS } from '../lib/clinic';
+import { DOCTORS, doctorId } from '../lib/clinic';
 
-// Served from the R2 bucket `ulucakasm-media`, not public/: Workers static assets ignore Range requests,
-// and Safari won't play an MP4 without them. The object is cached as immutable, so a new cut needs a new file name.
-const TOUR_VIDEO = 'https://video.ulucakasm.com/asm-tanitim-2026-11.mp4';
-// Captions stay on this site: a same-origin track needs no CORS on the video bucket.
-const TOUR_CAPTIONS = '/video/asm-tanitim-2026-11.tr.vtt';
+// The video is served from the R2 bucket `ulucakasm-media`, not public/: Workers static assets ignore Range requests,
+// and Safari won't play an MP4 without them. The object is cached as immutable, so a new cut needs a new name.
+// Its captions share the name but stay on this site: a same-origin track needs no CORS on the video bucket.
+const TOUR_NAME = 'asm-tanitim-2026-11';
+const TOUR_VIDEO = `https://video.ulucakasm.com/${TOUR_NAME}.mp4`;
+const TOUR_CAPTIONS = `/video/${TOUR_NAME}.tr.vtt`;
 
 // The video's rooms in tour order, read off its narration and door signs: the written alternative to watching it.
 // A doctor's door is signed with the last two digits of the birim code ("3516042" → "42 No'lu").
 type Room = { label: string; note?: string; href?: string };
 const doctorRoom = (slug: string): Room => {
-  const d = DOCTORS.find((doc) => doc.slug === slug)!;
-  return { label: d.name, note: `${Number(d.code.slice(-2))} No'lu birim`, href: `#hekim-${d.slug}` };
+  const d = DOCTORS.find((doc) => doc.slug === slug);
+  if (!d) throw new Error(`Gallery.astro: no doctor "${slug}" in DOCTORS (src/lib/clinic.ts)`);
+  return { label: d.name, note: `${Number(d.code.slice(-2))} No'lu birim`, href: `#${doctorId(d.slug)}` };
 };
 const FLOORS: { name: string; rooms: Room[] }[] = [
   {
     name: 'Giriş katı',
     rooms: [
       { label: 'Tıbbi müdahale odası ve engelli polikliniği' },
+      { label: 'Elektrik odası, jeneratör alanı ve mekanik teknik oda' },
+      { label: 'Kadın, erkek ve engelli WC' },
       { label: 'Bekleme alanı' },
       doctorRoom('seyhmus_kaya'),
       { label: 'Gebe izlem ve üreme sağlığı odası' },
       doctorRoom('ahmet_serhan_sunbul'),
       doctorRoom('cumhur_citak'),
-      { label: 'Kadın, erkek ve engelli WC' },
     ],
   },
   {
@@ -46,6 +49,7 @@ const FLOORS: { name: string; rooms: Room[] }[] = [
       doctorRoom('murat_tansel_kutluk'),
       doctorRoom('ilkay_taze'),
       { label: 'Kadın, erkek ve engelli WC' },
+      { label: 'Mutfak ve elektrik odası' },
     ],
   },
 ];
@@ -66,7 +70,7 @@ const images = [
       Yeni binamız. <span class="text-ink-3">Ulucak'ta, modern ve kolay ulaşılabilir.</span>
     </h2>
 
-    <!-- narrated walk-through; preload="none" so nothing downloads until the visitor presses play.
+    <!-- narrated walk-through; preload="none" so the video doesn't download until the visitor presses play.
          items-start, not center: a centred column would re-centre and move the toggle when the room list opens -->
     <div class="reveal mt-10 grid items-start gap-6 md:grid-cols-[minmax(0,1fr)_20rem] md:gap-12 lg:grid-cols-[minmax(0,1fr)_22rem]">
       <div>

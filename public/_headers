@@ -15,6 +15,10 @@
 /map/*
   Cache-Control: public, max-age=86400
 
+# Tour video captions (public/video); a new cut gets a new file name, a caption fix keeps it.
+/video/*
+  Cache-Control: public, max-age=86400
+
 # Keep the workers.dev copies (production and branch Previews) out of search results.
 https://:worker.:subdomain.workers.dev/*
   X-Robots-Tag: noindex
